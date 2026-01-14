@@ -50,8 +50,8 @@ const BookingSuccess = () => {
 
             <style jsx>{`
                 .success-page {
-                    padding: 180px 0 100px;
-                    min-height: 90vh;
+                    padding: 80px 0 100px;
+                    min-height: 100vh;
                     display: flex;
                     align-items: center;
                     justify-content: center;
