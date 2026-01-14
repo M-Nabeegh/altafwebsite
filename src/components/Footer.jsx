@@ -23,6 +23,7 @@ const Footer = () => {
               {navLinks.map(link => (
                 <li key={link.label}><a href={link.href}>{link.label}</a></li>
               ))}
+              <li><a href="/privacy-policy">Privacy Policy</a></li>
             </ul>
           </div>
 

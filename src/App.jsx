@@ -7,6 +7,8 @@ import ResearchPage from './pages/ResearchPage';
 import ExperiencePage from './pages/ExperiencePage';
 import BookingPage from './pages/BookingPage';
 import PioneeredCasesPage from './pages/PioneeredCasesPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import BookingSuccess from './pages/BookingSuccess';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
             <Route path="/research" element={<ResearchPage />} />
             <Route path="/booking" element={<BookingPage />} />
             <Route path="/pioneered-cases" element={<PioneeredCasesPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/thank-you" element={<BookingSuccess />} />
           </Routes>
         </main>
         <Footer />
