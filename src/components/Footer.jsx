@@ -51,9 +51,11 @@ const Footer = () => {
 
       <style jsx>{`
         .footer {
-          background-color: var(--primary-dark);
-          color: white;
+          background-color: #004494 !important; /* Hardcoded Primary Dark to prevent loss */
+          color: white !important;
           padding: 60px 0 20px;
+          position: relative;
+          z-index: 10;
         }
 
         .footer-grid {
