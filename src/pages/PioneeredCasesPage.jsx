@@ -2,6 +2,10 @@ import React, { useEffect } from 'react';
 import CTAButton from '../components/CTAButton';
 import { FaShareAlt, FaPlay, FaMicroscope, FaChild, FaNotesMedical, FaCheckCircle, FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import case2Img1 from '../assets/case2-img1.webp';
+import case2Img2 from '../assets/case2-img2.webp';
+import case2Img3 from '../assets/case2-img3.webp';
+import case2Img4 from '../assets/case2-img4.webp';
 
 const PioneeredCasesPage = () => {
     useEffect(() => {
@@ -58,6 +62,7 @@ const PioneeredCasesPage = () => {
                             <div className="badge-featured mb-3">
                                 <FaCheckCircle className="mr-2" /> First-Ever in Pakistan
                             </div>
+                            <div className="text-muted mb-2"><small>Performed on: July 29, 2025</small></div>
                             <h2>First-Ever Use of Drug-Coated Balloon Catheter (Elutax) for Ureteral Stricture in Pakistan</h2>
 
                             <div className="separator-line my-4"></div>
@@ -94,6 +99,52 @@ const PioneeredCasesPage = () => {
                                 </div>
                                 <div className="video-caption">
                                     <FaPlay className="icon-tiny" /> Landmark procedure performed for the first time in Pakistan
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* SECTION 2.5: RECENT CLINICAL SUCCESS STORIES */}
+            <section className="clinical-cases-section section">
+                <div className="container">
+                    <div className="section-header text-center mb-5">
+                        <h2>Recent Clinical Success Stories</h2>
+                        <div className="separator-line mx-auto"></div>
+                    </div>
+
+                    <div className="clinical-case-card fade-in">
+                        <div className="row">
+                            <div className="col-lg-6">
+                                <div className="clinical-content">
+                                    <div className="case-date mb-2"><FaNotesMedical className="mr-2" /> March 18, 2025</div>
+                                    <h3>Left Laparoscopic Assisted Mini PCNL (Totally Tubeless) in Ectopic Kidney</h3>
+                                    <p className="lead-text mt-3">
+                                        <strong>Patient:</strong> 23-year-old gentleman.<br />
+                                        <strong>History:</strong> Intermittent pelvic pain for the past two years.
+                                    </p>
+                                    <p>
+                                        <strong>Diagnosis:</strong> Left ectopic kidney located in the pelvic region with a 2 cm radiolucent renal calculi.
+                                    </p>
+                                    <p>
+                                        <strong>Procedure:</strong> Left Laparoscopic Assisted Mini PCNL (Totally Tubeless).
+                                    </p>
+                                    <div className="outcome-box mt-4">
+                                        <h5><FaCheckCircle className="text-success mr-2" /> Clinical Outcome</h5>
+                                        <p className="mb-0">The procedure resulted in <strong>complete clearance</strong>, successfully resolving the issue. The patient's postoperative course was smooth and uneventful. After 24 hours of observation, he was discharged in stable condition.</p>
+                                    </div>
+                                    <p className="mt-4 text-muted font-italic">
+                                        "Thanks to my team and supporting staff for making this procedure successful."
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="col-lg-6">
+                                <div className="clinical-images-grid">
+                                    <img src={case2Img1} alt="Case Study Image 1" className="img-fluid rounded shadow-sm" loading="lazy" />
+                                    <img src={case2Img2} alt="Case Study Image 2" className="img-fluid rounded shadow-sm" loading="lazy" />
+                                    <img src={case2Img3} alt="Case Study Image 3" className="img-fluid rounded shadow-sm" loading="lazy" />
+                                    <img src={case2Img4} alt="Case Study Image 4" className="img-fluid rounded shadow-sm" loading="lazy" />
                                 </div>
                             </div>
                         </div>
@@ -316,28 +367,88 @@ const PioneeredCasesPage = () => {
             color: var(--text-dark);
         }
 
-        @media (max-width: 900px) {
-            .hero-case-card {
-                grid-template-columns: 1fr;
-                border: none;
-                box-shadow: none;
-                background: transparent;
+            .clinical-cases-section {
+                background: #f9f9f9;
             }
-            
-            .case-content {
-                padding: 0 0 30px 0;
-            }
-            
-            .case-media {
+            .clinical-case-card {
+                background: white;
                 border-radius: var(--radius-lg);
-                overflow: hidden;
-                min-height: 250px;
+                box-shadow: var(--shadow-md);
+                padding: 40px;
+                border: 1px solid var(--light-gray);
             }
-            
-            .cases-grid {
-                grid-template-columns: 1fr;
+            .case-date {
+                color: var(--accent-color);
+                font-weight: 600;
+                font-size: 0.95rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
-        }
+            .clinical-content h3 {
+                color: var(--primary-dark);
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+            .lead-text {
+                font-size: 1.1rem;
+                color: var(--text-dark);
+            }
+            .outcome-box {
+                background: #e6fffa;
+                border-left: 4px solid #38b2ac;
+                padding: 20px;
+                border-radius: 4px;
+            }
+            .clinical-images-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .clinical-images-grid img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 8px;
+                transition: transform 0.3s ease;
+                cursor: pointer;
+            }
+            .clinical-images-grid img:hover {
+                transform: scale(1.03);
+            }
+
+            @media (max-width: 900px) {
+                .hero-case-card {
+                    grid-template-columns: 1fr;
+                    border: none;
+                    box-shadow: none;
+                    background: transparent;
+                }
+                
+                .case-content {
+                    padding: 0 0 30px 0;
+                }
+                
+                .case-media {
+                    border-radius: var(--radius-lg);
+                    overflow: hidden;
+                    min-height: 250px;
+                }
+                
+                .cases-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .clinical-case-card {
+                    padding: 20px;
+                }
+                .clinical-images-grid {
+                    grid-template-columns: 1fr;
+                    margin-top: 20px;
+                }
+                .clinical-images-grid img {
+                    height: auto;
+                }
+            }
       `}</style>
         </div>
     );
