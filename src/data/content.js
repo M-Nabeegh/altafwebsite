@@ -15,6 +15,7 @@ export const doctorProfile = {
     email: "javed_altafdr@yahoo.com",
     phone: "+92-3332888428",
     address: "Shaikh Diagnostic Center, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000",
+    googleMapsLink: "https://www.google.com/maps?s=web&sca_esv=b9266a0addfdcf78&client=safari&hs=uqUU&lqi=ChdtYXJ5YW0gdXJvbG9neSBjbGluaWPCoJIBDm1lZGljYWxfY2xpbmlj&vet=12ahUKEwjBoqLrlIuSAxUUSmwGHbC7LfkQ1YkKegQIHRAB..i&cs=1&um=1&ie=UTF-8&fb=1&gl=pk&sa=X&geocode=KSPC2FMAcUw5MUTTZzM87M0W&daddr=Shaikh+Diagnostic+Center,+Doctors+Ln,+near+National+saving+centre,+Soldier+Bazaar+Doctors+Colony,+Hyderabad,+71000",
     linkedin: "https://www.linkedin.com/in/drjavedaltaf",
     bookingFee: "Rs. 3,500"
 };
