@@ -1,0 +1,131 @@
+import React from 'react';
+import { doctorProfile, navLinks } from '../data/content';
+import { FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+
+const Footer = () => {
+    return (
+        <footer className="footer" id="contact">
+            <div className="container">
+                <div className="footer-grid">
+                    <div className="footer-col">
+                        <h3>{doctorProfile.name}</h3>
+                        <p className="designation">{doctorProfile.designation}</p>
+                        <p>{doctorProfile.specialty}</p>
+                        <div className="social-links">
+                            <a href={doctorProfile.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+                            <a href={`mailto:${doctorProfile.email}`}><FaEnvelope /></a>
+                        </div>
+                    </div>
+
+                    <div className="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            {navLinks.map(link => (
+                                <li key={link.label}><a href={link.href}>{link.label}</a></li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="footer-col">
+                        <h4>Contact Info</h4>
+                        <div className="contact-item">
+                            <FaEnvelope /> <span>{doctorProfile.email}</span>
+                        </div>
+                        <div className="contact-item">
+                            <FaMapMarkerAlt /> <span>Liaquat University of Medical & Health Sciences (LUMHS), {doctorProfile.location}</span>
+                        </div>
+                        {/* Placeholder for phone if available */}
+                    </div>
+                </div>
+
+                <div className="footer-bottom">
+                    <p>&copy; {new Date().getFullYear()} Prof. Dr. Javed Altaf. All Rights Reserved.</p>
+                </div>
+            </div>
+
+            <style jsx>{`
+        .footer {
+          background-color: var(--primary-dark);
+          color: white;
+          padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 40px;
+          margin-bottom: 40px;
+        }
+
+        .footer h3 {
+          color: white;
+          margin-bottom: 10px;
+        }
+
+        .footer h4 {
+          color: var(--accent-color);
+          margin-bottom: 20px;
+          font-size: 1.1rem;
+        }
+
+        .designation {
+          color: var(--medium-gray);
+          margin-bottom: 10px;
+          font-size: 0.9rem;
+        }
+
+        .social-links {
+          display: flex;
+          gap: 15px;
+          margin-top: 20px;
+        }
+
+        .social-links a {
+          color: white;
+          font-size: 1.5rem;
+          opacity: 0.8;
+        }
+
+        .social-links a:hover {
+          opacity: 1;
+          color: var(--accent-color);
+        }
+
+        .footer-col ul li {
+          margin-bottom: 10px;
+        }
+
+        .footer-col ul a {
+          color: var(--medium-gray);
+        }
+
+        .footer-col ul a:hover {
+          color: white;
+          padding-left: 5px;
+        }
+
+        .contact-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          margin-bottom: 15px;
+          color: var(--medium-gray);
+        }
+        
+        .contact-item svg {
+          margin-top: 4px;
+        }
+
+        .footer-bottom {
+          text-align: center;
+          padding-top: 20px;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          color: var(--text-light);
+          font-size: 0.9rem;
+        }
+      `}</style>
+        </footer>
+    );
+};
+
+export default Footer;
