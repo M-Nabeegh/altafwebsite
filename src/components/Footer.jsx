@@ -64,7 +64,7 @@ const Footer = () => {
         }
 
         .footer h3 {
-          color: white;
+          color: var(--white);
           margin-bottom: 10px;
         }
 
@@ -75,7 +75,7 @@ const Footer = () => {
         }
 
         .designation {
-          color: var(--medium-gray);
+          color: rgba(255, 255, 255, 0.8) !important;
           margin-bottom: 10px;
           font-size: 0.9rem;
         }
@@ -102,11 +102,11 @@ const Footer = () => {
         }
 
         .footer-col ul a {
-          color: var(--medium-gray);
+          color: rgba(255, 255, 255, 0.7);
         }
 
         .footer-col ul a:hover {
-          color: white;
+          color: var(--white);
           padding-left: 5px;
         }
 
@@ -115,7 +115,7 @@ const Footer = () => {
           align-items: flex-start;
           gap: 10px;
           margin-bottom: 15px;
-          color: var(--medium-gray);
+          color: rgba(255, 255, 255, 0.8) !important;
         }
         
         .contact-item svg {

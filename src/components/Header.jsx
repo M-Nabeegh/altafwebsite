@@ -95,12 +95,19 @@ const Header = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .logo {
+           flex-shrink: 0; /* Prevent logo from shrinking */
+           margin-right: 20px;
         }
 
         .logo h2 {
           font-size: 1.2rem;
           margin-bottom: 0;
           color: var(--primary-dark);
+          line-height: 1.2;
         }
 
         .logo span {
