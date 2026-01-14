@@ -70,6 +70,18 @@ const PioneeredCasesPage = () => {
         }
     ];
 
+    const [selectedImage, setSelectedImage] = React.useState(null);
+
+    const openImage = (img) => {
+        setSelectedImage(img);
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    };
+
+    const closeImage = () => {
+        setSelectedImage(null);
+        document.body.style.overflow = 'unset'; // Restore scrolling
+    };
+
     return (
         <div className="pioneered-page">
 
@@ -173,9 +185,9 @@ const PioneeredCasesPage = () => {
                                 <div className="col-lg-6">
                                     <div className="clinical-images-grid">
                                         {item.images.map((img, i) => (
-                                            <a key={i} href={img} target="_blank" rel="noopener noreferrer">
+                                            <div key={i} className="img-container" onClick={() => openImage(img)}>
                                                 <img src={img} alt={`${item.title} Image ${i + 1}`} className="img-fluid rounded shadow-sm" loading="lazy" />
-                                            </a>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
@@ -184,6 +196,16 @@ const PioneeredCasesPage = () => {
                     ))}
                 </div>
             </section>
+
+            {/* IMAGE LIGHTBOX MODAL */}
+            {selectedImage && (
+                <div className="lightbox-modal" onClick={closeImage}>
+                    <div className="lightbox-content">
+                        <img src={selectedImage} alt="Enlarged view" />
+                        <button className="close-btn" onClick={closeImage}>&times;</button>
+                    </div>
+                </div>
+            )}
 
             {/* SECTION 3: PIONEERED CASES GRID */}
             <section className="cases-grid-section section bg-light">
@@ -409,6 +431,7 @@ const PioneeredCasesPage = () => {
                 box-shadow: var(--shadow-md);
                 padding: 40px;
                 border: 1px solid var(--light-gray);
+                margin-bottom: 60px; /* Increased spacing between cases */
             }
             .case-date {
                 color: var(--accent-color);
@@ -437,16 +460,65 @@ const PioneeredCasesPage = () => {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
+            .clinical-images-grid .img-container {
+                cursor: pointer;
+                overflow: hidden;
+                border-radius: 8px;
+            }
             .clinical-images-grid img {
                 width: 100%;
                 height: 200px;
                 object-fit: cover;
                 border-radius: 8px;
                 transition: transform 0.3s ease;
-                cursor: pointer;
             }
             .clinical-images-grid img:hover {
-                transform: scale(1.03);
+                transform: scale(1.05);
+            }
+
+            /* Lightbox Modal */
+            .lightbox-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.9);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: fadeIn 0.3s ease;
+            }
+            .lightbox-content {
+                position: relative;
+                max-width: 90%;
+                max-height: 90%;
+            }
+            .lightbox-content img {
+                max-width: 100%;
+                max-height: 90vh;
+                border-radius: 4px;
+                box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            }
+            .close-btn {
+                position: absolute;
+                top: -40px;
+                right: -40px;
+                background: transparent;
+                border: none;
+                color: white;
+                font-size: 3rem;
+                cursor: pointer;
+                line-height: 1;
+                transition: color 0.2s;
+            }
+            .close-btn:hover {
+                color: var(--accent-color);
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
             }
 
             @media (max-width: 900px) {
@@ -480,6 +552,10 @@ const PioneeredCasesPage = () => {
                 }
                 .clinical-images-grid img {
                     height: auto;
+                }
+                .close-btn {
+                    top: -40px;
+                    right: 0;
                 }
             }
       `}</style>
