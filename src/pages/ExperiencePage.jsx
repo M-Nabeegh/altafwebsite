@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { fullExperience, education, skills } from '../data/content';
 import TimelineItem from '../components/TimelineItem';
 import { FaGraduationCap, FaTools, FaBriefcase, FaCertificate } from 'react-icons/fa';
-import surgeryImage from '../assets/surgery.png';
+import surgeryImage from '../assets/surgery.webp';
 
 // Import Logos
-import baqaiLogo from '../assets/baqai-logo.png';
-import acsLogo from '../assets/acs-logo-v2.png';
-import ircadLogo from '../assets/ircad-logo.png';
-import cpspLogo from '../assets/cpsp-logo-v2.png';
-import rcpsLogo from '../assets/rcps-logo.png';
-import lumhsLogo from '../assets/lumhs-logo-v2.png';
+import baqaiLogo from '../assets/baqai-logo.webp';
+import acsLogo from '../assets/acs-logo-v2.webp';
+import ircadLogo from '../assets/ircad-logo.webp';
+import cpspLogo from '../assets/cpsp-logo-v2.webp';
+import rcpsLogo from '../assets/rcps-logo.webp';
+import lumhsLogo from '../assets/lumhs-logo-v2.webp';
 
 const ExperiencePage = () => {
   useEffect(() => {
@@ -53,7 +53,7 @@ const ExperiencePage = () => {
           <h2 className="mb-4"><FaBriefcase className="icon-heading" /> Professional Experience</h2>
 
           <div className="surgery-banner mb-5 fade-in">
-            <img src={surgeryImage} alt="Surgical Excellence" />
+            <img src={surgeryImage} alt="Surgical Excellence" loading="lazy" />
             <div className="banner-caption">
               <span>Pioneering Advanced Surgical Techniques</span>
             </div>
@@ -98,7 +98,7 @@ const ExperiencePage = () => {
                   </div>
                   {logo && (
                     <div className="edu-logo">
-                      <img src={logo} alt="Institution Logo" />
+                      <img src={logo} alt="Institution Logo" loading="lazy" />
                     </div>
                   )}
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import doctorImage from '../assets/doctor-profile.png';
+import doctorImage from '../assets/doctor-profile.webp';
 import { doctorProfile } from '../data/content';
 import CTAButton from './CTAButton';
 
@@ -156,7 +156,7 @@ const Hero = () => {
             color: var(--text-light);
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
           .hero-container {
             grid-template-columns: 1fr;
             text-align: center;

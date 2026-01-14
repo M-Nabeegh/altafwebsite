@@ -2,7 +2,7 @@ import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-import lumhsLogo from '../assets/lumhs-logo.png';
+import lumhsLogo from '../assets/lumhs-logo.webp';
 
 const Experience = () => {
   return (
