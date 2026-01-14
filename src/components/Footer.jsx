@@ -4,7 +4,7 @@ import { FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/
 
 const Footer = () => {
   return (
-    <footer className="footer" id="contact">
+    <footer className="footer" id="contact" style={{ backgroundColor: '#004494', color: 'white', padding: '60px 0 20px' }}>
       <div className="container">
         <div className="footer-grid">
           <div className="footer-col">
