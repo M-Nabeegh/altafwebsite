@@ -50,76 +50,65 @@ const BookingSuccess = () => {
 
             <style jsx>{`
                 .success-page {
-                    padding: 120px 0;
-                    min-height: 80vh;
+                    padding: 140px 0 100px;
+                    min-height: 90vh;
                     display: flex;
                     align-items: center;
+                    justify-content: center;
+                    background: var(--light-gray);
                 }
                 
+                .container {
+                    width: 100%;
+                    max-width: 800px;
+                    background: white;
+                    padding: 60px;
+                    border-radius: var(--radius-lg);
+                    box-shadow: var(--shadow-md);
+                }
+
                 .success-icon {
-                    font-size: 5rem;
-                    color: #2e7d32; /* Success Green */
+                    font-size: 4rem;
+                    color: var(--primary-color);
+                    margin-bottom: 2rem;
+                }
+
+                h1 {
+                    font-size: 2.5rem;
+                    margin-bottom: 1.5rem;
+                    line-height: 1.2;
                 }
 
                 .confirmation-box {
                     background: #f0fdf4;
-                    padding: 30px;
-                    border-radius: var(--radius-lg);
+                    padding: 25px;
+                    border-radius: var(--radius-md);
                     border: 1px solid #bbf7d0;
+                    margin-bottom: 3rem;
                 }
 
                 .next-steps-section {
-                    background: white;
-                    padding: 40px;
-                    border-radius: var(--radius-lg);
-                    box-shadow: var(--shadow-md);
+                    text-align: left;
+                    margin: 0 auto 3rem;
+                    max-width: 600px;
                 }
 
                 .step-item {
                     display: flex;
                     gap: 20px;
-                    margin-bottom: 30px;
+                    margin-bottom: 25px;
+                    align-items: flex-start;
                 }
 
-                .step-item:last-child {
-                    margin-bottom: 0;
-                }
-
-                .icon-box {
-                    background: var(--light-gray);
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: var(--primary-color);
-                    font-size: 1.2rem;
-                    flex-shrink: 0;
-                }
-
-                .step-item h5 {
-                    color: var(--primary-dark);
-                    margin-bottom: 8px;
-                    font-weight: 700;
-                }
-
-                .step-item p {
-                    color: var(--text-light);
-                    margin: 0;
-                }
-
-                @media (max-width: 600px) {
+                @media (max-width: 768px) {
                     .success-page {
-                        padding-top: 100px;
+                        padding: 120px 20px 60px;
                     }
-                    .step-item {
-                        flex-direction: column;
-                        gap: 15px;
-                        text-align: center;
+                    .container {
+                        padding: 40px 20px;
                     }
-                    .icon-box {
-                        margin: 0 auto;
+                    h1 {
+                        font-size: 2rem;
                     }
                 }
             `}</style>
