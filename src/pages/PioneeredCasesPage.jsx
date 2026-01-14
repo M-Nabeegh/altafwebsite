@@ -11,6 +11,11 @@ import case3Img2 from '../assets/case3-img2.webp';
 import case3Img3 from '../assets/case3-img3.webp';
 import case3Img4 from '../assets/case3-img4.webp';
 import case3Img5 from '../assets/case3-img5.webp';
+import case4Img1 from '../assets/case4-img1.webp';
+import case4Img2 from '../assets/case4-img2.webp';
+import case4Img3 from '../assets/case4-img3.webp';
+import case4Img4 from '../assets/case4-img4.webp';
+import case4Img5 from '../assets/case4-img5.webp';
 
 const PioneeredCasesPage = () => {
     useEffect(() => {
@@ -67,6 +72,17 @@ const PioneeredCasesPage = () => {
             outcome: "The procedure resulted in complete clearance, successfully resolving the issue. The patient's postoperative course was smooth and uneventful. After 24 hours of observation, he was discharged in stable condition.",
             quote: "Thanks to my team and supporting staff for making this procedure successful.",
             images: [case2Img1, case2Img2, case2Img3, case2Img4]
+        },
+        {
+            date: "March 2024",
+            title: "PCNL in Major Spine Deformity with Complete Clearance",
+            patient: "Adult patient with significant spinal deformity.",
+            history: "Presented with renal stones complicated by severe spinal curvature.",
+            diagnosis: "Renal calculi in a patient with major spine deformity.",
+            procedure: "Percutaneous Nephrolithotomy (PCNL).",
+            outcome: "Successfully performed PCNL with complete clearance of stones despite the challenging anatomy due to spine deformity.",
+            quote: "Alhumdulillah! Another complex case managed successfully with complete clearance.",
+            images: [case4Img1, case4Img2, case4Img3, case4Img4, case4Img5]
         }
     ];
 
