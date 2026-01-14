@@ -6,6 +6,11 @@ import case2Img1 from '../assets/case2-img1.webp';
 import case2Img2 from '../assets/case2-img2.webp';
 import case2Img3 from '../assets/case2-img3.webp';
 import case2Img4 from '../assets/case2-img4.webp';
+import case3Img1 from '../assets/case3-img1.webp';
+import case3Img2 from '../assets/case3-img2.webp';
+import case3Img3 from '../assets/case3-img3.webp';
+import case3Img4 from '../assets/case3-img4.webp';
+import case3Img5 from '../assets/case3-img5.webp';
 
 const PioneeredCasesPage = () => {
     useEffect(() => {
@@ -40,6 +45,31 @@ const PioneeredCasesPage = () => {
         }
     ];
 
+    const clinicalCases = [
+        {
+            date: "May 2, 2025",
+            title: 'Left Laparoscopic Pyeloplasty for PUJO',
+            patient: "38-year-old gentleman.",
+            history: "Left flank pain since 5 years.",
+            diagnosis: 'Left Pelvi-ureteric junction obstruction (PUJO).',
+            procedure: "Left laparoscopic pyeloplasty.",
+            outcome: "Totally successful pioneering procedure breaking new ground in healthcare for our region. Patient discharged successfully.",
+            quote: "Another medical milestone achieved! Thrilled to contribute to our continuous progress.",
+            images: [case3Img1, case3Img2, case3Img3, case3Img4, case3Img5]
+        },
+        {
+            date: "March 18, 2025",
+            title: "Left Laparoscopic Assisted Mini PCNL (Totally Tubeless) in Ectopic Kidney",
+            patient: "23-year-old gentleman.",
+            history: "Intermittent pelvic pain for the past two years.",
+            diagnosis: "Left ectopic kidney located in the pelvic region with a 2 cm radiolucent renal calculi.",
+            procedure: "Left Laparoscopic Assisted Mini PCNL (Totally Tubeless).",
+            outcome: "The procedure resulted in complete clearance, successfully resolving the issue. The patient's postoperative course was smooth and uneventful. After 24 hours of observation, he was discharged in stable condition.",
+            quote: "Thanks to my team and supporting staff for making this procedure successful.",
+            images: [case2Img1, case2Img2, case2Img3, case2Img4]
+        }
+    ];
+
     return (
         <div className="pioneered-page">
 
@@ -54,7 +84,7 @@ const PioneeredCasesPage = () => {
                 </div>
             </section>
 
-            {/* SECTION 2: FEATURED HERO CASE */}
+            {/* SECTION 2: FEATURED HERO CASE (Elutax) */}
             <section className="hero-case-section section">
                 <div className="container">
                     <div className="hero-case-card">
@@ -114,41 +144,44 @@ const PioneeredCasesPage = () => {
                         <div className="separator-line mx-auto"></div>
                     </div>
 
-                    <div className="clinical-case-card fade-in">
-                        <div className="row">
-                            <div className="col-lg-6">
-                                <div className="clinical-content">
-                                    <div className="case-date mb-2"><FaNotesMedical className="mr-2" /> March 18, 2025</div>
-                                    <h3>Left Laparoscopic Assisted Mini PCNL (Totally Tubeless) in Ectopic Kidney</h3>
-                                    <p className="lead-text mt-3">
-                                        <strong>Patient:</strong> 23-year-old gentleman.<br />
-                                        <strong>History:</strong> Intermittent pelvic pain for the past two years.
-                                    </p>
-                                    <p>
-                                        <strong>Diagnosis:</strong> Left ectopic kidney located in the pelvic region with a 2 cm radiolucent renal calculi.
-                                    </p>
-                                    <p>
-                                        <strong>Procedure:</strong> Left Laparoscopic Assisted Mini PCNL (Totally Tubeless).
-                                    </p>
-                                    <div className="outcome-box mt-4">
-                                        <h5><FaCheckCircle className="text-success mr-2" /> Clinical Outcome</h5>
-                                        <p className="mb-0">The procedure resulted in <strong>complete clearance</strong>, successfully resolving the issue. The patient's postoperative course was smooth and uneventful. After 24 hours of observation, he was discharged in stable condition.</p>
+                    {clinicalCases.map((item, index) => (
+                        <div key={index} className="clinical-case-card fade-in mb-5">
+                            <div className="row">
+                                <div className="col-lg-6">
+                                    <div className="clinical-content">
+                                        <div className="case-date mb-2"><FaNotesMedical className="mr-2" /> {item.date}</div>
+                                        <h3>{item.title}</h3>
+                                        <p className="lead-text mt-3">
+                                            <strong>Patient:</strong> {item.patient}<br />
+                                            <strong>History:</strong> {item.history}
+                                        </p>
+                                        <p>
+                                            <strong>Diagnosis:</strong> {item.diagnosis}
+                                        </p>
+                                        <p>
+                                            <strong>Procedure:</strong> {item.procedure}
+                                        </p>
+                                        <div className="outcome-box mt-4">
+                                            <h5><FaCheckCircle className="text-success mr-2" /> Clinical Outcome</h5>
+                                            <p className="mb-0">{item.outcome}</p>
+                                        </div>
+                                        <p className="mt-4 text-muted font-italic">
+                                            "{item.quote}"
+                                        </p>
                                     </div>
-                                    <p className="mt-4 text-muted font-italic">
-                                        "Thanks to my team and supporting staff for making this procedure successful."
-                                    </p>
                                 </div>
-                            </div>
-                            <div className="col-lg-6">
-                                <div className="clinical-images-grid">
-                                    <img src={case2Img1} alt="Case Study Image 1" className="img-fluid rounded shadow-sm" loading="lazy" />
-                                    <img src={case2Img2} alt="Case Study Image 2" className="img-fluid rounded shadow-sm" loading="lazy" />
-                                    <img src={case2Img3} alt="Case Study Image 3" className="img-fluid rounded shadow-sm" loading="lazy" />
-                                    <img src={case2Img4} alt="Case Study Image 4" className="img-fluid rounded shadow-sm" loading="lazy" />
+                                <div className="col-lg-6">
+                                    <div className="clinical-images-grid">
+                                        {item.images.map((img, i) => (
+                                            <a key={i} href={img} target="_blank" rel="noopener noreferrer">
+                                                <img src={img} alt={`${item.title} Image ${i + 1}`} className="img-fluid rounded shadow-sm" loading="lazy" />
+                                            </a>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </section>
 
