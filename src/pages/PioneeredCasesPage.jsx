@@ -16,6 +16,11 @@ import case4Img2 from '../assets/case4-img2.webp';
 import case4Img3 from '../assets/case4-img3.webp';
 import case4Img4 from '../assets/case4-img4.webp';
 import case4Img5 from '../assets/case4-img5.webp';
+import case5Img1 from '../assets/case5-img1.webp';
+import case5Img2 from '../assets/case5-img2.webp';
+import case5Img3 from '../assets/case5-img3.webp';
+import case5Img4 from '../assets/case5-img4.webp';
+import case5Img5 from '../assets/case5-img5.webp';
 
 const PioneeredCasesPage = () => {
     useEffect(() => {
@@ -83,6 +88,17 @@ const PioneeredCasesPage = () => {
             outcome: "Successfully performed PCNL with complete clearance of stones despite the challenging anatomy due to spine deformity.",
             quote: "Alhumdulillah! Another complex case managed successfully with complete clearance.",
             images: [case4Img1, case4Img2, case4Img3, case4Img4, case4Img5]
+        },
+        {
+            date: null, // "Leave date" requested by user
+            title: "Bilateral Giant Hydronephrosis in a 5-Year-Old Child",
+            patient: "5-year-old male child.",
+            history: "Presented with mild to moderate abdominal pain and diffuse abdominal swelling bilaterally. Rest of examination was normal.",
+            diagnosis: "Laboratories and bio chemistries were within normal limits.",
+            procedure: "Diagnosis and Management.",
+            outcome: "Successfully diagnosed and managed.",
+            quote: "Challenging pediatric case managed with precision.",
+            images: [case5Img1, case5Img2, case5Img3, case5Img4, case5Img5]
         }
     ];
 
@@ -177,7 +193,7 @@ const PioneeredCasesPage = () => {
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="clinical-content">
-                                        <div className="case-date mb-2"><FaNotesMedical className="mr-2" /> {item.date}</div>
+                                        {item.date && <div className="case-date mb-2"><FaNotesMedical className="mr-2" /> {item.date}</div>}
                                         <h3>{item.title}</h3>
                                         <p className="lead-text mt-3">
                                             <strong>Patient:</strong> {item.patient}<br />
