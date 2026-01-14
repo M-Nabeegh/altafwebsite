@@ -95,11 +95,11 @@ const Header = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          flex-wrap: wrap; /* Allow wrapping on small screens */
+          /* Removed flex-wrap to prevent stacking */
         }
 
         .logo {
-           flex-shrink: 0; /* Prevent logo from shrinking */
+           flex-shrink: 0;
            margin-right: 20px;
         }
 
@@ -113,22 +113,22 @@ const Header = () => {
         .logo span {
           display: block;
           font-size: 0.8rem;
-          color: var(--text-light); /* Ensure this is visible against white */
+          color: var(--text-light);
           font-weight: 400;
         }
 
         .nav-menu ul {
           display: flex;
           list-style: none;
-          gap: 20px; /* Reduced gap from 30px */
+          gap: 15px; /* Tighter gap */
         }
 
         .nav-menu a {
           text-decoration: none;
-          color: var(--text-dark); /* Dark text on white header */
+          color: var(--text-dark);
           font-weight: 500;
-          font-size: 0.9rem; /* Reduced from 0.95rem */
-          white-space: nowrap; /* Prevent wrapping */
+          font-size: 0.9rem;
+          white-space: nowrap;
         }
 
         .nav-menu a:hover {
@@ -151,7 +151,8 @@ const Header = () => {
             display: none;
         }
 
-        @media (max-width: 1100px) { /* Increased breakpoint from 900px */
+        /* Increased breakpoint to switch to mobile menu sooner (before it breaks) */
+        @media (max-width: 1250px) {
           .nav-menu {
             position: fixed;
             top: 0;
