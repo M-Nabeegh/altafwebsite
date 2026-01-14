@@ -28,7 +28,12 @@ const Contact = () => {
 
             <div className="phone-block">
               <FaPhoneAlt />
-              <a href={`tel:${doctorProfile.phone}`}>{doctorProfile.phone}</a>
+              <div className="d-flex flex-column">
+                <a href={`tel:${doctorProfile.phone}`}>{doctorProfile.phone}</a>
+                <span className="appointment-text">
+                  <strong>For Appointments:</strong> <a href={`tel:${doctorProfile.appointmentPhone}`}>{doctorProfile.appointmentPhone}</a>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -132,6 +137,16 @@ const Contact = () => {
         
         .phone-block a:hover {
           color: var(--primary-color);
+        }
+
+        .appointment-text {
+            font-size: 0.95rem;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        .appointment-text a {
+            font-weight: 600;
         }
 
         .hours-list {
