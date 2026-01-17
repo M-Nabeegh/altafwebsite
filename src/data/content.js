@@ -13,8 +13,7 @@ export const doctorProfile = {
     location: "Hyderabad / Jamshoro",
     languages: ["English", "Urdu", "Hindi", "Punjabi"],
     email: "javed_altafdr@yahoo.com",
-    phone: "+92-3332888428",
-    appointmentPhone: "0316-0306699",
+    phone: "0316-0306699",
     address: "Shaikh Diagnostic Center, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000",
     googleMapsLink: "https://www.google.com/maps?s=web&sca_esv=b9266a0addfdcf78&client=safari&hs=uqUU&lqi=ChdtYXJ5YW0gdXJvbG9neSBjbGluaWPCoJIBDm1lZGljYWxfY2xpbmlj&vet=12ahUKEwjBoqLrlIuSAxUUSmwGHbC7LfkQ1YkKegQIHRAB..i&cs=1&um=1&ie=UTF-8&fb=1&gl=pk&sa=X&geocode=KSPC2FMAcUw5MUTTZzM87M0W&daddr=Shaikh+Diagnostic+Center,+Doctors+Ln,+near+National+saving+centre,+Soldier+Bazaar+Doctors+Colony,+Hyderabad,+71000",
     linkedin: "https://www.linkedin.com/in/drjavedaltaf",
@@ -49,6 +48,15 @@ export const fullExperience = [
         details: [
             "Actively involved in surgical procedures, with a record of conducting an average of 95 surgeries monthly.",
             "Leading Unit I with full administrative and clinical responsibilities."
+        ]
+    },
+    {
+        role: "Master Trainer – Percutaneous Nephrolithotomy (PCNL)",
+        department: "Department of Urology",
+        institution: "Various Locations (Karachi & Gujranwala)",
+        period: "2024",
+        details: [
+            "Conducted advanced PCNL training programs for urologists in Karachi and Gujranwala, contributing to national capacity building in endourology."
         ]
     },
     {
@@ -157,12 +165,12 @@ export const navLinks = [
 ];
 
 export const expertise = [
-    { icon: "kidney", title: "Kidney Stones", desc: "Comprehensive management of kidney and ureteric stones using ESWL, Mini-PCNL, PCNL, and RIRS. Treatment selection is personalized based on stone size, location, and patient profile to ensure high stone-free rates with minimal discomfort and faster recovery." },
-    { icon: "prostate", title: "Prostate Health", desc: "Expert diagnosis and treatment of Benign Prostatic Hyperplasia (BPH) and prostate cancer using medical therapy, endoscopic procedures (TURP), and surgical interventions focused on preserving urinary and sexual function." },
-    { icon: "bladder", title: "Bladder Disorders", desc: "Advanced management of bladder tumors, recurrent infections, urinary incontinence, and functional bladder disorders with a focus on accurate diagnosis, minimally invasive treatment, and long-term follow-up." },
-    { icon: "pediatric", title: "Pediatric Urology", desc: "Specialized care for pediatric urological conditions including congenital anomalies, pediatric stone disease, and developmental disorders, with a strong emphasis on safety and long-term outcomes." },
-    { icon: "laparoscopy", title: "Laparoscopic Surgery", desc: "Minimally invasive laparoscopic urological surgeries resulting in smaller incisions, reduced pain, shorter hospital stays, and faster return to daily activities." },
-    { icon: "male-health", title: "Male Sexual Health", desc: "Confidential and evidence-based treatment for erectile dysfunction, male infertility, and sexual health disorders using modern diagnostic tools and personalized treatment plans." },
+    { icon: "kidney", title: "Kidney Stones", desc: "ESWL, Mini-PCNL & RIRS for effective stone clearance." },
+    { icon: "prostate", title: "Prostate Health", desc: "BPH & prostate cancer management." },
+    { icon: "bladder", title: "Bladder Disorders", desc: "Tumors, infections & incontinence care." },
+    { icon: "pediatric", title: "Pediatric Urology", desc: "Congenital and stone disease management in children." },
+    { icon: "laparoscopy", title: "Laparoscopic Surgery", desc: "Minimally invasive reconstructive procedures." },
+    { icon: "male-health", title: "Male Sexual Health", desc: "Erectile dysfunction & urinary symptoms management." },
 ];
 
 export const services = [

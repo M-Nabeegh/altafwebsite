@@ -120,7 +120,7 @@ const PioneeredCasesPage = () => {
             {/* SECTION 1: PAGE INTRO */}
             <section className="intro-section bg-dark text-white">
                 <div className="container text-center">
-                    <div className="intro-badge mb-3">Innovation in Urology</div>
+                    <div className="intro-badge mb-3 mt-4">Innovation in Urology</div>
                     <h1 className="display-4 font-weight-bold mb-4">Pioneered Urological Procedures in Pakistan</h1>
                     <p className="lead mx-auto" style={{ maxWidth: '800px', opacity: 0.9, margin: '0 auto' }}>
                         Prof. Dr. Javed Altaf has been at the forefront of introducing advanced and innovative urological procedures in Pakistan. These landmark cases reflect his commitment to adopting cutting-edge technology, improving patient outcomes, and advancing urological care nationwide.
@@ -583,11 +583,13 @@ const PioneeredCasesPage = () => {
                     padding: 20px;
                 }
                 .clinical-images-grid {
-                    grid-template-columns: 1fr;
-                    margin-top: 20px;
+                    grid-template-columns: repeat(2, 1fr);
+                    margin-top: 15px;
+                    gap: 5px;
                 }
                 .clinical-images-grid img {
-                    height: auto;
+                    height: 120px;
+                    object-fit: cover;
                 }
                 .close-btn {
                     top: -40px;

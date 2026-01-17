@@ -8,6 +8,7 @@ import TrustStats from '../components/TrustStats';
 import Contact from '../components/Contact';
 import { useLocation, Link } from 'react-router-dom';
 import { FaUserMd, FaNotesMedical, FaFileMedical, FaProcedures, FaHeartbeat } from 'react-icons/fa';
+import pioneeredImg from '../assets/pioneered-surgery.jpg';
 
 const Home = () => {
     const { hash } = useLocation();
@@ -45,10 +46,7 @@ const Home = () => {
                             <h2>How Prof. Dr. Javed Altaf Treats His Patients</h2>
                         </div>
                         <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--text-dark)' }}>
-                            Prof. Dr. Javed Altaf follows a patient-centric, evidence-based approach to urological care. Every patient receives a thorough evaluation, clear explanation of treatment options, and a personalized care plan aligned with international clinical guidelines.
-                        </p>
-                        <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--text-dark)', marginTop: '20px' }}>
-                            His priority is to utilize minimally invasive and organ-preserving techniques wherever possible to reduce complications, shorten recovery time, and improve quality of life.
+                            Prof. Dr. Javed Altaf practices patient-centered, evidence-based urology, offering clear guidance and care aligned with international standards, with a strong focus on minimally invasive, organ-preserving treatment for faster recovery and better quality of life.
                         </p>
                     </div>
                 </section>
@@ -58,19 +56,29 @@ const Home = () => {
                 <Experience />
             </div>
 
+
+
             {/* NEW SECTION: Pioneered & Landmark Highlight */}
             <div className="pioneered-section">
-                <section className="section bg-primary-dark text-white text-center">
+                <section className="section bg-primary-dark text-white">
                     <div className="container">
-                        <div className="section-header mb-4">
-                            <h2 className="text-white">Pioneered & Landmark Procedures</h2>
+                        <div className="pioneered-grid">
+                            <div className="pioneered-content text-center text-lg-start">
+                                <div className="section-header mb-4">
+                                    <h2 className="text-white">Pioneered & Landmark Procedures</h2>
+                                </div>
+                                <p style={{ fontSize: '1.1rem', opacity: 0.9, marginBottom: '30px' }}>
+                                    Recognized for introducing advanced urological procedures in Pakistan, Prof. Dr. Javed Altaf has successfully performed multiple landmark cases that reflect innovation, expertise, and patient safety.
+                                </p>
+                                <Link to="/pioneered-cases" className="btn btn-primary btn-lg" style={{ background: 'var(--accent-color)', border: 'none', color: 'white' }}>
+                                    👉 View Pioneered Cases <span style={{ marginLeft: '5px' }}>→</span>
+                                </Link>
+                            </div>
+                            <div className="pioneered-image">
+                                <img src={pioneeredImg} alt="Dr. Javed Altaf performing landmark surgery" />
+                                <div className="badge-overlay">First in Pakistan</div>
+                            </div>
                         </div>
-                        <p style={{ maxWidth: '700px', margin: '0 auto 30px', fontSize: '1.1rem', opacity: 0.9 }}>
-                            Recognized for introducing advanced urological procedures in Pakistan, Prof. Dr. Javed Altaf has successfully performed multiple landmark cases that reflect innovation, expertise, and patient safety.
-                        </p>
-                        <Link to="/pioneered-cases" className="btn btn-primary btn-lg" style={{ background: 'var(--accent-color)', border: 'none', color: 'white' }}>
-                            👉 View Pioneered Cases <span style={{ marginLeft: '5px' }}>→</span>
-                        </Link>
                     </div>
                 </section>
             </div>
@@ -90,7 +98,7 @@ const Home = () => {
                             </div>
                             <div className="step-card">
                                 <div className="step-number">2</div>
-                                <h3>Diagnosis & Imaging</h3>
+                                <h3>Imaging & Diagnosis</h3>
                                 <p>Evidence-based evaluation</p>
                             </div>
                             <div className="step-card">
@@ -141,78 +149,13 @@ const Home = () => {
                 </section>
             </div>
 
-            <div className="social-proof-section">
-                <SocialProof />
-            </div>
+
 
             <div className="contact-section">
                 <Contact />
             </div>
 
-            <style jsx>{`
-                .care-journey-steps {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 20px;
-                    text-align: center;
-                }
-                .step-card {
-                    background: white;
-                    padding: 30px 20px;
-                    border-radius: var(--radius-md);
-                    box-shadow: var(--shadow-sm);
-                    border: 1px solid var(--light-gray);
-                    transition: transform 0.3s ease;
-                }
-                .step-card:hover {
-                    transform: translateY(-5px);
-                    border-color: var(--primary-color);
-                }
-                .step-number {
-                    width: 40px;
-                    height: 40px;
-                    background: var(--primary-color);
-                    color: white;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-weight: 700;
-                    font-size: 1.2rem;
-                    margin: 0 auto 15px;
-                }
-                .step-card h3 {
-                    font-size: 1.1rem;
-                    margin-bottom: 8px;
-                    color: var(--primary-dark);
-                }
-                .step-card p {
-                    font-size: 0.9rem;
-                    color: var(--text-light);
-                    margin: 0;
-                }
 
-                /* MOBILE REORDERING */
-                @media (max-width: 900px) {
-                    .home-container {
-                        display: flex;
-                        flex-direction: column;
-                    }
-
-                    .hero-section { order: 1; }
-                    .trust-stats-section { order: 2; }
-                    .expertise-section { order: 3; }
-                    .pioneered-section { order: 4; }
-                    .experience-section { order: 5; }
-                    .research-section { order: 6; }
-                    .approach-section { order: 7; }
-                    /* What's left comes after */
-                    .care-journey-section { order: 8; }
-                    .message-section { order: 9; }
-                    .social-proof-section { order: 10; }
-                    .contact-section { order: 11; }
-                }
-            `}</style>
         </div>
     );
 };

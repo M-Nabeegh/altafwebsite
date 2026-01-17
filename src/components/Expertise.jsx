@@ -33,52 +33,7 @@ const Expertise = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        .expertise-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 30px;
-        }
 
-        .expertise-card {
-          background: white;
-          padding: 30px;
-          border-radius: var(--radius-lg);
-          box-shadow: var(--shadow-sm);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          border: 1px solid var(--light-gray);
-        }
-
-        .expertise-card:hover {
-          transform: translateY(-5px);
-          box-shadow: var(--shadow-md);
-          border-color: var(--primary-color);
-        }
-
-        .icon-box {
-          width: 60px;
-          height: 60px;
-          background: var(--light-blue);
-          color: var(--primary-color);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.5rem;
-          margin-bottom: 20px;
-        }
-
-        .expertise-card h3 {
-          font-size: 1.25rem;
-          color: var(--primary-dark);
-          margin-bottom: 10px;
-        }
-
-        .expertise-card p {
-          color: var(--text-light);
-          line-height: 1.6;
-        }
-      `}</style>
     </section>
   );
 };
