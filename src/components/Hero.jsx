@@ -1,5 +1,5 @@
 import React from 'react';
-import doctorImage from '../assets/doctor-profile.webp';
+import doctorImage from '../assets/doctor-profile-v2.jpg';
 import { doctorProfile } from '../data/content';
 import CTAButton from './CTAButton';
 
@@ -22,8 +22,7 @@ const Hero = () => {
           <div className="hero-cta">
             <CTAButton text="Book Online Consultation" />
             <div className="consultation-info">
-              <p className="consult-title">Online Consultation Available</p>
-              <p className="consult-details">Consultation Fee: Rs. 3,500 <span className="separator">•</span> Ideal for second opinions, follow-ups, and report reviews.</p>
+              <p className="consult-details">Ideal for second opinions, follow-ups, and report reviews.</p>
             </div>
 
           </div>

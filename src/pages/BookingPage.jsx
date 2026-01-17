@@ -48,7 +48,7 @@ const BookingPage = () => {
                             <FaCreditCard className="icon" />
                             <div>
                                 <h5>Fee</h5>
-                                <p>PKR 5,000</p>
+                                <p>PKR 4,000</p>
                             </div>
                         </div>
 
