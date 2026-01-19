@@ -4,7 +4,7 @@ import { FaUserMd, FaProcedures, FaUserGraduate, FaChalkboardTeacher, FaBookMedi
 
 const stats = [
     { icon: <FaUserMd />, count: 20, suffix: "+", label: "Years Experience" },
-    { icon: <FaProcedures />, count: 15000, suffix: "+", label: "Surgeries" },
+    { icon: <FaProcedures />, count: 20000, suffix: "+", label: "Surgeries" },
     { icon: <FaUserGraduate />, count: 100, suffix: "+", label: "Doctors Trained" },
     { icon: <FaChalkboardTeacher />, count: 10000, suffix: "+", label: "Students Taught" },
     { icon: <FaBookMedical />, count: 40, suffix: "+", label: "Publications" }
