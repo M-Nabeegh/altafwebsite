@@ -12,8 +12,8 @@ const Footer = () => {
             <p className="designation">{doctorProfile.designation}</p>
             <p>{doctorProfile.specialty}</p>
             <div className="social-links">
-              <a href={doctorProfile.linkedin} target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
-              <a href={`mailto:${doctorProfile.email}`}><FaEnvelope /></a>
+              <a href={doctorProfile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile"><FaLinkedin /></a>
+              <a href={`mailto:${doctorProfile.email}`} aria-label="Send Email"><FaEnvelope /></a>
             </div>
           </div>
 
@@ -37,7 +37,7 @@ const Footer = () => {
               <div>
                 <span>Liaquat University of Medical & Health Sciences (LUMHS), {doctorProfile.location}</span>
                 <br />
-                <a href={doctorProfile.googleMapsLink} target="_blank" rel="noopener noreferrer" style={{ color: '#4285F4', fontSize: '0.85rem', marginTop: '5px', display: 'inline-block' }}>View Clinic on Map</a>
+                <a href={doctorProfile.googleMapsLink} target="_blank" rel="noopener noreferrer" style={{ color: '#a1c2fa', fontSize: '0.85rem', marginTop: '5px', display: 'inline-block' }}>View Clinic on Map</a>
               </div>
             </div>
             {/* Placeholder for phone if available */}

@@ -33,7 +33,7 @@ const Header = () => {
 
         <nav className={`nav-menu ${isOpen ? 'active' : ''}`}>
           <div className="mobile-menu-header">
-            <button className="close-menu-btn" onClick={() => setIsOpen(false)}>
+            <button className="close-menu-btn" aria-label="Close mobile menu" onClick={() => setIsOpen(false)}>
               <FaTimes />
             </button>
           </div>
@@ -68,6 +68,7 @@ const Header = () => {
           */}
           <button
             className="mobile-toggle"
+            aria-label="Toggle mobile menu"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <FaTimes /> : <FaBars />}
