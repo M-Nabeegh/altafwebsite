@@ -19,13 +19,14 @@ const Hero = () => {
             Prof. Dr. Javed Altaf is a senior consultant urologist and Professor at LUMHS with over two decades of experience in advanced and minimally invasive urological surgery. He is internationally trained, and nationally recognized for advanced PCNL surgery and surgical training, delivering evidence-based, patient-centred care.
           </p>
 
+          {/* Temporarily removed
           <div className="hero-cta">
             <CTAButton text="Book Online Consultation" />
             <div className="consultation-info">
               <p className="consult-details">Ideal for second opinions, follow-ups, and report reviews.</p>
             </div>
-
           </div>
+          */}
         </div>
 
         <div className="hero-image fade-in">
