@@ -31,7 +31,7 @@ const Hero = () => {
 
         <div className="hero-image fade-in">
           <div className="image-wrapper">
-            <img src={doctorImage} alt={doctorProfile.name} />
+            <img src={doctorImage} alt={doctorProfile.name} fetchpriority="high" width="600" height="600" style={{ objectFit: 'cover' }} />
           </div>
         </div>
       </div>

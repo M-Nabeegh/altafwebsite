@@ -83,7 +83,7 @@ const Home = () => {
                                 </Link>
                             </div>
                             <div className="pioneered-image">
-                                <img src={pioneeredImg} alt="Dr. Javed Altaf performing landmark surgery" />
+                                <img src={pioneeredImg} alt="Dr. Javed Altaf performing landmark surgery" loading="lazy" width="800" height="600" style={{ objectFit: 'cover' }} />
                                 <div className="badge-overlay">First in Pakistan</div>
                             </div>
                         </div>
