@@ -1,7 +1,7 @@
 import React from 'react';
 import doctorImage from '../assets/doctor-profile-v2.jpg';
 import { doctorProfile } from '../data/content';
-import CTAButton from './CTAButton';
+// import CTAButton from './CTAButton';
 
 const Hero = () => {
   return (
