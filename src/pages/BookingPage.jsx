@@ -3,6 +3,8 @@ import { doctorProfile } from '../data/content';
 import { FaPhone, FaMapMarkerAlt, FaClock, FaCalendarAlt, FaCreditCard, FaLock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+import SEO from '../components/SEO';
+
 const BookingPage = () => {
     const [agreed, setAgreed] = useState(false);
 
@@ -16,6 +18,12 @@ const BookingPage = () => {
 
     return (
         <div className="booking-page fade-in">
+            <SEO 
+                title="Book Consultation | Prof. Dr. Javed Altaf" 
+                description="Book your online consultation or in-person appointment with Prof. Dr. Javed Altaf securely." 
+                keywords="book consultation, urologist appointment Hyderabad, Dr Javed Altaf booking, online doctor Hyderabad"
+                url="https://www.javedaltaf.com/booking"
+            />
             <div className="container">
                 <div className="booking-header text-center">
                     <h1>Book an Online Consultation</h1>

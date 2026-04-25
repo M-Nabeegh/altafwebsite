@@ -10,6 +10,8 @@ import { useLocation, Link } from 'react-router-dom';
 import { FaUserMd, FaNotesMedical, FaFileMedical, FaProcedures, FaHeartbeat } from 'react-icons/fa';
 import pioneeredImg from '../assets/pioneered-surgery.jpg';
 
+import SEO from '../components/SEO';
+
 const Home = () => {
     const { hash } = useLocation();
 
@@ -26,6 +28,12 @@ const Home = () => {
 
     return (
         <div className="home-container">
+            <SEO 
+              title="Prof. Dr. Javed Altaf | Top Urologist in Hyderabad"
+              description="Prof. Dr. Javed Altaf is a highly respected Professor of Urology and Head of Department at LUMHS with 20+ years of experience in complex urological surgeries."
+              keywords="hyderabad, lumhs, urology, hyderabad doctor in hyderbad, kidney in hyderd, kidney specialist hyderabad, urologist in hyderabad, LUMHS urology, top kidney doctor"
+              url="https://www.javedaltaf.com"
+            />
             <div className="hero-section">
                 <Hero />
             </div>

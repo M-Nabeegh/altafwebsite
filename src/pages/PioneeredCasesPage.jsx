@@ -22,6 +22,8 @@ import case5Img3 from '../assets/case5-img3.webp';
 import case5Img4 from '../assets/case5-img4.webp';
 import case5Img5 from '../assets/case5-img5.jpg';
 
+import SEO from '../components/SEO';
+
 const PioneeredCasesPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -116,7 +118,12 @@ const PioneeredCasesPage = () => {
 
     return (
         <div className="pioneered-page">
-
+            <SEO 
+                title="Pioneered Cases & Surgery | Prof. Dr. Javed Altaf" 
+                description="Discover complex and pioneering surgical cases successfully performed by Prof. Dr. Javed Altaf throughout his career." 
+                keywords="pioneered cases, urology surgery, complex cases, Dr Javed Altaf cases, top surgeon Hyderabad"
+                url="https://www.javedaltaf.com/pioneered-cases"
+            />
             {/* SECTION 1: PAGE INTRO */}
             <section className="intro-section bg-dark text-white">
                 <div className="container text-center">

@@ -1,8 +1,16 @@
 import React from 'react';
 
+import SEO from '../components/SEO';
+
 const PrivacyPolicy = () => {
     return (
         <div className="privacy-page section fade-in">
+            <SEO 
+                title="Privacy Policy | Prof. Dr. Javed Altaf" 
+                description="Privacy policy and data protection terms for booking and consulting with Prof. Dr. Javed Altaf." 
+                keywords="privacy policy, data protection, Dr Javed Altaf policies"
+                url="https://www.javedaltaf.com/privacy-policy"
+            />
             <div className="container" style={{ maxWidth: '900px' }}>
                 <h1 className="mb-5 text-center">Privacy Policy</h1>
 

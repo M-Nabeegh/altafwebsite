@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { publications, stats } from '../data/content';
 import { FaBookMedical, FaQuoteRight, FaExternalLinkAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
+import SEO from '../components/SEO';
+
 const ResearchPage = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -15,6 +17,12 @@ const ResearchPage = () => {
 
   return (
     <div className="research-page">
+      <SEO 
+        title="Research & Publications | Prof. Dr. Javed Altaf" 
+        description="Academic research, publications, and scientific contributions in urology and surgical advancements by Prof. Dr. Javed Altaf." 
+        keywords="urology research, publications, scientific contributions, LUMHS urology, Dr Javed Altaf research"
+        url="https://www.javedaltaf.com/research"
+      />
       <div className="page-header">
         <div className="container">
           <h1>Research & Publications</h1>

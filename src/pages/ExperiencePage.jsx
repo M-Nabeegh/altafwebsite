@@ -12,6 +12,8 @@ import cpspLogo from '../assets/cpsp-logo-v2.webp';
 import rcpsLogo from '../assets/rcps-logo.webp';
 import lumhsLogo from '../assets/lumhs-logo-v2.webp';
 
+import SEO from '../components/SEO';
+
 const ExperiencePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,6 +41,12 @@ const ExperiencePage = () => {
 
   return (
     <div className="experience-page">
+      <SEO 
+        title="Experience & Qualifications | Prof. Dr. Javed Altaf" 
+        description="Explore the professional experience, academic background, and extensive qualifications of Prof. Dr. Javed Altaf in the field of Urology." 
+        keywords="LUMHS urology, urologist experience, Top urologist in Hyderabad, qualifications, Dr Javed Altaf"
+        url="https://www.javedaltaf.com/experience"
+      />
       <div className="page-header">
         <div className="container">
           <h1>Experience & Qualifications</h1>
