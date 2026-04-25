@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { navLinks, doctorProfile } from '../data/content';
-import CTAButton from './CTAButton';
+// import CTAButton from './CTAButton';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -61,9 +61,11 @@ const Header = () => {
         </nav>
 
         <div className="header-actions">
+          {/* Temporarily removed
           <div className="cta-desktop">
             <CTAButton text="Book Consultation" />
           </div>
+          */}
           <button
             className="mobile-toggle"
             onClick={() => setIsOpen(!isOpen)}
