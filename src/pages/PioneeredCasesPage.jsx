@@ -10,17 +10,17 @@ import case3Img1 from '../assets/case3-img1.webp';
 import case3Img2 from '../assets/case3-img2.webp';
 import case3Img3 from '../assets/case3-img3.webp';
 import case3Img4 from '../assets/case3-img4.webp';
-import case3Img5 from '../assets/case3-img5.webp';
+import case3Img5 from '../assets/case3-img5.jpg';
 import case4Img1 from '../assets/case4-img1.webp';
 import case4Img2 from '../assets/case4-img2.webp';
 import case4Img3 from '../assets/case4-img3.webp';
 import case4Img4 from '../assets/case4-img4.webp';
 import case4Img5 from '../assets/case4-img5.webp';
-import case5Img1 from '../assets/case5-img1.webp';
+import case5Img1 from '../assets/case5-img1.jpg';
 import case5Img2 from '../assets/case5-img2.webp';
 import case5Img3 from '../assets/case5-img3.webp';
 import case5Img4 from '../assets/case5-img4.webp';
-import case5Img5 from '../assets/case5-img5.webp';
+import case5Img5 from '../assets/case5-img5.jpg';
 
 const PioneeredCasesPage = () => {
     useEffect(() => {
