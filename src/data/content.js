@@ -13,11 +13,11 @@ export const doctorProfile = {
     location: "Hyderabad / Jamshoro",
     languages: ["English", "Urdu", "Hindi", "Punjabi"],
     email: "javed_altafdr@yahoo.com",
-    phone: "0316-0306699",
+    phone: "0300-3068775",
     address: "Shaikh Diagnostic Center, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000",
     googleMapsLink: "https://www.google.com/maps?s=web&sca_esv=b9266a0addfdcf78&client=safari&hs=uqUU&lqi=ChdtYXJ5YW0gdXJvbG9neSBjbGluaWPCoJIBDm1lZGljYWxfY2xpbmlj&vet=12ahUKEwjBoqLrlIuSAxUUSmwGHbC7LfkQ1YkKegQIHRAB..i&cs=1&um=1&ie=UTF-8&fb=1&gl=pk&sa=X&geocode=KSPC2FMAcUw5MUTTZzM87M0W&daddr=Shaikh+Diagnostic+Center,+Doctors+Ln,+near+National+saving+centre,+Soldier+Bazaar+Doctors+Colony,+Hyderabad,+71000",
     linkedin: "https://www.linkedin.com/in/drjavedaltaf",
-    bookingFee: "Rs. 3,500"
+    bookingFee: "Rs. 4,000"
 };
 
 export const skills = [
@@ -176,7 +176,7 @@ export const expertise = [
 export const services = [
     { title: "OPD Consultation", desc: "Comprehensive diagnosis and treatment planning for all urological conditions." },
     { title: "Surgical Evaluation", desc: "Expert assessment for surgeries like PCNL, TURP, and Laparoscopy." },
-    { title: "Online Consultation", desc: "Consultation Fee: Rs. 3,500. Ideal for second opinions, follow-ups, and report reviews." },
+    { title: "Online Consultation", desc: "Consultation Fee: Rs. 4,000. Ideal for second opinions, follow-ups, and report reviews." },
     { title: "Post-Surgery Follow-up", desc: "Dedicated care plans to ensure smooth and fast recovery." },
     { title: "Second Opinion", desc: "Expert review of existing diagnosis and treatment plans." },
 ];

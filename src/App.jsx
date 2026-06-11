@@ -10,6 +10,9 @@ import BookingPage from './pages/BookingPage';
 import PioneeredCasesPage from './pages/PioneeredCasesPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import BookingSuccess from './pages/BookingSuccess';
+import TermsAndConditions from './pages/TermsAndConditions';
+import RefundPolicy from './pages/RefundPolicy';
+import PricingPolicy from './pages/PricingPolicy';
 
 const AppContent = () => {
   const location = useLocation();
@@ -26,6 +29,9 @@ const AppContent = () => {
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/pioneered-cases" element={<PioneeredCasesPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/pricing" element={<PricingPolicy />} />
           <Route path="/thank-you" element={<BookingSuccess />} />
         </Routes>
       </main>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { doctorProfile, navLinks } from '../data/content';
 import { FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -21,9 +22,24 @@ const Footer = () => {
             <h4>Quick Links</h4>
             <ul>
               {navLinks.map(link => (
-                <li key={link.label}><a href={link.href}>{link.label}</a></li>
+                <li key={link.label}>
+                  {link.href.startsWith('/#') ? (
+                    <a href={link.href}>{link.label}</a>
+                  ) : (
+                    <Link to={link.href}>{link.label}</Link>
+                  )}
+                </li>
               ))}
-              <li><a href="/privacy-policy">Privacy Policy</a></li>
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <h4>Legal Policies</h4>
+            <ul>
+              <li><Link to="/pricing">Pricing Details</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
+              <li><Link to="/refund-policy">Refund & Return Policy</Link></li>
             </ul>
           </div>
 
