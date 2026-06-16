@@ -13,6 +13,8 @@ import BookingSuccess from './pages/BookingSuccess';
 import TermsAndConditions from './pages/TermsAndConditions';
 import RefundPolicy from './pages/RefundPolicy';
 import PricingPolicy from './pages/PricingPolicy';
+import ShippingPolicy from './pages/ShippingPolicy';
+import FAQsPage from './pages/FAQsPage';
 
 const AppContent = () => {
   const location = useLocation();
@@ -31,6 +33,8 @@ const AppContent = () => {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/shipping-policy" element={<ShippingPolicy />} />
+          <Route path="/faq" element={<FAQsPage />} />
           <Route path="/pricing" element={<PricingPolicy />} />
           <Route path="/thank-you" element={<BookingSuccess />} />
         </Routes>

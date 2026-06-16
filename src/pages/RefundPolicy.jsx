@@ -5,13 +5,13 @@ const RefundPolicy = () => {
     return (
         <div className="refund-page section fade-in">
             <SEO 
-                title="Refund & Cancellation Policy | Prof. Dr. Javed Altaf" 
-                description="Refund and cancellation policies for online urological consultations with Prof. Dr. Javed Altaf." 
-                keywords="refund policy, cancel appointment, refund terms Dr Javed Altaf"
+                title="Refund, Cancellation & Return Policy | Prof. Dr. Javed Altaf" 
+                description="Refund, cancellation, and return policies for online urological consultations with Prof. Dr. Javed Altaf." 
+                keywords="refund policy, return policy, cancel appointment, refund terms Dr Javed Altaf"
                 url="https://www.javedaltaf.com/refund-policy"
             />
             <div className="container" style={{ maxWidth: '900px' }}>
-                <h1 className="mb-5 text-center">Refund & Cancellation Policy</h1>
+                <h1 className="mb-5 text-center">Refund, Cancellation & Return Policy</h1>
 
                 <div className="refund-content">
                     <h3>1. Cancellation and Refund Policy</h3>
