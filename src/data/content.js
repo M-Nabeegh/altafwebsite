@@ -5,7 +5,7 @@ export const doctorProfile = {
         "Urology",
         "Urolithiasis (Urinary Stones)",
         "Laparoscopic & Endoscopic Surgery",
-        "Male Infertility & Sexual Health"
+        "Urinary Tract Health"
     ],
     qualifications: "MBBS, MS (Urology), FCPS (Urology), FACS (USA)",
     experience: "20+ Years of Experience",
@@ -170,7 +170,7 @@ export const expertise = [
     { icon: "bladder", title: "Bladder Disorders", desc: "Tumors, infections & incontinence care." },
     { icon: "pediatric", title: "Pediatric Urology", desc: "Congenital and stone disease management in children." },
     { icon: "laparoscopy", title: "Laparoscopic Surgery", desc: "Minimally invasive reconstructive procedures." },
-    { icon: "male-health", title: "Male Sexual Health", desc: "Erectile dysfunction & urinary symptoms management." },
+    { icon: "urinary-tract", title: "Urinary Tract Health", desc: "Management of urinary tract infections & symptoms." },
 ];
 
 export const services = [

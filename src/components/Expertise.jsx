@@ -8,7 +8,7 @@ const iconMap = {
   bladder: <FaSyringe />,
   laparoscopy: <FaProcedures />,
   pediatric: <FaCheckCircle />,
-  "male-health": <FaCheckCircle /> // Fallback or add more specific icons
+  "urinary-tract": <FaCheckCircle /> // Fallback or add more specific icons
 };
 
 const Expertise = () => {
