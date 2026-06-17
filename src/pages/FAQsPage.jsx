@@ -30,7 +30,7 @@ const FAQsPage = () => {
         },
         {
             question: "Where is the physical clinic located?",
-            answer: "Prof. Dr. Javed Altaf's clinic is located at Shaikh Diagnostic Center, Shop No. 12, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000."
+            answer: "Prof. Dr. Javed Altaf's clinic is located at Shop No. 12, Saddar, HYD."
         }
     ];
 
