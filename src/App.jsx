@@ -17,6 +17,7 @@ import RefundPolicy from './pages/RefundPolicy';
 import PricingPolicy from './pages/PricingPolicy';
 import ShippingPolicy from './pages/ShippingPolicy';
 import FAQsPage from './pages/FAQsPage';
+import AdminDashboard from './pages/AdminDashboard';
 
 const HIDE_HEADER_PATHS = ['/thank-you'];
 
@@ -44,6 +45,7 @@ const AppContent = () => {
           {/* PayFast Payment Routes */}
           <Route path="/payment-success/:orderId" element={<PaymentSuccess />} />
           <Route path="/payment-failure/:orderId" element={<PaymentFailure />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </main>
       <Footer />

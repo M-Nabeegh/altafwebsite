@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock, FaCreditCard, FaLock, FaChevronLeft, FaChevronRight, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -15,6 +15,40 @@ const BookingPage = () => {
     const [agreed, setAgreed] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState('');
+
+    const [bookedSlots, setBookedSlots] = useState([]);
+    const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+
+    useEffect(() => {
+        const fetchBookedSlots = async () => {
+            if (!selectedDate) {
+                setBookedSlots([]);
+                return;
+            }
+            setIsLoadingSlots(true);
+            try {
+                const slotDateISO = [
+                    selectedDate.getFullYear(),
+                    String(selectedDate.getMonth() + 1).padStart(2, '0'),
+                    String(selectedDate.getDate()).padStart(2, '0'),
+                ].join('-');
+                
+                const res = await fetch(`/api/payfast/booked-slots?date=${slotDateISO}`);
+                const data = await res.json();
+                if (res.ok) {
+                    setBookedSlots(data.bookedSlots || []);
+                } else {
+                    console.error('Failed to fetch booked slots:', data.error);
+                }
+            } catch (err) {
+                console.error('Error fetching booked slots:', err);
+            } finally {
+                setIsLoadingSlots(false);
+            }
+        };
+
+        fetchBookedSlots();
+    }, [selectedDate]);
 
     // List of 20-minute time slots between 10:00 AM and 12:00 PM
     const timeSlots = [
@@ -293,22 +327,35 @@ const BookingPage = () => {
                             {selectedDate && (
                                 <div className="booking-step fade-in">
                                     <h4 className="step-title"><span>2</span> Select Consultation Time</h4>
-                                    <div className="slots-grid">
-                                        {timeSlots.map((slot) => {
-                                            const isSelected = selectedTimeSlot === slot;
-                                            return (
-                                                <button
-                                                    key={slot}
-                                                    type="button"
-                                                    className={`slot-pill ${isSelected ? 'selected' : ''}`}
-                                                    onClick={() => setSelectedTimeSlot(slot)}
-                                                >
-                                                    {isSelected && <FaCheck className="slot-check" />}
-                                                    {slot.split(' - ')[0]}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
+                                    {isLoadingSlots ? (
+                                        <div style={{ textAlign: 'center', padding: '30px', color: '#64748b' }}>
+                                            <div className="spinner-small" style={{ margin: '0 auto 10px', width: '24px', height: '24px', border: '3px solid #e2e8f0', borderTop: '3px solid var(--primary-color)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                                            Loading available slots...
+                                        </div>
+                                    ) : (
+                                        <div className="slots-grid">
+                                            {timeSlots.map((slot) => {
+                                                const isBooked = bookedSlots.includes(slot);
+                                                const isSelected = selectedTimeSlot === slot;
+                                                return (
+                                                    <button
+                                                        key={slot}
+                                                        type="button"
+                                                        className={`slot-pill ${isSelected ? 'selected' : ''} ${isBooked ? 'booked' : ''}`}
+                                                        onClick={() => !isBooked && setSelectedTimeSlot(slot)}
+                                                        disabled={isBooked}
+                                                        title={isBooked ? "This slot is already booked" : ""}
+                                                    >
+                                                        {isSelected && <FaCheck className="slot-check" />}
+                                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                            <span>{slot.split(' - ')[0]}</span>
+                                                            {isBooked && <span style={{ fontSize: '0.65rem', color: '#dc2626', marginTop: '2px', fontWeight: 'bold' }}>Booked</span>}
+                                                        </div>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
@@ -743,8 +790,27 @@ const BookingPage = () => {
                     box-shadow: var(--shadow-sm);
                 }
 
+                .slot-pill.booked {
+                    background: #f8fafc;
+                    color: #94a3b8;
+                    border-color: #e2e8f0;
+                    cursor: not-allowed;
+                    opacity: 0.8;
+                }
+
+                .slot-pill.booked:hover {
+                    background: #f8fafc;
+                    border-color: #e2e8f0;
+                    color: #94a3b8;
+                }
+
                 .slot-check {
                     font-size: 0.8rem;
+                }
+
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
                 }
 
                 /* Form Styles */
