@@ -33,7 +33,7 @@ const Home = () => {
               description="Prof. Dr. Javed Altaf is a highly respected Professor of Urology and Head of Department at LUMHS with 20+ years of experience in complex urological surgeries."
               keywords="hyderabad, lumhs, urology, hyderabad doctor in hyderbad, kidney in hyderd, kidney specialist hyderabad, urologist in hyderabad, LUMHS urology, top kidney doctor"
               url="https://www.javedaltaf.com"
-              image={doctorImage}
+              image="/doctor-profile-v2.jpg"
             />
             <div className="hero-section">
                 <Hero />
