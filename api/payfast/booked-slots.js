@@ -31,7 +31,8 @@ export default async function handler(req, res) {
     .from('appointments')
     .select('slot_time')
     .eq('slot_date', date)
-    .not('status', 'in', '("failed","cancelled")');
+    .neq('status', 'failed')
+    .neq('status', 'cancelled');
 
   if (error) {
     console.error('[booked-slots] Supabase error:', error.message);

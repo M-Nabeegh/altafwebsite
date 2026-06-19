@@ -37,8 +37,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'orderId query parameter is required' });
   }
 
-  // Validate basket_id format (JA-XXXXXXXXXXXX)
-  if (!/^JA-[A-Z0-9]{12}$/.test(orderId)) {
+  // Validate basket_id format (JA-XXXXX)
+  if (!/^JA-[A-Z0-9]{4,12}$/.test(orderId)) {
     return res.status(400).json({ error: 'Invalid order ID format' });
   }
 
