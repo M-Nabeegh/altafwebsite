@@ -1,5 +1,4 @@
 import React from 'react';
-import doctorImage from '../assets/doctor-profile-v2.jpg';
 import { doctorProfile } from '../data/content';
 import CTAButton from './CTAButton';
 
@@ -29,7 +28,7 @@ const Hero = () => {
 
         <div className="hero-image fade-in">
           <div className="image-wrapper">
-            <img src={doctorImage} alt={doctorProfile.name} fetchpriority="high" width="600" height="600" style={{ objectFit: 'cover' }} />
+            <img src="/doctor-profile-v2.jpg" alt={doctorProfile.name} fetchpriority="high" width="600" height="600" style={{ objectFit: 'cover' }} />
           </div>
         </div>
       </div>

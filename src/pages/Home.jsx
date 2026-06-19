@@ -9,7 +9,6 @@ import Contact from '../components/Contact';
 import { useLocation, Link } from 'react-router-dom';
 import { FaUserMd, FaNotesMedical, FaFileMedical, FaProcedures, FaHeartbeat } from 'react-icons/fa';
 import pioneeredImg from '../assets/surgery_full.jpg';
-import doctorImage from '../assets/doctor-profile-v2.jpg';
 
 import SEO from '../components/SEO';
 
