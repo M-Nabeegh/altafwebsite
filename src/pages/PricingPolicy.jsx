@@ -70,7 +70,7 @@ const PricingPolicy = () => {
                         </div>
                         <div className="faq-item">
                             <h5>What payment methods do you accept?</h5>
-                            <p>We accept secure payments via major Credit/Debit cards (processed via Stripe), JazzCash, EasyPaisa, and Direct Bank Transfer.</p>
+                            <p>We accept secure payments via major Credit/Debit cards processed via PayFast — Pakistan’s trusted payment gateway. No hidden fees.</p>
                         </div>
                         <div className="faq-item">
                             <h5>Can I get a refund if I cancel?</h5>

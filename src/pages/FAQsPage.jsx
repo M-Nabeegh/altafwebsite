@@ -14,7 +14,7 @@ const FAQsPage = () => {
         },
         {
             question: "What payment methods do you accept?",
-            answer: "We accept payments via credit/debit cards (processed securely via Stripe), EasyPaisa, JazzCash, and Direct Bank Transfer."
+            answer: "We accept payments via credit/debit cards (processed securely via PayFast — Pakistan's leading payment gateway), and Direct Bank Transfer."
         },
         {
             question: "How will I receive the link for the video call?",
