@@ -120,10 +120,24 @@ const BookingPage = () => {
             setSubmitError("Please enter the patient's email address.");
             return;
         }
-        if (!patientPhone.trim()) {
-            setSubmitError("Please enter the patient's phone number.");
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(patientEmail.trim())) {
+            setSubmitError("Please enter a valid email address.");
             return;
         }
+
+        if (!patientPhone.trim()) {
+            setSubmitError("Please enter the patient's WhatsApp number.");
+            return;
+        }
+
+        const cleanPhone = patientPhone.replace(/\D/g, '');
+        if (cleanPhone.length !== 11) {
+            setSubmitError("Please enter exactly 11 digits for the WhatsApp number (e.g. 03001234567).");
+            return;
+        }
+
         if (!agreed) {
             setSubmitError('Please agree to the pricing, terms, and policies to proceed.');
             return;
