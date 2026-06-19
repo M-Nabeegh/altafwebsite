@@ -10,15 +10,19 @@ import BookingPage from './pages/BookingPage';
 import PioneeredCasesPage from './pages/PioneeredCasesPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import BookingSuccess from './pages/BookingSuccess';
+import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentFailure from './pages/PaymentFailure';
 import TermsAndConditions from './pages/TermsAndConditions';
 import RefundPolicy from './pages/RefundPolicy';
 import PricingPolicy from './pages/PricingPolicy';
 import ShippingPolicy from './pages/ShippingPolicy';
 import FAQsPage from './pages/FAQsPage';
 
+const HIDE_HEADER_PATHS = ['/thank-you'];
+
 const AppContent = () => {
   const location = useLocation();
-  const hideHeader = location.pathname === '/thank-you';
+  const hideHeader = HIDE_HEADER_PATHS.some(p => location.pathname.startsWith(p));
 
   return (
     <div className="app">
@@ -37,6 +41,9 @@ const AppContent = () => {
           <Route path="/faq" element={<FAQsPage />} />
           <Route path="/pricing" element={<PricingPolicy />} />
           <Route path="/thank-you" element={<BookingSuccess />} />
+          {/* PayFast Payment Routes */}
+          <Route path="/payment-success/:orderId" element={<PaymentSuccess />} />
+          <Route path="/payment-failure/:orderId" element={<PaymentFailure />} />
         </Routes>
       </main>
       <Footer />

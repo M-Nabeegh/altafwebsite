@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { doctorProfile } from '../data/content';
 import { FaCalendarAlt, FaClock, FaCreditCard, FaLock, FaChevronLeft, FaChevronRight, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -15,6 +14,7 @@ const BookingPage = () => {
     const [patientNotes, setPatientNotes] = useState('');
     const [agreed, setAgreed] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
 
     // List of 20-minute time slots between 10:00 AM and 12:00 PM
     const timeSlots = [
@@ -66,59 +66,90 @@ const BookingPage = () => {
         }
     };
 
-    const handleProceedToPayment = (e) => {
+    const handleProceedToPayment = async (e) => {
         e.preventDefault();
-        
+        setSubmitError('');
+
         if (!selectedDate) {
-            alert("Please select an appointment date from the calendar.");
+            setSubmitError('Please select an appointment date from the calendar.');
             return;
         }
         if (!selectedTimeSlot) {
-            alert("Please select an appointment time slot.");
+            setSubmitError('Please select an appointment time slot.');
             return;
         }
         if (!patientName.trim()) {
-            alert("Please enter patient's full name.");
+            setSubmitError("Please enter the patient's full name.");
             return;
         }
         if (!patientEmail.trim()) {
-            alert("Please enter patient's email address.");
+            setSubmitError("Please enter the patient's email address.");
             return;
         }
         if (!patientPhone.trim()) {
-            alert("Please enter patient's phone number.");
+            setSubmitError("Please enter the patient's phone number.");
             return;
         }
         if (!agreed) {
-            alert("Please agree to the pricing, terms, and policies to proceed.");
+            setSubmitError('Please agree to the pricing, terms, and policies to proceed.');
             return;
         }
 
         setIsSubmitting(true);
 
-        const formattedDate = selectedDate.toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+        // Format date as YYYY-MM-DD for the backend
+        const slotDateISO = [
+            selectedDate.getFullYear(),
+            String(selectedDate.getMonth() + 1).padStart(2, '0'),
+            String(selectedDate.getDate()).padStart(2, '0'),
+        ].join('-');
 
-        // Store selected details in localStorage for retrieval on the thank you page
-        const bookingData = {
-            patientName: patientName,
-            patientEmail: patientEmail,
-            patientPhone: patientPhone,
-            patientNotes: patientNotes,
-            selectedDate: formattedDate,
-            selectedTimeSlot: selectedTimeSlot,
-            fee: 'PKR 4,000'
-        };
+        try {
+            // ── Step 1: Create appointment + get PayFast token from server ──
+            const response = await fetch('/api/payfast/create-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    patientName:     patientName.trim(),
+                    patientEmail:    patientEmail.trim(),
+                    patientPhone:    patientPhone.trim(),
+                    selectedDate:    slotDateISO,
+                    selectedTimeSlot: selectedTimeSlot.trim(),
+                    notes:           patientNotes.trim() || '',
+                }),
+            });
 
-        localStorage.setItem('pending_booking', JSON.stringify(bookingData));
+            const data = await response.json();
 
-        // Redirect to Stripe checkout page
-        // Wait, stripe link should be opened in the same window so the redirect redirect works.
-        window.location.href = 'https://buy.stripe.com/test_eVq4gza9yfge8Tl3d45ZC00';
+            if (!response.ok || !data.postUrl || !data.postFields) {
+                setSubmitError(data.error || 'Payment gateway error. Please try again.');
+                setIsSubmitting(false);
+                return;
+            }
+
+            // ── Step 2: Auto-submit hidden form to PayFast PostTransaction ──
+            // This is the standard PayFast hosted checkout redirect pattern.
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = data.postUrl;
+            form.style.display = 'none';
+
+            Object.entries(data.postFields).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type  = 'hidden';
+                input.name  = key;
+                input.value = value;
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit(); // Redirects browser to PayFast hosted page
+
+        } catch (err) {
+            console.error('[BookingPage] create-payment error:', err);
+            setSubmitError('Network error. Please check your connection and try again.');
+            setIsSubmitting(false);
+        }
     };
 
     // Calendar Generation
@@ -179,13 +210,13 @@ const BookingPage = () => {
                             <div>
                                 <h5>Consultation Fee</h5>
                                 <p className="fee-amount">PKR 4,000</p>
-                                <span className="highlight-text">Secure Stripe Payment</span>
+                                <span className="highlight-text">Secure PayFast Payment</span>
                             </div>
                         </div>
 
                         <div className="security-badge">
                             <FaLock className="lock-icon" />
-                            <p>All payments are securely encrypted and processed via Stripe.</p>
+                            <p>All payments are securely encrypted and processed via PayFast — Pakistan&apos;s leading payment gateway.</p>
                         </div>
                     </div>
 
@@ -347,17 +378,23 @@ const BookingPage = () => {
                                                 required
                                             />
                                             <span className="checkbox-text">
-                                                I agree to the <Link to="/pricing" target="_blank">Pricing</Link>, <Link to="/terms-and-conditions" target="_blank">Terms & Conditions</Link>, and <Link to="/refund-policy" target="_blank">Refund & Cancellation Policy</Link>, and acknowledge that appointments are booked upon successful payment of PKR 4,000.
+                                                I agree to the <Link to="/pricing" target="_blank">Pricing</Link>, <Link to="/terms-and-conditions" target="_blank">Terms &amp; Conditions</Link>, and <Link to="/refund-policy" target="_blank">Refund &amp; Cancellation Policy</Link>, and acknowledge that appointments are booked upon successful payment of PKR 4,000.
                                             </span>
                                         </label>
                                     </div>
+
+                                    {submitError && (
+                                        <div className="booking-error-alert">
+                                            ⚠️ {submitError}
+                                        </div>
+                                    )}
 
                                     <button
                                         type="submit"
                                         className={`btn btn-primary btn-block btn-pay-submit ${isSubmitting ? 'submitting' : ''}`}
                                         disabled={!agreed || isSubmitting}
                                     >
-                                        {isSubmitting ? 'Redirecting to Secure Payment...' : 'Proceed to Pay & Book (PKR 4,000)'}
+                                        {isSubmitting ? 'Connecting to Secure Payment...' : 'Proceed to Pay & Book (PKR 4,000)'}
                                     </button>
                                 </div>
                             )}
@@ -799,6 +836,18 @@ const BookingPage = () => {
                     opacity: 0.6;
                     transform: none;
                     box-shadow: none;
+                }
+
+                .booking-error-alert {
+                    background: #fef2f2;
+                    border: 1.5px solid #fca5a5;
+                    border-radius: var(--radius-sm);
+                    color: #dc2626;
+                    font-size: 0.875rem;
+                    padding: 12px 16px;
+                    margin-bottom: 16px;
+                    text-align: left;
+                    line-height: 1.5;
                 }
 
                 @media (max-width: 992px) {
