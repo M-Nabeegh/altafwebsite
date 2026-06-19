@@ -391,7 +391,7 @@ const BookingPage = () => {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="patientPhone">WhatsApp / Mobile Number <span className="required">*</span></label>
+                                            <label htmlFor="patientPhone">WhatsApp Number <span className="required">*</span></label>
                                             <input
                                                 type="tel"
                                                 id="patientPhone"
@@ -401,6 +401,9 @@ const BookingPage = () => {
                                                 onChange={(e) => setPatientPhone(e.target.value)}
                                                 required
                                             />
+                                            <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
+                                                Dr. Javed Altaf will video call on this WhatsApp number 2 mins before your slot.
+                                            </div>
                                         </div>
                                     </div>
 

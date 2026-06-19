@@ -98,7 +98,7 @@ export default async function handler(req, res) {
   }
 
   // ── 3. Generate basket_id ──────────────────────────────────────────────────
-  const basketId = `JA-${uuidv4().replace(/-/g, '').slice(0, 12).toUpperCase()}`;
+  const basketId = `JA-${Math.floor(40000 + Math.random() * 50000)}`;
   const txnAmt   = CONSULTATION_AMOUNT;
   const orderDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
 

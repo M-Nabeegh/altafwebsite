@@ -133,14 +133,7 @@ export function doctorNotificationHtml({
                     <code style="font-size:11px; background:#dbeafe; color:#1d4ed8; padding:2px 7px; border-radius:4px;">${basketId}</code>
                   </td>
                 </tr>
-                ${transactionId ? `<tr>
-                  <td style="padding: 8px 0;">
-                    <span style="font-size:12px; color:#6b7280;">PayFast TXN ID</span>
-                  </td>
-                  <td style="padding: 8px 0; text-align:right;">
-                    <code style="font-size:11px; background:#dbeafe; color:#1d4ed8; padding:2px 7px; border-radius:4px;">${transactionId}</code>
-                  </td>
-                </tr>` : ''}
+
               </table>
             </td>
           </tr>
@@ -155,7 +148,7 @@ export function doctorNotificationHtml({
         <!-- Action Required Note -->
         <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:16px 20px;">
           <p style="font-size:13px; color:#991b1b; line-height:1.6;">
-            <strong>⚡ Action Required:</strong> Please prepare the video consultation link for this patient and send it to <a href="mailto:${patientEmail}" style="color:#dc2626;">${patientEmail}</a> before their scheduled slot.
+            <strong>⚡ Action Required:</strong> Please prepare to video call the patient on their WhatsApp number 2 mins before their scheduled slot.
           </p>
         </div>
 

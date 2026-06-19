@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
     FaUserMd, FaCalendarAlt, FaClock, FaEnvelope, FaPhone,
     FaCheckCircle, FaTimesCircle, FaSpinner, FaSync, FaSignOutAlt,
-    FaSearch, FaFilter, FaNotesMedical, FaMoneyBillWave, FaUsers
+    FaSearch, FaFilter, FaNotesMedical, FaMoneyBillWave, FaUsers,
+    FaTrash, FaEdit
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
 
@@ -28,6 +29,9 @@ const AdminDashboard = () => {
     const [filterDate, setFilterDate]   = useState('');
     const [search, setSearch]           = useState('');
     const [selectedAppt, setSelectedAppt] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editDate, setEditDate] = useState('');
+    const [editTime, setEditTime] = useState('');
 
     const STORAGE_KEY = 'da_admin_token';
 
@@ -101,6 +105,54 @@ const AdminDashboard = () => {
     };
 
     const handleRefresh = () => fetchAppointments(null, filterStatus, filterDate);
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this appointment?')) return;
+        try {
+            const res = await fetch(`/api/admin/appointments?id=${id}`, {
+                method: 'DELETE',
+                headers: { 'x-admin-password': sessionStorage.getItem(STORAGE_KEY) }
+            });
+            if (res.ok) {
+                setSelectedAppt(null);
+                setIsEditing(false);
+                handleRefresh();
+            } else {
+                alert('Failed to delete appointment.');
+            }
+        } catch (e) {
+            alert('Error deleting appointment.');
+        }
+    };
+
+    const handleReschedule = async () => {
+        try {
+            const res = await fetch(`/api/admin/appointments`, {
+                method: 'PATCH',
+                headers: { 
+                    'x-admin-password': sessionStorage.getItem(STORAGE_KEY),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: selectedAppt.id, slot_date: editDate, slot_time: editTime })
+            });
+            if (res.ok) {
+                setIsEditing(false);
+                setSelectedAppt({...selectedAppt, slot_date: editDate, slot_time: editTime});
+                handleRefresh();
+                alert('Appointment rescheduled successfully!');
+            } else {
+                alert('Failed to reschedule appointment.');
+            }
+        } catch (e) {
+            alert('Error rescheduling appointment.');
+        }
+    };
+
+    const openEditMode = () => {
+        setEditDate(selectedAppt.slot_date);
+        setEditTime(selectedAppt.slot_time);
+        setIsEditing(true);
+    };
 
     const filteredAppts = appointments.filter(a => {
         if (!search) return true;
@@ -325,18 +377,44 @@ const AdminDashboard = () => {
 
             {/* Detail Modal */}
             {selectedAppt && (
-                <div className="da-modal-overlay" onClick={() => setSelectedAppt(null)}>
+                <div className="da-modal-overlay" onClick={() => { setSelectedAppt(null); setIsEditing(false); }}>
                     <div className="da-modal" onClick={e => e.stopPropagation()}>
                         <div className="da-modal-header">
                             <h3>Appointment Details</h3>
-                            <button className="da-modal-close" onClick={() => setSelectedAppt(null)}>✕</button>
+                            <button className="da-modal-close" onClick={() => { setSelectedAppt(null); setIsEditing(false); }}>✕</button>
                         </div>
                         <div className="da-modal-body">
                             <div className="da-modal-row"><strong>Patient:</strong> {selectedAppt.patient_name}</div>
                             <div className="da-modal-row"><strong>Email:</strong> <a href={`mailto:${selectedAppt.patient_email}`}>{selectedAppt.patient_email}</a></div>
                             <div className="da-modal-row"><strong>Phone:</strong> <a href={`tel:${selectedAppt.patient_phone}`}>{selectedAppt.patient_phone}</a></div>
-                            <div className="da-modal-row"><strong>Date:</strong> {formatDate(selectedAppt.slot_date)}</div>
-                            <div className="da-modal-row"><strong>Time:</strong> {selectedAppt.slot_time}</div>
+                            {isEditing ? (
+                                <div className="da-modal-row" style={{ background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #cbd5e1' }}>
+                                    <div style={{ marginBottom: '10px' }}>
+                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 'bold' }}>New Date:</label>
+                                        <input type="date" value={editDate} onChange={e => setEditDate(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', width: '100%' }} />
+                                    </div>
+                                    <div style={{ marginBottom: '10px' }}>
+                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 'bold' }}>New Time:</label>
+                                        <select value={editTime} onChange={e => setEditTime(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', width: '100%' }}>
+                                            <option value="10:00 AM - 10:20 AM">10:00 AM - 10:20 AM</option>
+                                            <option value="10:20 AM - 10:40 AM">10:20 AM - 10:40 AM</option>
+                                            <option value="10:40 AM - 11:00 AM">10:40 AM - 11:00 AM</option>
+                                            <option value="11:00 AM - 11:20 AM">11:00 AM - 11:20 AM</option>
+                                            <option value="11:20 AM - 11:40 AM">11:20 AM - 11:40 AM</option>
+                                            <option value="11:40 AM - 12:00 PM">11:40 AM - 12:00 PM</option>
+                                        </select>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '10px' }}>
+                                        <button onClick={handleReschedule} style={{ flex: 1, padding: '8px', background: '#0056b3', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>
+                                        <button onClick={() => setIsEditing(false)} style={{ flex: 1, padding: '8px', background: '#e2e8f0', color: '#333', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>Cancel</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="da-modal-row"><strong>Date:</strong> {formatDate(selectedAppt.slot_date)}</div>
+                                    <div className="da-modal-row"><strong>Time:</strong> {selectedAppt.slot_time}</div>
+                                </>
+                            )}
                             <div className="da-modal-row"><strong>Amount:</strong> PKR {Number(selectedAppt.amount).toLocaleString('en-PK')}</div>
                             <div className="da-modal-row"><strong>Status:</strong> {selectedAppt.status}</div>
                             <div className="da-modal-row"><strong>Payment:</strong> {selectedAppt.payment_status}</div>
@@ -346,16 +424,23 @@ const AdminDashboard = () => {
                             )}
                             <div className="da-modal-row"><strong>Booked:</strong> {formatDateTime(selectedAppt.created_at)}</div>
                         </div>
-                        <div className="da-modal-footer">
-                            <a href={`mailto:${selectedAppt.patient_email}?subject=Regarding Your Consultation on ${selectedAppt.slot_date}`}
-                               className="da-modal-email-btn">
-                                <FaEnvelope /> Email Patient
-                            </a>
-                            <a href={`https://wa.me/92${selectedAppt.patient_phone?.replace(/^0/, '')}`}
-                               target="_blank" rel="noopener noreferrer"
-                               className="da-modal-wa-btn">
-                                WhatsApp
-                            </a>
+                        <div className="da-modal-footer" style={{ display: 'block' }}>
+                            <div style={{ display: 'flex', gap: '12px', width: '100%', marginBottom: '10px' }}>
+                                <a href={`mailto:${selectedAppt.patient_email}?subject=Regarding Your Consultation on ${selectedAppt.slot_date}`} className="da-modal-email-btn" style={{ flex: 1 }}>
+                                    <FaEnvelope /> Email
+                                </a>
+                                <a href={`https://wa.me/92${selectedAppt.patient_phone?.replace(/^0/, '')}`} target="_blank" rel="noopener noreferrer" className="da-modal-wa-btn" style={{ flex: 1 }}>
+                                    WhatsApp
+                                </a>
+                            </div>
+                            <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
+                                <button onClick={openEditMode} style={{ flex: 1, padding: '11px', background: '#f59e0b', color: 'white', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                    <FaEdit /> Reschedule
+                                </button>
+                                <button onClick={() => handleDelete(selectedAppt.id)} style={{ flex: 1, padding: '11px', background: '#dc2626', color: 'white', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                    <FaTrash /> Cancel / Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

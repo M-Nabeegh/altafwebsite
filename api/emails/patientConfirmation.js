@@ -101,14 +101,7 @@ export function patientConfirmationHtml({
                     <code style="font-size:12px; background:#e0f2fe; color:#0369a1; padding: 3px 8px; border-radius:4px; font-family:monospace;">${basketId}</code>
                   </td>
                 </tr>
-                ${transactionId ? `<tr>
-                  <td style="padding: 10px 0 0;">
-                    <span style="font-size:13px; color:#6b7280;">🏦 Transaction ID</span>
-                  </td>
-                  <td style="padding: 10px 0 0; text-align:right;">
-                    <code style="font-size:12px; background:#e0f2fe; color:#0369a1; padding: 3px 8px; border-radius:4px; font-family:monospace;">${transactionId}</code>
-                  </td>
-                </tr>` : ''}
+
               </table>
             </td>
           </tr>
@@ -121,8 +114,8 @@ export function patientConfirmationHtml({
           <tr>
             <td style="padding: 12px 0; vertical-align:top; width:40px; font-size:20px;">📧</td>
             <td style="padding: 12px 0; vertical-align:top;">
-              <strong style="font-size:14px; color:#1e3a5f; display:block; margin-bottom:3px;">Video Link via Email</strong>
-              <span style="font-size:13px; color:#6b7280;">You will receive a secure video consultation link at this email address before your appointment.</span>
+              <strong style="font-size:14px; color:#1e3a5f; display:block; margin-bottom:3px;">Check Your Email</strong>
+              <span style="font-size:13px; color:#6b7280;">A confirmation email is on its way. Dr. Javed Altaf will video call on your WhatsApp number 2 mins before.</span>
             </td>
           </tr>
           <tr>

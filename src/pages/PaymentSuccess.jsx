@@ -169,7 +169,7 @@ const PaymentSuccess = () => {
                         <div className="pf-step-icon"><FaEnvelope /></div>
                         <div>
                             <h5>Check Your Email</h5>
-                            <p>A confirmation email with your booking details and video link is on its way.</p>
+                            <p>A confirmation email is on its way. Dr. Javed Altaf will video call on your WhatsApp number 2 mins before.</p>
                         </div>
                     </div>
                     <div className="pf-step">

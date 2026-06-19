@@ -13,11 +13,10 @@ function getSupabase() {
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'x-admin-password');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'x-admin-password, Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   // Password check via header
   const submitted = req.headers['x-admin-password'];
@@ -31,6 +30,24 @@ export default async function handler(req, res) {
   }
 
   const supabase = getSupabase();
+
+  if (req.method === 'DELETE') {
+    const { id } = req.query;
+    if (!id) return res.status(400).json({ error: 'Missing appointment ID' });
+    const { error } = await supabase.from('appointments').delete().eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json({ success: true });
+  }
+
+  if (req.method === 'PATCH') {
+    const { id, slot_date, slot_time } = req.body || {};
+    if (!id || !slot_date || !slot_time) return res.status(400).json({ error: 'Missing fields' });
+    const { error } = await supabase.from('appointments').update({ slot_date, slot_time }).eq('id', id);
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json({ success: true });
+  }
+
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const { filter, date } = req.query;
 
