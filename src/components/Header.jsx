@@ -27,8 +27,11 @@ const Header = () => {
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
         <Link to="/" className="logo">
-          <h2>{doctorProfile.name}</h2>
-          <span>{doctorProfile.designation}</span>
+          <img src="/favicon.png" alt="Prof. Dr. Javed Altaf Logo" className="header-logo-img" />
+          <div className="logo-text">
+            <h2>{doctorProfile.name}</h2>
+            <span>{doctorProfile.designation}</span>
+          </div>
         </Link>
 
         <nav className={`nav-menu ${isOpen ? 'active' : ''}`}>

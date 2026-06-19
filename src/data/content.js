@@ -14,8 +14,8 @@ export const doctorProfile = {
     languages: ["English", "Urdu", "Hindi", "Punjabi"],
     email: "javed_altafdr@yahoo.com",
     phone: "0316-0306699",
-    address: "Shop No. 12, Saddar, HYD",
-    googleMapsLink: "https://maps.google.com/?q=Shop+No.+12,+Saddar,+Hyderabad",
+    address: "Shaikh Diagnostic Center, Shop No. 12, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000",
+    googleMapsLink: "https://maps.google.com/?q=Shaikh+Diagnostic+Center,+Shop+No.+12,+Doctors+Ln,+near+National+saving+centre,+Soldier+Bazaar+Doctors+Colony,+Hyderabad,+71000",
     linkedin: "https://www.linkedin.com/in/drjavedaltaf",
     bookingFee: "Rs. 4,000"
 };
