@@ -1,0 +1,21 @@
+{
+  "name": "Prof. Dr. Javed Altaf Dashboard",
+  "short_name": "Clinic Admin",
+  "description": "Appointment Dashboard for Prof. Dr. Javed Altaf",
+  "start_url": "/admin",
+  "display": "standalone",
+  "background_color": "#0c1a2e",
+  "theme_color": "#0c1a2e",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

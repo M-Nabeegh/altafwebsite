@@ -337,28 +337,28 @@ const AdminDashboard = () => {
                                 const s = STATUS_COLORS[a.status] || STATUS_COLORS.failed;
                                 return (
                                     <tr key={a.id} className="da-row">
-                                        <td>
+                                        <td data-label="Patient">
                                             <div className="da-patient-name">{a.patient_name}</div>
                                             <div className="da-basket-id">{a.basket_id}</div>
                                         </td>
-                                        <td>
+                                        <td data-label="Contact">
                                             <div className="da-contact-row"><FaEnvelope />{a.patient_email}</div>
                                             <div className="da-contact-row"><FaPhone />{a.patient_phone}</div>
                                         </td>
-                                        <td>
+                                        <td data-label="Date & Time">
                                             <div className="da-slot-date">{formatDate(a.slot_date)}</div>
                                             <div className="da-slot-time">{a.slot_time}</div>
                                         </td>
-                                        <td>
+                                        <td data-label="Amount">
                                             <span className="da-amount">PKR {Number(a.amount).toLocaleString('en-PK')}</span>
                                         </td>
-                                        <td>
+                                        <td data-label="Status">
                                             <span className="da-badge" style={{ background: s.bg, color: s.color }}>
                                                 {s.label}
                                             </span>
                                         </td>
-                                        <td className="da-created">{formatDateTime(a.created_at)}</td>
-                                        <td>
+                                        <td data-label="Booked On" className="da-created">{formatDateTime(a.created_at)}</td>
+                                        <td data-label="Actions">
                                             <button className="da-detail-btn" onClick={() => setSelectedAppt(a)}>
                                                 View
                                             </button>
@@ -641,7 +641,29 @@ const DaStyles = () => (
             .da-stat-num { font-size: 1.2rem; }
             .da-filter-right { width: 100%; }
             .da-search-box input { min-width: 140px; }
-            .da-table th:nth-child(6), .da-table td:nth-child(6) { display: none; }
+            /* Mobile Table to Card Layout */
+            .da-table, .da-table tbody, .da-table tr, .da-table td { display: block; width: 100%; }
+            .da-table thead { display: none; }
+            .da-table-container { background: transparent; box-shadow: none; margin: 0 16px; }
+            .da-row { 
+                background: white; border-radius: 12px; margin-bottom: 16px; 
+                box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
+                padding: 16px; position: relative;
+            }
+            .da-table td { 
+                display: flex; justify-content: space-between; align-items: center; 
+                padding: 10px 0; border: none; border-bottom: 1px dashed #e2e8f0; text-align: right;
+            }
+            .da-table td:last-child { border-bottom: none; padding-bottom: 0; padding-top: 12px; justify-content: center; }
+            .da-table td::before { 
+                content: attr(data-label); font-weight: 700; font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 15px; text-align: left;
+            }
+            .da-patient-name { font-size: 1.05rem; }
+            .da-table td:nth-child(1) { flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid #e2e8f0; }
+            .da-table td:nth-child(1)::before { display: none; }
+            .da-table td:nth-child(2) { flex-direction: column; align-items: flex-end; gap: 4px; }
+            .da-table td:nth-child(3) { flex-direction: column; align-items: flex-end; gap: 4px; }
+            .da-detail-btn { width: 100%; padding: 10px; }
         }
     `}</style>
 );
