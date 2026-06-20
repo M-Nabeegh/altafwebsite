@@ -263,13 +263,9 @@ ul {
   transform: translateY(-10px);
 }
 
-.mobile-subtitle {
-  display: none !important;
-}
-
 .hero-image-tag {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   margin-bottom: 0 !important;
@@ -358,12 +354,6 @@ ul {
   }
   .image-wrapper:hover img {
     transform: none !important;
-  }
-  .desktop-subtitle {
-    display: none !important;
-  }
-  .mobile-subtitle {
-    display: inline-block !important;
   }
   .hero-image-tag {
     font-size: 0.75rem !important;
