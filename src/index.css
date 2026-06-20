@@ -322,10 +322,19 @@ ul {
   .image-wrapper {
     max-width: 250px;
   }
+  .image-wrapper::before {
+    display: none;
+  }
   .image-wrapper img {
     height: 250px !important;
     object-fit: cover !important;
     object-position: top center !important;
+    border: 6px solid white !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+    transform: none !important;
+  }
+  .image-wrapper:hover img {
+    transform: none !important;
   }
 }
 
