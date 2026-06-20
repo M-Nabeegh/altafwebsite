@@ -1338,20 +1338,21 @@ ul {
 
 @media (max-width: 768px) {
   .message-flex-container {
-    padding-top: 30px;
+    padding-top: 40px;
   }
   .message-img-container {
     position: absolute;
-    top: -10px;
+    top: -40px;
     right: 15px;
     z-index: 10;
   }
   .message-quote-box {
-    padding-top: 60px !important;
+    padding-top: 70px !important;
     padding-right: 20px !important;
   }
   .message-img {
     max-width: 90px;
+    aspect-ratio: 1 / 1;
     border-width: 4px;
     border-radius: 50%;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
