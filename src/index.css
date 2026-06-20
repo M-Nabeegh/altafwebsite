@@ -287,6 +287,14 @@ ul {
     gap: 40px;
   }
 
+  /* Move image above text on smaller screens */
+  .hero-content {
+    order: 2;
+  }
+  .hero-image {
+    order: 1;
+  }
+
   .hero {
     padding-top: 100px;
   }
@@ -315,8 +323,9 @@ ul {
     max-width: 250px;
   }
   .image-wrapper img {
-    aspect-ratio: 1 / 1;
-    object-position: top center;
+    height: 250px !important;
+    object-fit: cover !important;
+    object-position: top center !important;
   }
 }
 
