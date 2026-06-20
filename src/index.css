@@ -263,6 +263,10 @@ ul {
   transform: translateY(-10px);
 }
 
+.mobile-subtitle {
+  display: none !important;
+}
+
 .hero-image-tag {
   position: absolute;
   bottom: 20px;
@@ -272,7 +276,6 @@ ul {
   white-space: nowrap;
   z-index: 5;
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-  border: 3px solid white;
   background: white !important;
   color: var(--primary-color) !important;
 }
@@ -356,10 +359,16 @@ ul {
   .image-wrapper:hover img {
     transform: none !important;
   }
+  .desktop-subtitle {
+    display: none !important;
+  }
+  .mobile-subtitle {
+    display: inline-block !important;
+  }
   .hero-image-tag {
     font-size: 0.75rem !important;
     padding: 6px 12px !important;
-    bottom: 10px;
+    bottom: -15px;
   }
 }
 
