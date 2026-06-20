@@ -319,18 +319,24 @@ ul {
 }
 
 @media (max-width: 768px) {
+  .hero {
+    padding-top: 60px !important;
+  }
+  .hero-container {
+    gap: 15px !important;
+  }
   .image-wrapper {
-    max-width: 250px;
+    max-width: 160px;
   }
   .image-wrapper::before {
     display: none;
   }
   .image-wrapper img {
-    height: 250px !important;
+    height: 160px !important;
     object-fit: cover !important;
     object-position: top center !important;
-    border: 6px solid white !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+    border: 5px solid white !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
     transform: none !important;
   }
   .image-wrapper:hover img {
