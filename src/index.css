@@ -310,6 +310,16 @@ ul {
   }
 }
 
+@media (max-width: 768px) {
+  .image-wrapper {
+    max-width: 250px;
+  }
+  .image-wrapper img {
+    aspect-ratio: 1 / 1;
+    object-position: top center;
+  }
+}
+
 /* --- TrustStats.jsx Styles --- */
 .trust-stats {
   padding: 20px 0 30px;
