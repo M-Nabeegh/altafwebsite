@@ -141,9 +141,9 @@ const Home = () => {
                         <div className="section-header text-center mb-5">
                             <h2>Message from Prof. Dr. Javed Altaf</h2>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
-                            <div style={{ flex: '2 1 400px' }}>
-                                <blockquote style={{
+                        <div className="message-flex-container" style={{ position: 'relative', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
+                            <div style={{ flex: '2 1 400px', width: '100%' }}>
+                                <blockquote className="message-quote-box" style={{
                                     fontSize: '1.25rem',
                                     fontStyle: 'italic',
                                     color: 'var(--text-dark)',
