@@ -265,7 +265,7 @@ ul {
 
 .hero-image-tag {
   position: absolute;
-  bottom: -20px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   margin-bottom: 0 !important;
@@ -341,7 +341,6 @@ ul {
   }
   .image-wrapper {
     max-width: 160px;
-    margin-bottom: 25px;
   }
   .image-wrapper::before {
     display: none;
@@ -360,7 +359,7 @@ ul {
   .hero-image-tag {
     font-size: 0.75rem !important;
     padding: 6px 12px !important;
-    bottom: -15px;
+    bottom: 10px;
   }
 }
 
