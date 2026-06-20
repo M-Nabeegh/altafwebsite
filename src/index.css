@@ -1111,6 +1111,18 @@ ul {
   color: var(--primary-dark);
 }
 
+@media (max-width: 768px) {
+  .logo span {
+    display: none; /* Hide long designation text to save space for hamburger menu */
+  }
+  .logo h2 {
+    font-size: 1.1rem;
+  }
+  .logo-text {
+    max-width: 200px; /* Prevent long names from pushing out the menu */
+  }
+}
+
 .mobile-menu-header {
   display: none;
 }
