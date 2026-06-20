@@ -141,25 +141,28 @@ const Home = () => {
                         <div className="section-header text-center mb-5">
                             <h2>Message from Prof. Dr. Javed Altaf</h2>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px' }}>
-                            <div style={{ flex: '1 1 300px' }}>
-                                <img src="/doctor-scrubs.jpg" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" style={{ width: '100%', height: 'auto', borderRadius: '12px', boxShadow: 'var(--shadow-md)', objectFit: 'cover' }} />
-                            </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
                             <div style={{ flex: '2 1 400px' }}>
                                 <blockquote style={{
                                     fontSize: '1.25rem',
                                     fontStyle: 'italic',
                                     color: 'var(--text-dark)',
-                                    borderLeft: '4px solid var(--accent-color)',
-                                    paddingLeft: '24px',
-                                    background: '#f9f9f9',
-                                    padding: '32px',
-                                    borderRadius: '0 12px 12px 0',
+                                    borderLeft: '5px solid var(--primary-color)',
+                                    paddingLeft: '30px',
+                                    background: 'white',
+                                    padding: '40px',
+                                    borderRadius: '16px',
                                     margin: 0,
-                                    lineHeight: '1.8'
+                                    lineHeight: '1.8',
+                                    boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+                                    position: 'relative'
                                 }}>
-                                    "My mission is not only to treat disease, but to restore comfort, dignity, and confidence in my patients’ lives. I believe in ethical medicine, clear communication, and evidence-based care delivered with compassion."
+                                    <span style={{ fontSize: '4rem', color: 'var(--primary-color)', opacity: 0.1, position: 'absolute', top: '10px', left: '15px', fontFamily: 'serif', lineHeight: 1 }}>"</span>
+                                    <p style={{ position: 'relative', zIndex: 1, margin: 0 }}>My mission is not only to treat disease, but to restore comfort, dignity, and confidence in my patients’ lives. I believe in ethical medicine, clear communication, and evidence-based care delivered with compassion.</p>
                                 </blockquote>
+                            </div>
+                            <div style={{ flex: '0 1 350px', display: 'flex', justifyContent: 'center' }}>
+                                <img src="/doctor-scrubs.jpg" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" style={{ width: '100%', maxWidth: '300px', height: 'auto', borderRadius: '16px', boxShadow: '0 15px 35px rgba(0,0,0,0.1)', objectFit: 'cover', border: '8px solid white' }} />
                             </div>
                         </div>
                     </div>
