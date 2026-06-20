@@ -141,7 +141,7 @@ const Home = () => {
                         <div className="section-header text-center mb-5">
                             <h2>Message from Prof. Dr. Javed Altaf</h2>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap-reverse', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '40px' }}>
                             <div style={{ flex: '2 1 400px' }}>
                                 <blockquote style={{
                                     fontSize: '1.25rem',
@@ -161,8 +161,8 @@ const Home = () => {
                                     <p style={{ position: 'relative', zIndex: 1, margin: 0 }}>My mission is not only to treat disease, but to restore comfort, dignity, and confidence in my patients’ lives. I believe in ethical medicine, clear communication, and evidence-based care delivered with compassion.</p>
                                 </blockquote>
                             </div>
-                            <div style={{ flex: '0 1 350px', display: 'flex', justifyContent: 'center' }}>
-                                <img src="/doctor-scrubs.jpg" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" style={{ width: '100%', maxWidth: '300px', height: 'auto', borderRadius: '16px', boxShadow: '0 15px 35px rgba(0,0,0,0.1)', objectFit: 'cover', border: '8px solid white' }} />
+                            <div className="message-img-container" style={{ flex: '0 1 auto', display: 'flex', justifyContent: 'center' }}>
+                                <img src="/doctor-scrubs.jpg" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" className="message-img" />
                             </div>
                         </div>
                     </div>
