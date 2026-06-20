@@ -7,7 +7,6 @@ const Hero = () => {
     <section id="hero" className="hero section">
       <div className="container hero-container">
         <div className="hero-content fade-in">
-          <span className="subtitle">Consultant Urologist</span>
           <h1>{doctorProfile.name}</h1>
           <div className="qualifications-badge">
             MBBS | MCPS | FCPS | FACS | CHPE | DIP. IN LAPROSCOPIC UROLOGY (FRANCE) | DHA LICENSED UROLOGIST (DUBAI, UAE)
@@ -29,6 +28,7 @@ const Hero = () => {
         <div className="hero-image fade-in">
           <div className="image-wrapper">
             <img src="/doctor-profile-v2.jpg" alt={doctorProfile.name} fetchpriority="high" width="600" height="600" style={{ objectFit: 'cover' }} />
+            <span className="subtitle hero-image-tag">Consultant Urologist</span>
           </div>
         </div>
       </div>
