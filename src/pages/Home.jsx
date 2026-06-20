@@ -137,23 +137,31 @@ const Home = () => {
             {/* NEW SECTION: Message from Doctor */}
             <div className="message-section">
                 <section className="section">
-                    <div className="container text-center" style={{ maxWidth: '800px' }}>
-                        <div className="section-header mb-4">
+                    <div className="container" style={{ maxWidth: '1000px' }}>
+                        <div className="section-header text-center mb-5">
                             <h2>Message from Prof. Dr. Javed Altaf</h2>
                         </div>
-                        <blockquote style={{
-                            fontSize: '1.25rem',
-                            fontStyle: 'italic',
-                            color: 'var(--text-dark)',
-                            borderLeft: '4px solid var(--accent-color)',
-                            paddingLeft: '20px',
-                            margin: '0 auto',
-                            background: '#f9f9f9',
-                            padding: '30px',
-                            borderRadius: '0 8px 8px 0'
-                        }}>
-                            "My mission is not only to treat disease, but to restore comfort, dignity, and confidence in my patients’ lives. I believe in ethical medicine, clear communication, and evidence-based care delivered with compassion."
-                        </blockquote>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px' }}>
+                            <div style={{ flex: '1 1 300px' }}>
+                                <img src="/doctor-scrubs.jpg" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" style={{ width: '100%', height: 'auto', borderRadius: '12px', boxShadow: 'var(--shadow-md)', objectFit: 'cover' }} />
+                            </div>
+                            <div style={{ flex: '2 1 400px' }}>
+                                <blockquote style={{
+                                    fontSize: '1.25rem',
+                                    fontStyle: 'italic',
+                                    color: 'var(--text-dark)',
+                                    borderLeft: '4px solid var(--accent-color)',
+                                    paddingLeft: '24px',
+                                    background: '#f9f9f9',
+                                    padding: '32px',
+                                    borderRadius: '0 12px 12px 0',
+                                    margin: 0,
+                                    lineHeight: '1.8'
+                                }}>
+                                    "My mission is not only to treat disease, but to restore comfort, dignity, and confidence in my patients’ lives. I believe in ethical medicine, clear communication, and evidence-based care delivered with compassion."
+                                </blockquote>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
