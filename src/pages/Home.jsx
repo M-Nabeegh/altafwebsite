@@ -9,6 +9,7 @@ import Contact from '../components/Contact';
 import { useLocation, Link } from 'react-router-dom';
 import { FaUserMd, FaNotesMedical, FaFileMedical, FaProcedures, FaHeartbeat } from 'react-icons/fa';
 import pioneeredImg from '../assets/surgery_full.webp';
+import pioneeredImgMobile from '../assets/surgery_full_mobile.webp';
 
 import SEO from '../components/SEO';
 
@@ -84,7 +85,7 @@ const Home = () => {
                                 </Link>
                             </div>
                             <div className="pioneered-image">
-                                <img src={pioneeredImg} alt="Dr. Javed Altaf performing landmark surgery" loading="lazy" style={{ width: '100%', height: 'auto', borderRadius: 'var(--radius-md)' }} />
+                                <img src={pioneeredImg} srcSet={`${pioneeredImgMobile} 640w, ${pioneeredImg} 1024w`} sizes="(max-width: 768px) 100vw, 50vw" alt="Dr. Javed Altaf performing landmark surgery" loading="lazy" width="1024" height="768" style={{ width: '100%', height: 'auto', borderRadius: 'var(--radius-md)' }} />
                                 <div className="badge-overlay">First in Pakistan</div>
                             </div>
                         </div>
@@ -162,7 +163,7 @@ const Home = () => {
                                 </blockquote>
                             </div>
                             <div className="message-img-container" style={{ flex: '0 1 auto', display: 'flex', justifyContent: 'center' }}>
-                                <img src="/doctor-scrubs.webp" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" width="400" height="480" className="message-img" />
+                                <img src="/doctor-scrubs.webp" srcSet="/doctor-scrubs_mobile.webp 400w, /doctor-scrubs.webp 640w" sizes="(max-width: 768px) 100vw, 400px" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" width="400" height="480" className="message-img" />
                             </div>
                         </div>
                     </div>

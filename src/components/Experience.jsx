@@ -17,7 +17,7 @@ const Experience = () => {
           {/* Summary view only */}
           <div className="timeline-block">
             <div className="timeline-icon logo-icon">
-              <img src={lumhsLogo} alt="LUMHS Logo" />
+              <img src={lumhsLogo} alt="LUMHS Logo" width="210" height="172" loading="lazy" />
             </div>
             <div className="timeline-content">
               <h3>Liaquat University of Medical & Health Sciences (LUMHS)</h3>
