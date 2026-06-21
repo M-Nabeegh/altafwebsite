@@ -33,7 +33,17 @@ const AppContent = () => {
     <div className="app">
       {!hideHeader && <Header />}
       <main>
-        <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>Loading...</div>}>
+        <Suspense fallback={
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+            <div style={{
+              width: '44px', height: '44px',
+              border: '4px solid #e2e8f0',
+              borderTop: '4px solid #0056B3',
+              borderRadius: '50%',
+              animation: 'spin 0.75s linear infinite'
+            }} />
+          </div>
+        }>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/experience" element={<ExperiencePage />} />

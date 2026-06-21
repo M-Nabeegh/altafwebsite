@@ -3,6 +3,7 @@
 // Requires ADMIN_PASSWORD env var to match.
 
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 
 function getSupabase() {
   return createClient(
@@ -12,7 +13,8 @@ function getSupabase() {
 }
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const SITE_BASE_URL = process.env.VITE_SITE_BASE_URL || 'https://javedaltaf.com';
+  res.setHeader('Access-Control-Allow-Origin', SITE_BASE_URL);
   res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'x-admin-password, Content-Type');
 
@@ -25,7 +27,8 @@ export default async function handler(req, res) {
   if (!adminPass) {
     return res.status(500).json({ error: 'Admin password not configured' });
   }
-  if (!submitted || submitted !== adminPass) {
+  if (!submitted || submitted.length !== adminPass.length ||
+      !crypto.timingSafeEqual(Buffer.from(submitted), Buffer.from(adminPass))) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 

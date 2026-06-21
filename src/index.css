@@ -1,4 +1,6 @@
 
+@keyframes spin { to { transform: rotate(360deg); } }
+
 :root {
   /* Brand Colors */
   --primary-color: #0056b3;

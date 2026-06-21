@@ -1,7 +1,8 @@
 // api/payfast/create-payment.js
 // Creates a pending appointment, calls PayFast GetAccessToken,
 // returns all fields needed for the browser to POST to PayFast PostTransaction.
-// MERCHANT_ID and SECURED_KEY NEVER leave this server-side function.
+// SECURED_KEY NEVER leaves this server-side function.
+// MERCHANT_ID is included in postFields as required by PayFast's redirect flow.
 
 import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';

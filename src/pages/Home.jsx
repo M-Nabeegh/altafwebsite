@@ -8,7 +8,7 @@ import TrustStats from '../components/TrustStats';
 import Contact from '../components/Contact';
 import { useLocation, Link } from 'react-router-dom';
 import { FaUserMd, FaNotesMedical, FaFileMedical, FaProcedures, FaHeartbeat } from 'react-icons/fa';
-import pioneeredImg from '../assets/surgery_full.jpg';
+import pioneeredImg from '../assets/surgery_full.webp';
 
 import SEO from '../components/SEO';
 
@@ -162,7 +162,7 @@ const Home = () => {
                                 </blockquote>
                             </div>
                             <div className="message-img-container" style={{ flex: '0 1 auto', display: 'flex', justifyContent: 'center' }}>
-                                <img src="/doctor-scrubs.jpg" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" className="message-img" />
+                                <img src="/doctor-scrubs.webp" alt="Prof. Dr. Javed Altaf in Scrubs" loading="lazy" width="400" height="480" className="message-img" />
                             </div>
                         </div>
                     </div>
