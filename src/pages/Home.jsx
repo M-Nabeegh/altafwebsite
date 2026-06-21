@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import Hero from '../components/Hero';
 import Expertise from '../components/Expertise';
-import Experience from '../components/Experience';
-import Research from '../components/Research'; // This will be the summary version
-import SocialProof from '../components/SocialProof';
 import TrustStats from '../components/TrustStats';
-import Contact from '../components/Contact';
+
+const Experience = lazy(() => import('../components/Experience'));
+const Research = lazy(() => import('../components/Research'));
+const SocialProof = lazy(() => import('../components/SocialProof'));
+const Contact = lazy(() => import('../components/Contact'));
 import { useLocation, Link } from 'react-router-dom';
 import { FaUserMd, FaNotesMedical, FaFileMedical, FaProcedures, FaHeartbeat } from 'react-icons/fa';
 import pioneeredImg from '../assets/surgery_full.webp';
@@ -62,11 +63,10 @@ const Home = () => {
                 </section>
             </div>
 
+            <Suspense fallback={<div style={{ minHeight: '200vh' }}></div>}>
             <div className="experience-section">
                 <Experience />
             </div>
-
-
 
             {/* NEW SECTION: Pioneered & Landmark Highlight */}
             <div className="pioneered-section">
@@ -173,10 +173,10 @@ const Home = () => {
 
 
             <div className="contact-section">
+                <SocialProof />
                 <Contact />
             </div>
-
-
+            </Suspense>
         </div>
     );
 };
