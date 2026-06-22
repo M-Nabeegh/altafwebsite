@@ -33,7 +33,7 @@ const ShippingPolicy = () => {
                     <p>
                         If you do not receive your confirmation details or the video link within the specified timeframe, please contact us immediately:
                         <br />
-                        <strong>Email:</strong> javed_altafdr@yahoo.com
+                        <strong>Email:</strong> contact@javedaltaf.com
                         <br />
                         <strong>Phone / WhatsApp:</strong> 0300-3068775
                     </p>

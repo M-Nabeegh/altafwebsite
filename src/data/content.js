@@ -12,7 +12,7 @@ export const doctorProfile = {
     summary: "A distinguished Urologist and Professor with over two decades of experience. Combining academic leadership with surgical excellence, Dr. Javed Altaf specializes in minimally invasive procedures for kidney stones and advanced urological care.",
     location: "Hyderabad / Jamshoro",
     languages: ["English", "Urdu", "Hindi", "Punjabi"],
-    email: "javed_altafdr@yahoo.com",
+    email: "contact@javedaltaf.com",
     phone: "0316-0306699",
     address: "Shaikh Diagnostic Center, Shop No. 12, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000",
     googleMapsLink: "https://maps.google.com/?q=Shaikh+Diagnostic+Center,+Shop+No.+12,+Doctors+Ln,+near+National+saving+centre,+Soldier+Bazaar+Doctors+Colony,+Hyderabad,+71000",

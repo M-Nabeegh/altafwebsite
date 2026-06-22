@@ -25,7 +25,7 @@ const RefundPolicy = () => {
 
                     <h3>2. Rescheduling Policy</h3>
                     <p>
-                        You can reschedule your online consultation slot before the appointment time without any penalty. Rescheduling requests can be made via email at <a href="mailto:javed_altafdr@yahoo.com" style={{ color: 'var(--primary-color)', fontWeight: '600' }}>javed_altafdr@yahoo.com</a> or via phone/WhatsApp at <strong>0300-3068775</strong>.
+                        You can reschedule your online consultation slot before the appointment time without any penalty. Rescheduling requests can be made via email at <a href="mailto:contact@javedaltaf.com" style={{ color: 'var(--primary-color)', fontWeight: '600' }}>contact@javedaltaf.com</a> or via phone/WhatsApp at <strong>0300-3068775</strong>.
                     </p>
 
                     <h3>3. Exceptional Circumstances</h3>
@@ -51,7 +51,7 @@ const RefundPolicy = () => {
                     <p>
                         For any cancellation, rescheduling, or refund requests, please reach out to us:
                         <br />
-                        <strong>Email:</strong> javed_altafdr@yahoo.com
+                        <strong>Email:</strong> contact@javedaltaf.com
                         <br />
                         <strong>Phone / WhatsApp:</strong> 0300-3068775
                     </p>

@@ -5,7 +5,6 @@ import TrustStats from '../components/TrustStats';
 
 const Experience = lazy(() => import('../components/Experience'));
 const Research = lazy(() => import('../components/Research'));
-const SocialProof = lazy(() => import('../components/SocialProof'));
 const Contact = lazy(() => import('../components/Contact'));
 import { useLocation, Link } from 'react-router-dom';
 import { FaUserMd, FaNotesMedical, FaFileMedical, FaProcedures, FaHeartbeat } from 'react-icons/fa';
@@ -173,7 +172,6 @@ const Home = () => {
 
 
             <div className="contact-section">
-                <SocialProof />
                 <Contact />
             </div>
             </Suspense>

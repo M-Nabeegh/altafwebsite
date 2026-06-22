@@ -26,7 +26,7 @@ const FAQsPage = () => {
         },
         {
             question: "Can I reschedule my appointment?",
-            answer: "Yes, you can reschedule your appointment before the scheduled session time by emailing us at javed_altafdr@yahoo.com or contacting us via phone/WhatsApp at 0300-3068775."
+            answer: "Yes, you can reschedule your appointment before the scheduled session time by emailing us at contact@javedaltaf.com or contacting us via phone/WhatsApp at 0300-3068775."
         },
         {
             question: "Where is the physical clinic located?",

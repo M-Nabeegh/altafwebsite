@@ -28,7 +28,7 @@ const PrivacyPolicy = () => {
                     <p>We use third-party services like PayFast for payments and Calendly for scheduling. Please review their respective privacy policies.</p>
 
                     <h3>5. Contact Us</h3>
-                    <p>If you have any questions about this Privacy Policy, please contact us at javed_altafdr@yahoo.com.</p>
+                    <p>If you have any questions about this Privacy Policy, please contact us at contact@javedaltaf.com.</p>
                 </div>
             </div>
             <style>{`

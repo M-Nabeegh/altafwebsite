@@ -90,9 +90,9 @@ const PaymentFailure = () => {
                 <div className="pf-fail-support">
                     <p>Need help? Contact us:</p>
                     <div className="pf-fail-contacts">
-                        <a href="mailto:info@javedaltaf.com" className="pf-contact-link">
+                        <a href="mailto:contact@javedaltaf.com" className="pf-contact-link">
                             <FaEnvelope />
-                            <span>info@javedaltaf.com</span>
+                            <span>contact@javedaltaf.com</span>
                         </a>
                         <a href="https://wa.me/923001234567" className="pf-contact-link pf-contact-wa" target="_blank" rel="noopener noreferrer">
                             <FaPhone />

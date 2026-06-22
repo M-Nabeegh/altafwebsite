@@ -16,7 +16,7 @@ import { getReservationCutoffISO } from './booking-rules.js';
 // ─── Config ───────────────────────────────────────────────────────────────────
 const MERCHANT_ID   = process.env.PAYFAST_MERCHANT_ID;
 const SECURED_KEY   = process.env.PAYFAST_SECURED_KEY;
-const DOCTOR_EMAIL  = process.env.DOCTOR_EMAIL || 'admin@javedaltaf.com';
+const DOCTOR_EMAIL  = process.env.DOCTOR_EMAIL || 'contact@javedaltaf.com';
 const EMAIL_FROM    = process.env.EMAIL_FROM   || 'appointments@javedaltaf.com';
 
 function getSupabase() {
