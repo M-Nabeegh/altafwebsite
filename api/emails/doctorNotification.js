@@ -152,7 +152,7 @@ export function doctorNotificationHtml({
         <!-- Action Required Note -->
         <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:16px 20px;">
           <p style="font-size:13px; color:#991b1b; line-height:1.6;">
-            <strong>⚡ Action Required:</strong> Please prepare to video call the patient on their WhatsApp number 2 mins before their scheduled slot.
+            <strong>⚡ Action Required:</strong> Please start the WhatsApp video call approximately 2 minutes before the patient's scheduled slot.
           </p>
         </div>
 

@@ -10,7 +10,7 @@ const Hero = () => {
           <span className="subtitle desktop-subtitle">Consultant Urologist</span>
           <h1>{doctorProfile.name}</h1>
           <div className="qualifications-badge">
-            MBBS | MCPS | FCPS | FACS | CHPE | DIP. IN LAPROSCOPIC UROLOGY (FRANCE) | DHA LICENSED UROLOGIST (DUBAI, UAE)
+            MBBS | MCPS | FCPS | FACS | CHPE | DIP. IN LAPAROSCOPIC UROLOGY (FRANCE) | DHA LICENSED UROLOGIST (DUBAI, UAE)
           </div>
           <h2 className="designation">{doctorProfile.designation}</h2>
 

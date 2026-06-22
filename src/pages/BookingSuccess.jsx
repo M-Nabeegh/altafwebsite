@@ -78,15 +78,15 @@ const BookingSuccess = () => {
                         <div className="icon-box"><FaEnvelope /></div>
                         <div>
                             <h5>Check Your Email</h5>
-                            <p>You will receive a confirmation email containing your patient dashboard link and the <strong>secure video consultation link</strong>.</p>
+                            <p>You will receive an appointment confirmation email after your payment is verified.</p>
                         </div>
                     </div>
 
                     <div className="step-item">
                         <div className="icon-box"><FaVideo /></div>
                         <div>
-                            <h5>Join on Time</h5>
-                            <p>Please be ready to join the video call at your selected slot on <strong>Saturday</strong>. Use the link provided in your email.</p>
+                            <h5>Be Available on WhatsApp</h5>
+                            <p>Please be ready on the WhatsApp number used during booking. Prof. Dr. Javed Altaf will start the video call approximately <strong>2 minutes before</strong> your selected Saturday slot.</p>
                         </div>
                     </div>
 
@@ -94,7 +94,7 @@ const BookingSuccess = () => {
                         <div className="icon-box"><FaFileMedical /></div>
                         <div>
                             <h5>Prepare Your Reports</h5>
-                            <p>Please keep your previous laboratory reports, ultrasounds, prescriptions, or any other relevant documents handy to review during the consultation.</p>
+                            <p>Keep any previous laboratory reports, ultrasounds, prescriptions, or other relevant documents with you in case the doctor asks to review them. No upload is required.</p>
                         </div>
                     </div>
                 </div>

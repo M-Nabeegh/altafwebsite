@@ -1,5 +1,6 @@
 import React from 'react';
 import SEO from '../components/SEO';
+import { doctorProfile } from '../data/content';
 
 const ShippingPolicy = () => {
     return (
@@ -16,7 +17,7 @@ const ShippingPolicy = () => {
                 <div className="shipping-content">
                     <h3>1. Shipping of Physical Goods</h3>
                     <p>
-                        Prof. Dr. Javed Altaf offers professional clinical services, online video/audio consultations, and second opinion reports. 
+                        Prof. Dr. Javed Altaf offers professional clinical services, online WhatsApp video consultations, and second opinion reports.
                         <strong> We do not sell or ship any physical goods or products</strong> through this website. Consequently, no physical shipping, delivery, or logistics services are provided, and no shipping charges apply.
                     </p>
 
@@ -25,17 +26,17 @@ const ShippingPolicy = () => {
                         All services purchased on this website (such as online consultation bookings) are delivered digitally:
                     </p>
                     <ul>
-                        <li><strong>Booking Confirmation:</strong> A booking confirmation email and/or WhatsApp message is sent immediately upon successful payment confirmation.</li>
-                        <li><strong>Consultation Link:</strong> The secure video or audio call link for the online consultation will be sent to the contact details (email or phone number) provided by you during the booking process at least **2 hours prior** to your scheduled Saturday appointment slot.</li>
+                        <li><strong>Booking Confirmation:</strong> A booking confirmation email is sent after successful payment confirmation.</li>
+                        <li><strong>WhatsApp Consultation:</strong> Prof. Dr. Javed Altaf will start a WhatsApp video call approximately 2 minutes before the scheduled Saturday appointment slot using the number provided during booking.</li>
                     </ul>
 
                     <h3>3. Delivery Failures and Technical Issues</h3>
                     <p>
-                        If you do not receive your confirmation details or the video link within the specified timeframe, please contact us immediately:
+                        If you do not receive your booking confirmation or WhatsApp call at the scheduled time, please contact us immediately:
                         <br />
-                        <strong>Email:</strong> contact@javedaltaf.com
+                        <strong>Email:</strong> {doctorProfile.email}
                         <br />
-                        <strong>Phone / WhatsApp:</strong> 0300-3068775
+                        <strong>Phone / WhatsApp:</strong> {doctorProfile.supportPhone}
                     </p>
                 </div>
             </div>

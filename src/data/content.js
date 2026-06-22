@@ -1,6 +1,7 @@
 export const doctorProfile = {
     name: "Prof. Dr. Javed Altaf",
     designation: "Professor & Head of Department (HOD) – Urology",
+    specialty: "Consultant Urologist",
     specialties: [
         "Urology",
         "Urolithiasis (Urinary Stones)",
@@ -14,6 +15,8 @@ export const doctorProfile = {
     languages: ["English", "Urdu", "Hindi", "Punjabi"],
     email: "contact@javedaltaf.com",
     phone: "0316-0306699",
+    supportPhone: "0300-3068775",
+    supportWhatsAppLink: "https://wa.me/923003068775",
     address: "Shaikh Diagnostic Center, Shop No. 12, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000",
     googleMapsLink: "https://maps.app.goo.gl/nJHtdjinFnBd6QqP6",
     linkedin: "https://www.linkedin.com/in/drjavedaltaf",

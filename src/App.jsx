@@ -22,6 +22,7 @@ const PricingPolicy = lazy(() => import('./pages/PricingPolicy'));
 const ShippingPolicy = lazy(() => import('./pages/ShippingPolicy'));
 const FAQsPage = lazy(() => import('./pages/FAQsPage'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const HIDE_HEADER_PATHS = ['/thank-you'];
 const HEADER_OFFSET_PATHS = ['/experience', '/research', '/pioneered-cases'];
@@ -63,6 +64,7 @@ const AppContent = () => {
             <Route path="/payment-success/:orderId" element={<PaymentSuccess />} />
             <Route path="/payment-failure/:orderId" element={<PaymentFailure />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </main>

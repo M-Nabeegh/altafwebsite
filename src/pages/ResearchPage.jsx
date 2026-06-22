@@ -60,8 +60,14 @@ const ResearchPage = () => {
           <h2 className="mb-4">Full List of Publications</h2>
           <div className="pub-grid">
             {publications.map((pub, index) => (
-              <div key={index} className={`pub-card ${openIndex === index ? 'open' : ''}`} onClick={() => togglePublication(index)}>
-                <div className="pub-header">
+              <div key={index} className={`pub-card ${openIndex === index ? 'open' : ''}`}>
+                <button
+                  type="button"
+                  className="pub-header"
+                  onClick={() => togglePublication(index)}
+                  aria-expanded={openIndex === index}
+                  aria-controls={`publication-details-${index}`}
+                >
                   <div className="pub-icon-wrapper">
                     <FaBookMedical />
                   </div>
@@ -75,9 +81,9 @@ const ResearchPage = () => {
                   <div className="toggle-icon">
                     {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
                   </div>
-                </div>
+                </button>
 
-                <div className="pub-details">
+                <div className="pub-details" id={`publication-details-${index}`}>
                   <div className="details-content">
                     {pub.authors && <p className="authors"><strong>Authors:</strong> {pub.authors}</p>}
                     {pub.details && <p className="vol-info"><strong>Details:</strong> {pub.details}</p>}
@@ -117,6 +123,7 @@ const ResearchPage = () => {
                 .page-header h1 {
                     font-size: 2.5rem;
                     margin-bottom: 10px;
+                    color: white;
                 }
 
                 .stats-box {
@@ -173,7 +180,6 @@ const ResearchPage = () => {
                     border: 1px solid var(--medium-gray);
                     overflow: hidden;
                     transition: all 0.3s ease;
-                    cursor: pointer;
                 }
 
                 .pub-card:hover {
@@ -192,6 +198,17 @@ const ResearchPage = () => {
                     align-items: flex-start;
                     gap: 15px;
                     padding: 20px;
+                    width: 100%;
+                    border: 0;
+                    background: transparent;
+                    text-align: left;
+                    font: inherit;
+                    cursor: pointer;
+                }
+
+                .pub-header:focus-visible {
+                    outline: 3px solid rgba(0, 86, 179, 0.35);
+                    outline-offset: -3px;
                 }
 
                 .pub-icon-wrapper {

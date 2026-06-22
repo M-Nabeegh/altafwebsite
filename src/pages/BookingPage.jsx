@@ -385,6 +385,8 @@ const BookingPage = () => {
                                         <input
                                             type="text"
                                             id="patientName"
+                                            name="patientName"
+                                            autoComplete="name"
                                             className="form-control"
                                             placeholder="Enter full name"
                                             value={patientName}
@@ -399,6 +401,8 @@ const BookingPage = () => {
                                             <input
                                                 type="email"
                                                 id="patientEmail"
+                                                name="patientEmail"
+                                                autoComplete="email"
                                                 className="form-control"
                                                 placeholder="example@mail.com"
                                                 value={patientEmail}
@@ -411,6 +415,9 @@ const BookingPage = () => {
                                             <input
                                                 type="tel"
                                                 id="patientPhone"
+                                                name="patientPhone"
+                                                autoComplete="tel"
+                                                inputMode="tel"
                                                 className="form-control"
                                                 placeholder="e.g. 0300-1234567"
                                                 value={patientPhone}
@@ -418,7 +425,7 @@ const BookingPage = () => {
                                                 required
                                             />
                                             <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
-                                                Dr. Javed Altaf will video call on this WhatsApp number 2 mins before your slot.
+                                                Prof. Dr. Javed Altaf will start the WhatsApp video call approximately 2 minutes before your slot.
                                             </div>
                                         </div>
                                     </div>
@@ -427,6 +434,7 @@ const BookingPage = () => {
                                         <label htmlFor="patientNotes">Describe Symptoms / Medical Issue (Optional)</label>
                                         <textarea
                                             id="patientNotes"
+                                            name="patientNotes"
                                             className="form-control"
                                             rows="3"
                                             placeholder="Provide a brief explanation of urological complaints, reports to review, etc."
@@ -942,10 +950,12 @@ const BookingPage = () => {
 
                     .booking-info-sidebar {
                         padding: 30px;
+                        order: 2;
                     }
 
                     .booking-interactive-card {
                         padding: 30px;
+                        order: 1;
                     }
                 }
 
@@ -959,6 +969,9 @@ const BookingPage = () => {
                     .form-row-grid {
                         grid-template-columns: 1fr;
                         gap: 0;
+                    }
+                    .slots-grid {
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
                     }
                 }
             `}</style>

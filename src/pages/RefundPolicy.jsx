@@ -1,5 +1,6 @@
 import React from 'react';
 import SEO from '../components/SEO';
+import { doctorProfile } from '../data/content';
 
 const RefundPolicy = () => {
     return (
@@ -25,7 +26,7 @@ const RefundPolicy = () => {
 
                     <h3>2. Rescheduling Policy</h3>
                     <p>
-                        You can reschedule your online consultation slot before the appointment time without any penalty. Rescheduling requests can be made via email at <a href="mailto:contact@javedaltaf.com" style={{ color: 'var(--primary-color)', fontWeight: '600' }}>contact@javedaltaf.com</a> or via phone/WhatsApp at <strong>0300-3068775</strong>.
+                        You can reschedule your online consultation slot before the appointment time without any penalty. Rescheduling requests can be made via email at <a href={`mailto:${doctorProfile.email}`} style={{ color: 'var(--primary-color)', fontWeight: '600' }}>{doctorProfile.email}</a> or via phone/WhatsApp at <strong>{doctorProfile.supportPhone}</strong>.
                     </p>
 
                     <h3>3. Exceptional Circumstances</h3>
@@ -39,7 +40,7 @@ const RefundPolicy = () => {
 
                     <h3>4. Refund Processing Time</h3>
                     <p>
-                        Approved refunds will be processed back to the original payment method (e.g., credit card, bank transfer, mobile wallet) that was used during booking. Please allow <strong>5 to 7 working days</strong> for the refunded amount to reflect in your account, depending on your bank or payment gateway service provider.
+                        Approved refunds will be processed back to the original payment method used through PayFast. Please allow <strong>5 to 7 working days</strong> for the refunded amount to reflect in your account, depending on your bank or payment gateway service provider.
                     </p>
 
                     <h3>5. Return Policy for Digital Services</h3>
@@ -51,9 +52,9 @@ const RefundPolicy = () => {
                     <p>
                         For any cancellation, rescheduling, or refund requests, please reach out to us:
                         <br />
-                        <strong>Email:</strong> contact@javedaltaf.com
+                        <strong>Email:</strong> {doctorProfile.email}
                         <br />
-                        <strong>Phone / WhatsApp:</strong> 0300-3068775
+                        <strong>Phone / WhatsApp:</strong> {doctorProfile.supportPhone}
                     </p>
                 </div>
             </div>

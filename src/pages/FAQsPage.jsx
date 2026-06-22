@@ -1,24 +1,25 @@
 import React from 'react';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
+import { doctorProfile } from '../data/content';
 
 const FAQsPage = () => {
     const faqData = [
         {
             question: "How do I book an online consultation?",
-            answer: "You can book an online consultation directly through this website. Click the 'Book Appointment' button, choose an available Saturday time slot, fill in your patient details (and upload any relevant medical reports), and make the payment to secure your slot."
+            answer: "You can book an online consultation directly through this website. Click the 'Book Consultation' button, choose an available Saturday time slot, enter the patient details, and complete payment to secure the slot. Keep any relevant medical reports with you in case the doctor asks to review them during the call; no upload is required."
         },
         {
             question: "What is the consultation fee?",
-            answer: "The consultation fee is PKR 4,000 for a standard 15-minute video or audio session with Prof. Dr. Javed Altaf. There are no hidden charges or extra administration fees."
+            answer: "The consultation fee is PKR 4,000 for a standard 15-minute WhatsApp video consultation with Prof. Dr. Javed Altaf. There are no hidden charges or extra administration fees."
         },
         {
             question: "What payment methods do you accept?",
-            answer: "We accept payments via credit/debit cards (processed securely via PayFast — Pakistan's leading payment gateway), and Direct Bank Transfer."
+            answer: "We accept secure credit and debit card payments processed through PayFast."
         },
         {
-            question: "How will I receive the link for the video call?",
-            answer: "Once your appointment and payment are confirmed, a secure video call link will be sent to the email address or phone number (WhatsApp) you provided during booking, at least 2 hours before your scheduled appointment time."
+            question: "How will the WhatsApp consultation start?",
+            answer: "Please be available on the WhatsApp number entered during booking. Prof. Dr. Javed Altaf will start the WhatsApp video call approximately 2 minutes before your scheduled time."
         },
         {
             question: "What is your cancellation and refund policy?",
@@ -26,7 +27,7 @@ const FAQsPage = () => {
         },
         {
             question: "Can I reschedule my appointment?",
-            answer: "Yes, you can reschedule your appointment before the scheduled session time by emailing us at contact@javedaltaf.com or contacting us via phone/WhatsApp at 0300-3068775."
+            answer: `Yes, you can reschedule your appointment before the scheduled session time by emailing us at ${doctorProfile.email} or contacting support via phone/WhatsApp at ${doctorProfile.supportPhone}.`
         },
         {
             question: "Where is the physical clinic located?",

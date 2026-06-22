@@ -29,7 +29,7 @@ const TermsAndConditions = () => {
 
                     <h3>4. Scheduling & Time Slots</h3>
                     <p>
-                        Online consultations are strictly available on <strong>Saturdays between 10:00 AM and 12:00 PM</strong>. Slots are booked on a first-come, first-served basis. Patients must ensure they join the scheduled video/audio link on time. If a patient is late, the session will still end at the scheduled slot time to avoid delaying subsequent patients.
+                        Online consultations are strictly available on <strong>Saturdays between 10:00 AM and 12:00 PM</strong>. Slots are booked on a first-come, first-served basis. Patients must be available on the WhatsApp number entered during booking; Prof. Dr. Javed Altaf will start the video call approximately 2 minutes before the scheduled time. If a patient is late or unavailable, the session will still end at the scheduled slot time to avoid delaying subsequent patients.
                     </p>
 
                     <h3>5. Patient Responsibilities</h3>

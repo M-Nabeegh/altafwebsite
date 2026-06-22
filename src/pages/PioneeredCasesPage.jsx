@@ -105,7 +105,14 @@ const PioneeredCasesPage = () => {
 
     useEffect(() => {
         document.body.style.overflow = selectedImage ? 'hidden' : '';
-        return () => { document.body.style.overflow = ''; };
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') setSelectedImage(null);
+        };
+        if (selectedImage) document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', handleKeyDown);
+        };
     }, [selectedImage]);
 
     const openImage = (img) => {
@@ -128,7 +135,7 @@ const PioneeredCasesPage = () => {
             <section className="intro-section bg-dark text-white">
                 <div className="container text-center">
                     <div className="intro-badge mb-3 mt-4">Innovation in Urology</div>
-                    <h1 className="display-4 font-weight-bold mb-4">Pioneered Urological Procedures in Pakistan</h1>
+                    <h1 className="display-4 font-weight-bold mb-4 text-white">Pioneered Urological Procedures in Pakistan</h1>
                     <p className="lead mx-auto" style={{ maxWidth: '800px', opacity: 0.9, margin: '0 auto' }}>
                         Prof. Dr. Javed Altaf has been at the forefront of introducing advanced and innovative urological procedures in Pakistan. These landmark cases reflect his commitment to adopting cutting-edge technology, improving patient outcomes, and advancing urological care nationwide.
                     </p>
@@ -224,9 +231,15 @@ const PioneeredCasesPage = () => {
                                 <div className="col-lg-6">
                                     <div className="clinical-images-grid">
                                         {item.images.map((img, i) => (
-                                            <div key={i} className="img-container" onClick={() => openImage(img)}>
+                                            <button
+                                                key={i}
+                                                type="button"
+                                                className="img-container"
+                                                onClick={() => openImage(img)}
+                                                aria-label={`Enlarge ${item.title} image ${i + 1}`}
+                                            >
                                                 <img src={img} alt={`${item.title} Image ${i + 1}`} className="img-fluid rounded shadow-sm" loading="lazy" />
-                                            </div>
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
@@ -238,10 +251,10 @@ const PioneeredCasesPage = () => {
 
             {/* IMAGE LIGHTBOX MODAL */}
             {selectedImage && (
-                <div className="lightbox-modal" onClick={closeImage}>
-                    <div className="lightbox-content">
+                <div className="lightbox-modal" role="dialog" aria-modal="true" aria-label="Enlarged clinical image" onClick={closeImage}>
+                    <div className="lightbox-content" onClick={(event) => event.stopPropagation()}>
                         <img src={selectedImage} alt="Enlarged view" />
-                        <button className="close-btn" onClick={closeImage}>&times;</button>
+                        <button className="close-btn" onClick={closeImage} aria-label="Close enlarged image">&times;</button>
                     </div>
                 </div>
             )}
@@ -297,7 +310,7 @@ const PioneeredCasesPage = () => {
             border-radius: 50px; 
             font-weight: 600; 
             font-size: 0.9rem;
-            color: var(--accent-color);
+            color: #b8f3ff;
         }
 
         /* Hero Case Card */
@@ -503,6 +516,13 @@ const PioneeredCasesPage = () => {
                 cursor: pointer;
                 overflow: hidden;
                 border-radius: 8px;
+                border: 0;
+                padding: 0;
+                background: transparent;
+            }
+            .clinical-images-grid .img-container:focus-visible {
+                outline: 3px solid var(--primary-color);
+                outline-offset: 3px;
             }
             .clinical-images-grid img {
                 width: 100%;

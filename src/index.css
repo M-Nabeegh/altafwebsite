@@ -783,6 +783,36 @@ ul {
   padding-bottom: 15px;
 }
 
+@media (max-width: 600px) {
+  .timeline-block {
+    padding-left: 42px;
+  }
+
+  .timeline-block::before {
+    left: 17px;
+  }
+
+  .timeline-icon {
+    left: -2px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .timeline-content {
+    padding: 22px 18px;
+  }
+
+  .role-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .role-item .year {
+    min-width: 0;
+  }
+}
+
 .year {
   min-width: 120px;
   font-weight: 600;
@@ -1130,7 +1160,7 @@ ul {
   display: none;
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 1100px) {
   .nav-menu {
     position: fixed;
     top: 0;

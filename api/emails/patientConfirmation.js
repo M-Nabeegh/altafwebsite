@@ -120,7 +120,7 @@ export function patientConfirmationHtml({
             <td style="padding: 12px 0; vertical-align:top; width:40px; font-size:20px;">📧</td>
             <td style="padding: 12px 0; vertical-align:top;">
               <strong style="font-size:14px; color:#1e3a5f; display:block; margin-bottom:3px;">Check Your Email</strong>
-              <span style="font-size:13px; color:#6b7280;">A confirmation email is on its way. Dr. Javed Altaf will video call on your WhatsApp number 2 mins before.</span>
+              <span style="font-size:13px; color:#6b7280;">Prof. Dr. Javed Altaf will start the WhatsApp video call approximately 2 minutes before your slot.</span>
             </td>
           </tr>
           <tr>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaTimesCircle, FaRedo, FaPhone, FaEnvelope, FaShieldAlt } from 'react-icons/fa';
 import SEO from '../components/SEO';
+import { doctorProfile } from '../data/content';
 
 const PaymentFailure = () => {
     const { orderId } = useParams();
@@ -94,9 +95,9 @@ const PaymentFailure = () => {
                             <FaEnvelope />
                             <span>contact@javedaltaf.com</span>
                         </a>
-                        <a href="https://wa.me/923001234567" className="pf-contact-link pf-contact-wa" target="_blank" rel="noopener noreferrer">
+                        <a href={doctorProfile.supportWhatsAppLink} className="pf-contact-link pf-contact-wa" target="_blank" rel="noopener noreferrer">
                             <FaPhone />
-                            <span>WhatsApp Support</span>
+                            <span>{doctorProfile.supportPhone}</span>
                         </a>
                     </div>
                 </div>

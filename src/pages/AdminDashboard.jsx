@@ -185,9 +185,12 @@ const AdminDashboard = () => {
                     <p className="da-login-sub">Prof. Dr. Javed Altaf — Appointment Management</p>
                     <form onSubmit={handleLogin} className="da-login-form">
                         <div className="da-field">
-                            <label>Admin Password</label>
+                            <label htmlFor="adminPassword">Admin Password</label>
                             <input
+                                id="adminPassword"
+                                name="password"
                                 type="password"
+                                autoComplete="current-password"
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder="Enter your admin password"
