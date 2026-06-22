@@ -11,6 +11,7 @@ import crypto from 'crypto';
 import { Resend } from 'resend';
 import { patientConfirmationHtml } from '../emails/patientConfirmation.js';
 import { doctorNotificationHtml } from '../emails/doctorNotification.js';
+import { getReservationCutoffISO } from './booking-rules.js';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const MERCHANT_ID   = process.env.PAYFAST_MERCHANT_ID;
@@ -124,7 +125,6 @@ export default async function handler(req, res) {
     order_date,
     validation_hash,
     PaymentName,
-    discounted_amount,
     transaction_amount,
     merchant_amount,
     transaction_currency,
@@ -173,7 +173,7 @@ export default async function handler(req, res) {
   }
 
   // ── Store raw IPN payload ───────────────────────────────────────────────────
-  const { data: txnRow, error: txnErr } = await supabase
+  const { error: txnErr } = await supabase
     .from('payment_transactions')
     .insert({
       appointment_id:       appointment.id,
@@ -202,7 +202,27 @@ export default async function handler(req, res) {
     // ── SUCCESS ──────────────────────────────────────────────────────────────
     console.log(`[ipn] Payment SUCCESS — confirming appointment: ${appointment.id}`);
 
-    await supabase
+    // A checkout hold may have expired while the patient was still at the
+    // gateway. Never reclaim a slot that may already have been rebooked.
+    const reservationExpired = appointment.status === 'cancelled'
+      || (appointment.status === 'payment_pending'
+        && new Date(appointment.created_at).getTime() < new Date(getReservationCutoffISO()).getTime());
+
+    if (reservationExpired) {
+      const { error: latePaymentError } = await supabase
+        .from('appointments')
+        .update({ status: 'cancelled', payment_status: 'paid' })
+        .eq('id', appointment.id);
+
+      if (latePaymentError) {
+        console.error('[ipn] Could not record late payment:', latePaymentError.message);
+      }
+
+      console.error(`[ipn] PAID AFTER RESERVATION EXPIRED — manual review required: ${basket_id}`);
+      return res.status(200).json({ received: true, status: 'paid_after_expiry' });
+    }
+
+    const { error: confirmationError } = await supabase
       .from('appointments')
       .update({
         status:         'confirmed',
@@ -210,6 +230,19 @@ export default async function handler(req, res) {
         updated_at:     new Date().toISOString(),
       })
       .eq('id', appointment.id);
+
+    if (confirmationError) {
+      console.error('[ipn] Could not confirm appointment:', confirmationError.message);
+
+      // A database uniqueness conflict means another active appointment owns
+      // this slot. Preserve the payment for manual review without double-booking.
+      await supabase
+        .from('appointments')
+        .update({ status: 'cancelled', payment_status: 'paid' })
+        .eq('id', appointment.id);
+
+      return res.status(200).json({ received: true, status: 'confirmation_conflict' });
+    }
 
     // ── Send emails ───────────────────────────────────────────────────────────
     const resend = getResend();

@@ -139,6 +139,10 @@ export function doctorNotificationHtml({
           </tr>
         </table>
 
+        <p style="font-size:11px; color:#6b7280; margin:-12px 0 24px; text-align:right;">
+          Gateway Transaction ID: <strong>${transactionId || 'Not provided'}</strong>
+        </p>
+
         ${notes ? `<!-- Patient Notes -->
         <p style="font-size:12px; font-weight:700; color:#374151; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px;">📝 PATIENT NOTES / SYMPTOMS</p>
         <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:18px 20px; margin-bottom:24px;">

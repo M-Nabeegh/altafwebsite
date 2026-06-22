@@ -35,11 +35,6 @@ const AdminDashboard = () => {
 
     const STORAGE_KEY = 'da_admin_token';
 
-    useEffect(() => {
-        const saved = sessionStorage.getItem(STORAGE_KEY);
-        if (saved) { setAuthed(true); fetchAppointments(saved); }
-    }, []);
-
     const fetchAppointments = useCallback(async (pass, status = 'all', date = '') => {
         setLoading(true);
         try {
@@ -60,6 +55,11 @@ const AdminDashboard = () => {
             setLoading(false);
         }
     }, []);
+
+    useEffect(() => {
+        const saved = sessionStorage.getItem(STORAGE_KEY);
+        if (saved) { setAuthed(true); fetchAppointments(saved); }
+    }, [fetchAppointments]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -120,7 +120,7 @@ const AdminDashboard = () => {
             } else {
                 alert('Failed to delete appointment.');
             }
-        } catch (e) {
+        } catch {
             alert('Error deleting appointment.');
         }
     };
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
             } else {
                 alert('Failed to reschedule appointment.');
             }
-        } catch (e) {
+        } catch {
             alert('Error rescheduling appointment.');
         }
     };
@@ -396,12 +396,14 @@ const AdminDashboard = () => {
                                     <div style={{ marginBottom: '10px' }}>
                                         <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 'bold' }}>New Time:</label>
                                         <select value={editTime} onChange={e => setEditTime(e.target.value)} style={{ padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', width: '100%' }}>
-                                            <option value="10:00 AM - 10:20 AM">10:00 AM - 10:20 AM</option>
-                                            <option value="10:20 AM - 10:40 AM">10:20 AM - 10:40 AM</option>
-                                            <option value="10:40 AM - 11:00 AM">10:40 AM - 11:00 AM</option>
-                                            <option value="11:00 AM - 11:20 AM">11:00 AM - 11:20 AM</option>
-                                            <option value="11:20 AM - 11:40 AM">11:20 AM - 11:40 AM</option>
-                                            <option value="11:40 AM - 12:00 PM">11:40 AM - 12:00 PM</option>
+                                            <option value="10:00 AM - 10:15 AM">10:00 AM - 10:15 AM</option>
+                                            <option value="10:15 AM - 10:30 AM">10:15 AM - 10:30 AM</option>
+                                            <option value="10:30 AM - 10:45 AM">10:30 AM - 10:45 AM</option>
+                                            <option value="10:45 AM - 11:00 AM">10:45 AM - 11:00 AM</option>
+                                            <option value="11:00 AM - 11:15 AM">11:00 AM - 11:15 AM</option>
+                                            <option value="11:15 AM - 11:30 AM">11:15 AM - 11:30 AM</option>
+                                            <option value="11:30 AM - 11:45 AM">11:30 AM - 11:45 AM</option>
+                                            <option value="11:45 AM - 12:00 PM">11:45 AM - 12:00 PM</option>
                                         </select>
                                     </div>
                                     <div style={{ display: 'flex', gap: '10px' }}>

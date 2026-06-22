@@ -57,7 +57,7 @@ const RefundPolicy = () => {
                     </p>
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .refund-page {
                     padding: 160px 0 80px;
                     min-height: 80vh;

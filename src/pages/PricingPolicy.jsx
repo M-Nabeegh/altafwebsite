@@ -31,7 +31,7 @@ const PricingPolicy = () => {
                         <div className="features-list">
                             <div className="feature-item">
                                 <FaCheckCircle className="check-icon" />
-                                <span>20-minute direct one-on-one session with Prof. Dr. Javed Altaf</span>
+                                <span>15-minute direct one-on-one session with Prof. Dr. Javed Altaf</span>
                             </div>
                         </div>
 
@@ -66,7 +66,7 @@ const PricingPolicy = () => {
                     <div className="faq-grid">
                         <div className="faq-item">
                             <h5>Are there any hidden charges?</h5>
-                            <p>No. The PKR 4,000 consultation fee is flat and covers your entire 20-minute session. No extra taxes or administration charges are added at checkout.</p>
+                            <p>No. The PKR 4,000 consultation fee is flat and covers your entire 15-minute session. No extra taxes or administration charges are added at checkout.</p>
                         </div>
                         <div className="faq-item">
                             <h5>What payment methods do you accept?</h5>
@@ -79,7 +79,7 @@ const PricingPolicy = () => {
                     </div>
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .pricing-page {
                     padding: 160px 0 80px;
                     min-height: 80vh;

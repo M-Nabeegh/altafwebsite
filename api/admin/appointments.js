@@ -4,6 +4,10 @@
 
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
+import {
+  expireStaleReservations,
+  validateAppointmentSlot,
+} from '../payfast/booking-rules.js';
 
 function getSupabase() {
   return createClient(
@@ -45,7 +49,32 @@ export default async function handler(req, res) {
   if (req.method === 'PATCH') {
     const { id, slot_date, slot_time } = req.body || {};
     if (!id || !slot_date || !slot_time) return res.status(400).json({ error: 'Missing fields' });
+
+    const slotValidationError = validateAppointmentSlot(slot_date, slot_time);
+    if (slotValidationError) return res.status(400).json({ error: slotValidationError });
+
+    try {
+      await expireStaleReservations(supabase, slot_date);
+    } catch (error) {
+      console.error('[admin/appointments] Reservation cleanup error:', error.message);
+      return res.status(500).json({ error: 'Could not verify slot availability' });
+    }
+
+    const { data: conflict, error: conflictError } = await supabase
+      .from('appointments')
+      .select('id')
+      .eq('slot_date', slot_date)
+      .eq('slot_time', slot_time)
+      .in('status', ['payment_pending', 'confirmed'])
+      .neq('id', id)
+      .limit(1)
+      .maybeSingle();
+
+    if (conflictError) return res.status(500).json({ error: 'Could not verify slot availability' });
+    if (conflict) return res.status(409).json({ error: 'That appointment slot is already reserved' });
+
     const { error } = await supabase.from('appointments').update({ slot_date, slot_time }).eq('id', id);
+    if (error?.code === '23505') return res.status(409).json({ error: 'That appointment slot is already reserved' });
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json({ success: true });
   }
@@ -53,6 +82,13 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const { filter, date } = req.query;
+
+  try {
+    await expireStaleReservations(supabase);
+  } catch (error) {
+    console.error('[admin/appointments] Reservation cleanup error:', error.message);
+    return res.status(500).json({ error: 'Could not refresh appointment reservations' });
+  }
 
   let query = supabase
     .from('appointments')

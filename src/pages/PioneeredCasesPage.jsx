@@ -103,14 +103,17 @@ const PioneeredCasesPage = () => {
 
     const [selectedImage, setSelectedImage] = React.useState(null);
 
+    useEffect(() => {
+        document.body.style.overflow = selectedImage ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+    }, [selectedImage]);
+
     const openImage = (img) => {
         setSelectedImage(img);
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
     };
 
     const closeImage = () => {
         setSelectedImage(null);
-        document.body.style.overflow = 'unset'; // Restore scrolling
     };
 
     return (
@@ -280,7 +283,7 @@ const PioneeredCasesPage = () => {
                 </div>
             </section>
 
-            <style jsx>{`
+            <style>{`
         .bg-dark { background-color: var(--primary-dark); }
         .bg-light { background-color: var(--secondary-color); }
         .text-white { color: white !important; }

@@ -19,15 +19,6 @@ const ExperiencePage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const affiliations = [
-    { logo: baqaiLogo, name: "Baqai Medical University" },
-    { logo: acsLogo, name: "American College of Surgeons" },
-    { logo: lumhsLogo, name: "Liaquat University of Medical & Health Sciences" },
-    { logo: cpspLogo, name: "College of Physicians & Surgeons Pakistan" },
-    { logo: rcpsLogo, name: "Royal College of Physicians & Surgeons" },
-    { logo: ircadLogo, name: "IRCAD France (Dip. Laparoscopic Surgery)" },
-  ];
-
   // Helper to get logo for a specific degree/institution
   const getLogo = (degree, institution) => {
     if (institution.includes("Baqai")) return baqaiLogo;
@@ -117,7 +108,7 @@ const ExperiencePage = () => {
 
       </div>
 
-      <style jsx>{`
+      <style>{`
         .page-header {
           background: var(--primary-dark);
           color: white;

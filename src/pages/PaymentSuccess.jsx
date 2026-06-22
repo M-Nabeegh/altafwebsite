@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
     FaCheckCircle, FaSpinner, FaEnvelope, FaVideo, FaFileMedical,
-    FaCalendarAlt, FaClock, FaUser, FaCreditCard, FaShieldAlt, FaSyncAlt
+    FaCalendarAlt, FaClock, FaUser, FaCreditCard, FaShieldAlt, FaSyncAlt,
+    FaExclamationTriangle
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
 
@@ -16,10 +17,11 @@ const POLL_INTERVAL = 5000; // poll every 5s for appointment details
 const PaymentSuccess = () => {
     const { orderId } = useParams();
     const [apptData, setApptData]   = useState(null);
-    const [loadingDetails, setLoadingDetails] = useState(true);
+    const [loadingDetails, setLoadingDetails] = useState(Boolean(orderId));
     const [lastChecked, setLastChecked] = useState(null);
     const [manualChecking, setManualChecking] = useState(false);
     const intervalRef = useRef(null);
+    const needsManualReview = apptData?.status === 'cancelled' && apptData?.paymentStatus === 'paid';
 
     const fetchDetails = useCallback(async () => {
         if (!orderId) return;
@@ -32,7 +34,7 @@ const PaymentSuccess = () => {
                 setApptData(data);
                 setLoadingDetails(false);
                 // If appointment is confirmed in DB, no need to keep polling
-                if (data.status === 'confirmed') {
+                if (data.status === 'confirmed' || (data.status === 'cancelled' && data.paymentStatus === 'paid')) {
                     clearInterval(intervalRef.current);
                 }
             }
@@ -46,10 +48,13 @@ const PaymentSuccess = () => {
     };
 
     useEffect(() => {
-        if (!orderId) { setLoadingDetails(false); return; }
-        fetchDetails();
+        if (!orderId) return;
+        const initialCheck = setTimeout(fetchDetails, 0);
         intervalRef.current = setInterval(fetchDetails, POLL_INTERVAL);
-        return () => clearInterval(intervalRef.current);
+        return () => {
+            clearTimeout(initialCheck);
+            clearInterval(intervalRef.current);
+        };
     }, [orderId, fetchDetails]);
 
     const formatDate = (dateStr) => {
@@ -70,15 +75,21 @@ const PaymentSuccess = () => {
             <div className="pf-result-container">
 
                 {/* ─── Always show CONFIRMED immediately ─────────────────── */}
-                <div className="pf-icon pf-icon--success">
-                    <FaCheckCircle />
+                <div className={`pf-icon ${needsManualReview ? 'pf-icon--review' : 'pf-icon--success'}`}>
+                    {needsManualReview ? <FaExclamationTriangle /> : <FaCheckCircle />}
                 </div>
 
-                <h1 className="pf-title">Consultation Confirmed! 🎉</h1>
+                <h1 className="pf-title">
+                    {needsManualReview ? 'Payment Received — Appointment Under Review' : 'Consultation Confirmed! 🎉'}
+                </h1>
 
-                <div className="pf-success-badge">
+                <div className={`pf-success-badge ${needsManualReview ? 'pf-review-badge' : ''}`}>
                     <FaShieldAlt />
-                    <span>Payment received &amp; secured via PayFast</span>
+                    <span>
+                        {needsManualReview
+                            ? 'Your original slot hold expired; the clinic will contact you'
+                            : 'Payment received & secured via PayFast'}
+                    </span>
                 </div>
 
                 {/* ─── Appointment Details (loads after IPN arrives) ──────── */}
@@ -165,20 +176,38 @@ const PaymentSuccess = () => {
                 {/* ─── What Happens Next ──────────────────────────────────── */}
                 <div className="pf-next-steps">
                     <h3>What Happens Next?</h3>
-                    <div className="pf-step">
-                        <div className="pf-step-icon"><FaEnvelope /></div>
-                        <div>
-                            <h5>Check Your Email</h5>
-                            <p>A confirmation email is on its way. Dr. Javed Altaf will video call on your WhatsApp number 2 mins before.</p>
+                    {needsManualReview && (
+                        <div className="pf-review-note">
+                            Your payment completed after the temporary reservation expired. The clinic must verify
+                            slot availability before confirming the appointment. Please keep your booking reference.
                         </div>
-                    </div>
-                    <div className="pf-step">
-                        <div className="pf-step-icon"><FaVideo /></div>
-                        <div>
-                            <h5>Join on Time</h5>
-                            <p>Be ready at your selected Saturday slot. Prof. Dr. Javed Altaf will join you for 20 minutes.</p>
+                    )}
+                    {needsManualReview ? (
+                        <div className="pf-step">
+                            <div className="pf-step-icon"><FaEnvelope /></div>
+                            <div>
+                                <h5>Wait for Clinic Confirmation</h5>
+                                <p>The clinic will contact you to confirm an available time or arrange payment assistance.</p>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <>
+                            <div className="pf-step">
+                                <div className="pf-step-icon"><FaEnvelope /></div>
+                                <div>
+                                    <h5>Check Your Email</h5>
+                                    <p>A confirmation email is on its way. Dr. Javed Altaf will video call on your WhatsApp number 2 mins before.</p>
+                                </div>
+                            </div>
+                            <div className="pf-step">
+                                <div className="pf-step-icon"><FaVideo /></div>
+                                <div>
+                                    <h5>Join on Time</h5>
+                                    <p>Be ready at your selected Saturday slot. Prof. Dr. Javed Altaf will join you for 15 minutes.</p>
+                                </div>
+                            </div>
+                        </>
+                    )}
                     <div className="pf-step">
                         <div className="pf-step-icon"><FaFileMedical /></div>
                         <div>
@@ -211,6 +240,10 @@ const PaymentSuccess = () => {
                     box-shadow: 0 0 0 14px rgba(22,163,74,0.08);
                     animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
                 }
+                .pf-icon--review {
+                    background: #fef3c7; color: #d97706;
+                    box-shadow: 0 0 0 14px rgba(217,119,6,0.08);
+                }
                 @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
                 .spin-icon { animation: spin 1.2s linear infinite; }
                 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -220,6 +253,12 @@ const PaymentSuccess = () => {
                     background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d;
                     padding: 8px 18px; border-radius: 100px; font-size: 0.875rem;
                     font-weight: 600; margin-bottom: 28px;
+                }
+                .pf-review-badge { background:#fffbeb; border-color:#fde68a; color:#b45309; }
+                .pf-review-note {
+                    background:#fffbeb; border:1px solid #fde68a; color:#92400e;
+                    border-radius:10px; padding:14px 16px; margin-bottom:18px;
+                    font-size:0.88rem; line-height:1.55; text-align:left;
                 }
                 /* ── Skeleton loading ── */
                 .pf-details-loading { margin-bottom: 32px; }

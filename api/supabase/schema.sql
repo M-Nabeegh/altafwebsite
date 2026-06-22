@@ -118,3 +118,19 @@ create index if not exists idx_appointments_slot_date
 
 create index if not exists idx_appointments_patient_email
   on appointments(patient_email);
+
+-- Prevent two active reservations from owning the same date/time. Failed,
+-- cancelled, and expired checkout attempts do not block a future booking.
+create unique index if not exists uq_appointments_active_slot
+  on appointments(slot_date, slot_time)
+  where status in ('payment_pending', 'confirmed')
+    and slot_time in (
+      '10:00 AM - 10:15 AM',
+      '10:15 AM - 10:30 AM',
+      '10:30 AM - 10:45 AM',
+      '10:45 AM - 11:00 AM',
+      '11:00 AM - 11:15 AM',
+      '11:15 AM - 11:30 AM',
+      '11:30 AM - 11:45 AM',
+      '11:45 AM - 12:00 PM'
+    );

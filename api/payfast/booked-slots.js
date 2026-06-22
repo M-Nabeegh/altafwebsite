@@ -3,6 +3,10 @@
 // Called by BookingPage when patient selects a date.
 
 import { createClient } from '@supabase/supabase-js';
+import {
+  expireStaleReservations,
+  validateAppointmentDate,
+} from './booking-rules.js';
 
 function getSupabase() {
   return createClient(
@@ -25,15 +29,24 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'date query param required (YYYY-MM-DD)' });
   }
 
+  const dateValidationError = validateAppointmentDate(date);
+  if (dateValidationError) return res.status(400).json({ error: dateValidationError });
+
   const supabase = getSupabase();
 
-  // Return booked slots for dates where appointment is NOT failed/cancelled
+  try {
+    await expireStaleReservations(supabase, date);
+  } catch (error) {
+    console.error('[booked-slots] Reservation cleanup error:', error.message);
+    return res.status(500).json({ error: 'Could not refresh slot availability' });
+  }
+
+  // Only confirmed appointments and unexpired checkout holds block a slot.
   const { data, error } = await supabase
     .from('appointments')
     .select('slot_time')
     .eq('slot_date', date)
-    .neq('status', 'failed')
-    .neq('status', 'cancelled');
+    .in('status', ['payment_pending', 'confirmed']);
 
   if (error) {
     console.error('[booked-slots] Supabase error:', error.message);

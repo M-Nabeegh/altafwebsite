@@ -107,6 +107,11 @@ export function patientConfirmationHtml({
           </tr>
         </table>
 
+        <p style="font-size:11px; color:#9ca3af; text-align:center; margin:-16px 0 28px; line-height:1.6;">
+          Transaction ID: <strong>${transactionId || 'Not provided'}</strong><br/>
+          Payment processed: ${orderDate || 'Not provided'}
+        </p>
+
         <!-- What's Next -->
         <p style="font-size:13px; font-weight:700; color:#1e3a5f; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:16px;">WHAT HAPPENS NEXT</p>
         
@@ -122,7 +127,7 @@ export function patientConfirmationHtml({
             <td style="padding: 12px 0; vertical-align:top; font-size:20px;">🎥</td>
             <td style="padding: 12px 0; vertical-align:top;">
               <strong style="font-size:14px; color:#1e3a5f; display:block; margin-bottom:3px;">Join on Time</strong>
-              <span style="font-size:13px; color:#6b7280;">Please be ready at your selected slot on Saturday. The consultation is 20 minutes.</span>
+              <span style="font-size:13px; color:#6b7280;">Please be ready at your selected slot on Saturday. The consultation is 15 minutes.</span>
             </td>
           </tr>
           <tr>

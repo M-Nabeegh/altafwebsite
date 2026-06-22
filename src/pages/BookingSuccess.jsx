@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaCheckCircle, FaEnvelope, FaVideo, FaFileMedical, FaUser, FaCalendarAlt, FaClock, FaCreditCard } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 
 const BookingSuccess = () => {
-    const [booking, setBooking] = useState(null);
-
-    useEffect(() => {
+    const [booking] = useState(() => {
         const storedData = localStorage.getItem('pending_booking');
-        if (storedData) {
-            try {
-                setBooking(JSON.parse(storedData));
-            } catch (err) {
-                console.error("Failed to parse pending booking from localStorage", err);
-            }
+        if (!storedData) return null;
+        try {
+            return JSON.parse(storedData);
+        } catch (err) {
+            console.error("Failed to parse pending booking from localStorage", err);
+            return null;
         }
-    }, []);
+    });
 
     return (
         <div className="success-page section fade-in">
@@ -104,7 +102,7 @@ const BookingSuccess = () => {
                 <Link to="/" className="btn btn-primary btn-lg">Return to Home</Link>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .success-page {
                     padding: 160px 0 100px;
                     min-height: 100vh;

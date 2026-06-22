@@ -4,9 +4,6 @@
 // Run: node scripts/migrate.mjs
 
 import { createClient } from '@supabase/supabase-js';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import { config } from './dotenv-loader.mjs';
 
 config(); // Load .env
@@ -25,7 +22,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 console.log('🔌 Testing Supabase connection...');
 
 async function testConnection() {
-  const { data, error } = await supabase.from('appointments').select('count').limit(1);
+  const { error } = await supabase.from('appointments').select('count').limit(1);
   if (error && error.code === '42P01') {
     return 'tables_missing'; // Table doesn't exist yet
   }

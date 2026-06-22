@@ -24,7 +24,7 @@ const TermsAndConditions = () => {
 
                     <h3>3. Booking & Consultation Fees</h3>
                     <p>
-                        The fee for a single online consultation session is <strong>PKR 4,000</strong>. This fee covers a 20-minute video or audio call session on the selected Saturday. Payment must be processed and confirmed in full to secure the consultation slot.
+                        The fee for a single online consultation session is <strong>PKR 4,000</strong>. This fee covers a 15-minute video or audio call session on the selected Saturday. Payment must be processed and confirmed in full to secure the consultation slot.
                     </p>
 
                     <h3>4. Scheduling & Time Slots</h3>
@@ -53,7 +53,7 @@ const TermsAndConditions = () => {
                     </p>
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .terms-page {
                     padding: 160px 0 80px;
                     min-height: 80vh;

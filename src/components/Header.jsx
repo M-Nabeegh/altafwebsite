@@ -17,17 +17,11 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (href) => {
-    setIsOpen(false);
-    // If it's a hash link on the home page, we might need custom handling if we are already there
-    // But standard anchor behavior usually works if IDs are present
-  };
-
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
         <Link to="/" className="logo">
-          <img src="/favicon-48.png" alt="Prof. Dr. Javed Altaf Logo" className="header-logo-img" width="48" height="48" fetchpriority="high" />
+          <img src="/favicon-48.png" alt="Prof. Dr. Javed Altaf Logo" className="header-logo-img" width="48" height="48" fetchPriority="high" />
           <div className="logo-text">
             <h2>{doctorProfile.name}</h2>
             <span>{doctorProfile.designation}</span>
@@ -42,12 +36,6 @@ const Header = () => {
           </div>
           <ul>
             {navLinks.map((link) => {
-              // Check if link is internal hash or external page
-              const isHash = link.href.includes('#');
-              // Logic: If we are not on home and link is hash, go to home+hash
-              // If we are on home and link is hash, just hash (native behavior)
-
-              // Simplified: Just use the href from content.js which is now absolute path or /#hash
               return (
                 <li key={link.label}>
                   <a

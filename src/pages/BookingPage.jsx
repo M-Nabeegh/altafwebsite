@@ -50,14 +50,16 @@ const BookingPage = () => {
         fetchBookedSlots();
     }, [selectedDate]);
 
-    // List of 20-minute time slots between 10:00 AM and 12:00 PM
+    // List of 15-minute time slots between 10:00 AM and 12:00 PM
     const timeSlots = [
-        "10:00 AM - 10:20 AM",
-        "10:20 AM - 10:40 AM",
-        "10:40 AM - 11:00 AM",
-        "11:00 AM - 11:20 AM",
-        "11:20 AM - 11:40 AM",
-        "11:40 AM - 12:00 PM"
+        "10:00 AM - 10:15 AM",
+        "10:15 AM - 10:30 AM",
+        "10:30 AM - 10:45 AM",
+        "10:45 AM - 11:00 AM",
+        "11:00 AM - 11:15 AM",
+        "11:15 AM - 11:30 AM",
+        "11:30 AM - 11:45 AM",
+        "11:45 AM - 12:00 PM"
     ];
 
     // Calendar Helper Functions
@@ -227,7 +229,7 @@ const BookingPage = () => {
             <div className="container">
                 <div className="booking-header text-center">
                     <h1>Book an Online Consultation</h1>
-                    <p>Select a Saturday slot for a personalized, secure 20-minute urological consultation.</p>
+                    <p>Select a Saturday slot for a personalized, secure 15-minute urological consultation.</p>
                 </div>
 
                 <div className="booking-layout-grid">
@@ -249,7 +251,7 @@ const BookingPage = () => {
                             <div>
                                 <h5>Hours Available</h5>
                                 <p>10:00 AM - 12:00 PM</p>
-                                <span className="badge-duration">20 Minute Slots</span>
+                                <span className="badge-duration">15 Minute Slots</span>
                             </div>
                         </div>
 
@@ -467,7 +469,7 @@ const BookingPage = () => {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 .booking-page {
                     padding: 160px 0 80px;
                     background: var(--light-gray);

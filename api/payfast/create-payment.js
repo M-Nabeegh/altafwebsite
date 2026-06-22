@@ -5,8 +5,11 @@
 // MERCHANT_ID is included in postFields as required by PayFast's redirect flow.
 
 import { createClient } from '@supabase/supabase-js';
-import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
+import {
+  expireStaleReservations,
+  validateAppointmentSlot,
+} from './booking-rules.js';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 const ENV              = process.env.PAYFAST_ENV || 'UAT';
@@ -98,6 +101,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid email address' });
   }
 
+  const normalizedSlotTime = selectedTimeSlot.trim();
+  const slotValidationError = validateAppointmentSlot(selectedDate, normalizedSlotTime);
+  if (slotValidationError) {
+    return res.status(400).json({ error: slotValidationError });
+  }
+
   // ── 3. Generate basket_id ──────────────────────────────────────────────────
   const basketId = `JA-${Math.floor(40000 + Math.random() * 50000)}`;
   const txnAmt   = CONSULTATION_AMOUNT;
@@ -105,6 +114,31 @@ export default async function handler(req, res) {
 
   // ── 4. Insert pending appointment in Supabase ──────────────────────────────
   const supabase = getSupabase();
+
+  try {
+    await expireStaleReservations(supabase, selectedDate);
+  } catch (error) {
+    console.error('[create-payment] Reservation cleanup error:', error.message);
+    return res.status(500).json({ error: 'Could not verify slot availability' });
+  }
+
+  const { data: existingAppointment, error: availabilityErr } = await supabase
+    .from('appointments')
+    .select('id')
+    .eq('slot_date', selectedDate)
+    .eq('slot_time', normalizedSlotTime)
+    .in('status', ['payment_pending', 'confirmed'])
+    .limit(1)
+    .maybeSingle();
+
+  if (availabilityErr) {
+    console.error('[create-payment] Availability check error:', availabilityErr.message);
+    return res.status(500).json({ error: 'Could not verify slot availability' });
+  }
+  if (existingAppointment) {
+    return res.status(409).json({ error: 'This time slot was just reserved. Please select another slot.' });
+  }
+
   const { data: appointment, error: dbErr } = await supabase
     .from('appointments')
     .insert({
@@ -112,7 +146,7 @@ export default async function handler(req, res) {
       patient_email:   patientEmail.trim().toLowerCase(),
       patient_phone:   patientPhone.trim(),
       slot_date:       selectedDate,
-      slot_time:       selectedTimeSlot.trim(),
+      slot_time:       normalizedSlotTime,
       amount:          parseInt(txnAmt, 10),
       status:          'payment_pending',
       payment_status:  'unpaid',
@@ -124,6 +158,9 @@ export default async function handler(req, res) {
 
   if (dbErr) {
     console.error('[create-payment] Supabase insert error:', dbErr.message);
+    if (dbErr.code === '23505') {
+      return res.status(409).json({ error: 'This time slot was just reserved. Please select another slot.' });
+    }
     return res.status(500).json({ error: 'Failed to create appointment record' });
   }
 

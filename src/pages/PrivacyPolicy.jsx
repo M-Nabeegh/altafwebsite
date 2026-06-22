@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
                     <p>If you have any questions about this Privacy Policy, please contact us at javed_altafdr@yahoo.com.</p>
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .privacy-page {
                     padding: 120px 0;
                     min-height: 80vh;

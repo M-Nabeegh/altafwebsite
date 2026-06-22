@@ -105,7 +105,7 @@ const ResearchPage = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
                 .page-header {
                     background: var(--primary-dark);
                     color: white;

@@ -28,7 +28,7 @@ const Hero = () => {
 
         <div className="hero-image fade-in">
           <div className="image-wrapper">
-            <img src="/doctor-profile-v2.jpg" alt={doctorProfile.name} fetchpriority="high" width="600" height="600" style={{ objectFit: 'cover' }} />
+            <img src="/doctor-profile-v2.jpg" alt={doctorProfile.name} fetchPriority="high" width="600" height="600" style={{ objectFit: 'cover' }} />
             <span className="subtitle mobile-subtitle hero-image-tag">Consultant Urologist</span>
           </div>
         </div>

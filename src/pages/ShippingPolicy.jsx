@@ -39,7 +39,7 @@ const ShippingPolicy = () => {
                     </p>
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .shipping-page {
                     padding: 160px 0 80px;
                     min-height: 80vh;

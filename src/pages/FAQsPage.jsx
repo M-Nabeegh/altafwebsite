@@ -10,7 +10,7 @@ const FAQsPage = () => {
         },
         {
             question: "What is the consultation fee?",
-            answer: "The consultation fee is PKR 4,000 for a standard 20-minute video or audio session with Prof. Dr. Javed Altaf. There are no hidden charges or extra administration fees."
+            answer: "The consultation fee is PKR 4,000 for a standard 15-minute video or audio session with Prof. Dr. Javed Altaf. There are no hidden charges or extra administration fees."
         },
         {
             question: "What payment methods do you accept?",
@@ -54,7 +54,7 @@ const FAQsPage = () => {
                     ))}
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .faq-page {
                     padding: 160px 0 80px;
                     min-height: 80vh;
