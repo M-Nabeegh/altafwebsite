@@ -53,7 +53,7 @@ const Footer = () => {
             <div className="contact-item">
               <FaMapMarkerAlt />
               <div>
-                <span>Liaquat University of Medical & Health Sciences (LUMHS), {doctorProfile.location}</span>
+                <span><strong>Maryam Urology Clinic</strong><br />{doctorProfile.address}</span>
                 <br />
                 <a href={doctorProfile.googleMapsLink} target="_blank" rel="noopener noreferrer" style={{ color: '#a1c2fa', fontSize: '0.85rem', marginTop: '5px', display: 'inline-block' }}>View Clinic on Map</a>
               </div>
