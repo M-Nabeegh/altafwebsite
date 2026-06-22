@@ -17,14 +17,34 @@ const Home = () => {
     const { hash } = useLocation();
 
     useEffect(() => {
-        if (hash) {
-            const element = document.getElementById(hash.replace('#', ''));
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        } else {
+        if (!hash) {
             window.scrollTo(0, 0);
+            return undefined;
         }
+
+        const targetId = hash.replace('#', '');
+        const scrollToTarget = () => {
+            const element = document.getElementById(targetId);
+            if (!element) return false;
+
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return true;
+        };
+
+        if (scrollToTarget()) return undefined;
+
+        // Below-the-fold sections are lazy-loaded, so wait until the hash target
+        // enters the DOM before scrolling to it.
+        const observer = new MutationObserver(() => {
+            if (scrollToTarget()) observer.disconnect();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        const timeoutId = window.setTimeout(() => observer.disconnect(), 5000);
+        return () => {
+            observer.disconnect();
+            window.clearTimeout(timeoutId);
+        };
     }, [hash]);
 
     return (

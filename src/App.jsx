@@ -24,15 +24,17 @@ const FAQsPage = lazy(() => import('./pages/FAQsPage'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 const HIDE_HEADER_PATHS = ['/thank-you'];
+const HEADER_OFFSET_PATHS = ['/experience', '/research', '/pioneered-cases'];
 
 const AppContent = () => {
   const location = useLocation();
   const hideHeader = HIDE_HEADER_PATHS.some(p => location.pathname.startsWith(p));
+  const needsHeaderOffset = HEADER_OFFSET_PATHS.includes(location.pathname);
 
   return (
     <div className="app">
       {!hideHeader && <Header />}
-      <main>
+      <main className={needsHeaderOffset ? 'fixed-header-offset' : undefined}>
         <Suspense fallback={
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
             <div style={{

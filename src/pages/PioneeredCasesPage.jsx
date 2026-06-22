@@ -562,7 +562,7 @@ const PioneeredCasesPage = () => {
 
             @media (max-width: 900px) {
                 .intro-section {
-                    padding-top: 150px; /* Increased to prevent header overlap */
+                    padding-top: 80px;
                 }
 
                 .hero-case-card {

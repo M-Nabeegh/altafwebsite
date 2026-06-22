@@ -56,6 +56,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+main.fixed-header-offset {
+  padding-top: 88px;
+}
+
+#expertise,
+#contact {
+  scroll-margin-top: 88px;
+}
+
 h1,
 h2,
 h3,
