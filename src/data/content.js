@@ -17,6 +17,7 @@ export const doctorProfile = {
     address: "Shaikh Diagnostic Center, Shop No. 12, Doctors Ln, near National saving centre, Soldier Bazaar Doctors Colony, Hyderabad, 71000",
     googleMapsLink: "https://maps.app.goo.gl/nJHtdjinFnBd6QqP6",
     linkedin: "https://www.linkedin.com/in/drjavedaltaf",
+    facebook: "https://www.facebook.com/DrJavedAltaf",
     bookingFee: "Rs. 4,000"
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { doctorProfile, navLinks } from '../data/content';
-import { FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { FaFacebook, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -15,6 +15,7 @@ const Footer = () => {
             <div className="social-links">
               <a href={doctorProfile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile"><FaLinkedin /></a>
               <a href={`mailto:${doctorProfile.email}`} aria-label="Send Email"><FaEnvelope /></a>
+              <a href={doctorProfile.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile"><FaFacebook /></a>
             </div>
           </div>
 
