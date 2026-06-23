@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import {
     FaCheckCircle, FaSpinner, FaEnvelope, FaVideo, FaFileMedical,
     FaCalendarAlt, FaClock, FaUser, FaCreditCard, FaShieldAlt, FaSyncAlt,
-    FaExclamationTriangle
+    FaExclamationTriangle, FaSms
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
 
@@ -118,9 +118,12 @@ const PaymentSuccess = () => {
                             )}
                         </div>
                         <div className="pf-email-note">
-                            <FaEnvelope />
+                            <div className="pf-confirmation-icons">
+                                <FaEnvelope />
+                                <FaSms />
+                            </div>
                             <p>
-                                A confirmation email will arrive at your inbox shortly.
+                                After PayFast verification, confirmation will arrive by <strong>email and SMS</strong> shortly.
                                 If you paid via <strong>EasyPaisa or JazzCash</strong>, details may take up to 10 minutes to appear here.
                             </p>
                         </div>
@@ -193,10 +196,10 @@ const PaymentSuccess = () => {
                     ) : (
                         <>
                             <div className="pf-step">
-                                <div className="pf-step-icon"><FaEnvelope /></div>
+                                <div className="pf-step-icon"><FaSms /></div>
                                 <div>
-                                    <h5>Check Your Email</h5>
-                                    <p>A confirmation email is on its way. Prof. Dr. Javed Altaf will start the WhatsApp video call approximately 2 minutes before your slot.</p>
+                                    <h5>Check Your Email and SMS</h5>
+                                    <p>Payment confirmation is sent to both your email address and mobile number after the verified PayFast IPN is received.</p>
                                 </div>
                             </div>
                             <div className="pf-step">
@@ -297,6 +300,7 @@ const PaymentSuccess = () => {
                 }
                 .pf-email-note svg { flex-shrink: 0; margin-top: 2px; }
                 .pf-email-note p { margin: 0; }
+                .pf-confirmation-icons { display: flex; gap: 7px; flex-shrink: 0; }
                 /* ── Summary card ── */
                 .pf-summary-card {
                     background: var(--secondary-color); border: 1.5px solid rgba(0,86,179,0.15);

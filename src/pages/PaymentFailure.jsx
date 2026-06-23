@@ -1,34 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { FaTimesCircle, FaRedo, FaPhone, FaEnvelope, FaShieldAlt } from 'react-icons/fa';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import {
+    FaExclamationTriangle, FaRedo, FaPhone, FaEnvelope, FaShieldAlt,
+    FaSpinner, FaSyncAlt, FaSms
+} from 'react-icons/fa';
 import SEO from '../components/SEO';
 import { doctorProfile } from '../data/content';
+import { hasDetectedPaidAppointment } from '../utils/paymentStatus';
+
+const POLL_INTERVAL = 5000;
 
 const PaymentFailure = () => {
     const { orderId } = useParams();
+    const navigate = useNavigate();
     const [apptData, setApptData] = useState(null);
+    const [lastChecked, setLastChecked] = useState(null);
+    const [manualChecking, setManualChecking] = useState(false);
+    const intervalRef = useRef(null);
+
+    const fetchStatus = useCallback(async () => {
+        if (!orderId) return;
+        try {
+            const res = await fetch(`/api/payfast/status?orderId=${encodeURIComponent(orderId)}`);
+            setLastChecked(new Date());
+            if (!res.ok) return;
+
+            const data = await res.json();
+            setApptData(data);
+
+            if (hasDetectedPaidAppointment(data)) {
+                clearInterval(intervalRef.current);
+                navigate(`/payment-success/${encodeURIComponent(orderId)}`, { replace: true });
+            }
+        } catch {
+            // Keep the page usable and retry on the next polling interval.
+        }
+    }, [navigate, orderId]);
+
+    const handleManualRefresh = async () => {
+        setManualChecking(true);
+        await fetchStatus();
+        setManualChecking(false);
+    };
 
     useEffect(() => {
         if (!orderId) return;
-        const fetchStatus = async () => {
-            try {
-                const res = await fetch(`/api/payfast/status?orderId=${encodeURIComponent(orderId)}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setApptData(data);
-                }
-            } catch {
-                // Silent fail — failure page should still render
-            }
+        const initialCheck = setTimeout(fetchStatus, 0);
+        intervalRef.current = setInterval(fetchStatus, POLL_INTERVAL);
+        return () => {
+            clearTimeout(initialCheck);
+            clearInterval(intervalRef.current);
         };
-        fetchStatus();
-    }, [orderId]);
+    }, [fetchStatus, orderId]);
 
     return (
         <div className="pf-fail-page fade-in">
             <SEO
-                title="Payment Failed | Prof. Dr. Javed Altaf"
-                description="Your payment was not completed. Please try again or contact support."
+                title="Payment Status Pending | Prof. Dr. Javed Altaf"
+                description="Your payment result is being checked. Delayed PayFast confirmations are updated automatically."
                 url={`https://www.javedaltaf.com/payment-failure/${orderId}`}
             />
 
@@ -36,14 +65,46 @@ const PaymentFailure = () => {
 
                 {/* Icon */}
                 <div className="pf-fail-icon">
-                    <FaTimesCircle />
+                    <FaExclamationTriangle />
                 </div>
 
-                <h1 className="pf-fail-title">Payment Was Not Completed</h1>
+                <h1 className="pf-fail-title">Payment Status Not Confirmed Yet</h1>
                 <p className="pf-fail-subtitle">
-                    Your appointment has <strong>not</strong> been confirmed. No charge was made to your account.
-                    You can try again or contact us for assistance.
+                    PayFast redirected you here without a final confirmation. Bank and wallet callbacks can sometimes
+                    arrive a few minutes later, so we are continuing to check your payment automatically.
                 </p>
+
+                <div className="pf-verification-note" role="status" aria-live="polite">
+                    <FaSpinner className="spin-icon" />
+                    <div>
+                        <strong>Still checking in the background</strong>
+                        <p>
+                            If payment is detected, this page will update automatically and you will receive
+                            confirmation by <FaEnvelope aria-hidden="true" /> email and <FaSms aria-hidden="true" /> SMS.
+                        </p>
+                        <button
+                            type="button"
+                            className="pf-check-now"
+                            onClick={handleManualRefresh}
+                            disabled={manualChecking}
+                        >
+                            <FaSyncAlt className={manualChecking ? 'spin-icon' : ''} />
+                            {manualChecking ? 'Checking…' : 'Check Now'}
+                        </button>
+                        {lastChecked && (
+                            <span className="pf-last-checked">
+                                Last checked {lastChecked.toLocaleTimeString('en-PK', {
+                                    hour: '2-digit', minute: '2-digit', second: '2-digit'
+                                })}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                <div className="pf-duplicate-warning">
+                    <strong>Please do not make a second payment immediately.</strong>
+                    Wait for the confirmation email/SMS or contact the clinic with your booking reference.
+                </div>
 
                 {/* Reference */}
                 {orderId && (
@@ -63,7 +124,7 @@ const PaymentFailure = () => {
                             }) : '—'} — {apptData.slotTime}
                         </strong>
                         <p className="pf-fail-appt-note">
-                            This slot may still be available. Please book again to reserve it.
+                            We will keep checking this booking reference while this page remains open.
                         </p>
                     </div>
                 )}
@@ -83,7 +144,7 @@ const PaymentFailure = () => {
                 <div className="pf-fail-actions">
                     <Link to="/booking" className="btn btn-primary pf-retry-btn">
                         <FaRedo style={{ marginRight: 8 }} />
-                        Try Again — Book New Slot
+                        Return to Booking
                     </Link>
                 </div>
 
@@ -126,7 +187,7 @@ const PaymentFailure = () => {
 
                 .pf-fail-icon {
                     font-size: 4.5rem;
-                    color: #ef4444;
+                    color: #d97706;
                     margin-bottom: 20px;
                     animation: fadeInDown 0.5s ease;
                 }
@@ -152,6 +213,70 @@ const PaymentFailure = () => {
                     margin-left: auto;
                     margin-right: auto;
                 }
+
+                .spin-icon { animation: spin 1.2s linear infinite; }
+                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+                .pf-verification-note {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 14px;
+                    background: #eff6ff;
+                    border: 1px solid #bfdbfe;
+                    color: #1e40af;
+                    padding: 18px 20px;
+                    border-radius: var(--radius-md);
+                    text-align: left;
+                    margin-bottom: 16px;
+                }
+
+                .pf-verification-note > svg {
+                    flex: 0 0 auto;
+                    margin-top: 3px;
+                    font-size: 1.1rem;
+                }
+
+                .pf-verification-note strong { display: block; margin-bottom: 5px; }
+                .pf-verification-note p {
+                    margin: 0 0 10px;
+                    font-size: 0.85rem;
+                    line-height: 1.55;
+                }
+                .pf-verification-note p svg { vertical-align: -1px; margin: 0 2px; }
+
+                .pf-check-now {
+                    border: 0;
+                    background: transparent;
+                    color: var(--primary-color);
+                    font-weight: 700;
+                    cursor: pointer;
+                    padding: 0;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 0.82rem;
+                }
+
+                .pf-check-now:disabled { cursor: wait; opacity: 0.65; }
+                .pf-last-checked {
+                    display: inline-block;
+                    margin-left: 12px;
+                    font-size: 0.73rem;
+                    color: #64748b;
+                }
+
+                .pf-duplicate-warning {
+                    background: #fffbeb;
+                    border: 1px solid #fde68a;
+                    color: #92400e;
+                    border-radius: var(--radius-md);
+                    padding: 13px 16px;
+                    margin-bottom: 22px;
+                    font-size: 0.83rem;
+                    line-height: 1.5;
+                }
+
+                .pf-duplicate-warning strong { display: block; }
 
                 .pf-fail-ref {
                     display: inline-flex;
