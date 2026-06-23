@@ -34,10 +34,6 @@ const PrescriptionDialog = ({ appointment, onClose }) => {
     setGenerating(true);
     setError('');
 
-    // Open the destination during the tap event so mobile browsers do not
-    // block it after the asynchronous PDF generation completes.
-    const whatsappWindow = window.open('about:blank', '_blank');
-
     try {
       const pdfBytes = await generatePrescriptionPdf({
         patientName: appointment.patient_name,
@@ -53,18 +49,14 @@ const PrescriptionDialog = ({ appointment, onClose }) => {
       );
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
-      if (whatsappWindow) {
-        whatsappWindow.opener = null;
-        whatsappWindow.location.href = whatsappUrl;
-      } else {
-        window.location.href = whatsappUrl;
-      }
-
       setMedicines('');
       setAdvice('');
       onClose();
+      // Navigate the existing PWA/Safari window instead of opening an empty
+      // placeholder tab. On iPhone this hands off directly to WhatsApp and
+      // avoids leaving the doctor on an about:blank screen.
+      window.location.assign(whatsappUrl);
     } catch (generationError) {
-      if (whatsappWindow) whatsappWindow.close();
       setError(generationError.message || 'Could not generate the prescription PDF.');
     } finally {
       setGenerating(false);
