@@ -24,12 +24,14 @@ const FAQsPage = lazy(() => import('./pages/FAQsPage'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
-const HIDE_HEADER_PATHS = ['/thank-you'];
+const HIDE_HEADER_PATHS = ['/thank-you', '/admin'];
+const HIDE_FOOTER_PATHS = ['/admin'];
 const HEADER_OFFSET_PATHS = ['/experience', '/research', '/pioneered-cases'];
 
 const AppContent = () => {
   const location = useLocation();
   const hideHeader = HIDE_HEADER_PATHS.some(p => location.pathname.startsWith(p));
+  const hideFooter = HIDE_FOOTER_PATHS.some(p => location.pathname.startsWith(p));
   const needsHeaderOffset = HEADER_OFFSET_PATHS.includes(location.pathname);
 
   return (
@@ -68,7 +70,7 @@ const AppContent = () => {
           </Routes>
         </Suspense>
       </main>
-      <Footer />
+      {!hideFooter && <Footer />}
       <Analytics />
       <SpeedInsights />
     </div>

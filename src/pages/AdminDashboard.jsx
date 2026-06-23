@@ -3,9 +3,10 @@ import {
     FaUserMd, FaCalendarAlt, FaClock, FaEnvelope, FaPhone,
     FaCheckCircle, FaTimesCircle, FaSpinner, FaSync, FaSignOutAlt,
     FaSearch, FaFilter, FaNotesMedical, FaMoneyBillWave, FaUsers,
-    FaTrash, FaEdit
+    FaTrash, FaEdit, FaFilePrescription
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
+import PrescriptionDialog from '../components/PrescriptionDialog';
 
 const STATUS_COLORS = {
     confirmed:        { bg: '#dcfce7', color: '#15803d', label: 'Confirmed' },
@@ -32,6 +33,7 @@ const AdminDashboard = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editDate, setEditDate] = useState('');
     const [editTime, setEditTime] = useState('');
+    const [prescriptionAppt, setPrescriptionAppt] = useState(null);
 
     const STORAGE_KEY = 'da_admin_token';
 
@@ -152,6 +154,12 @@ const AdminDashboard = () => {
         setEditDate(selectedAppt.slot_date);
         setEditTime(selectedAppt.slot_time);
         setIsEditing(true);
+    };
+
+    const openPrescription = () => {
+        setPrescriptionAppt(selectedAppt);
+        setSelectedAppt(null);
+        setIsEditing(false);
     };
 
     const filteredAppts = appointments.filter(a => {
@@ -430,6 +438,11 @@ const AdminDashboard = () => {
                             <div className="da-modal-row"><strong>Booked:</strong> {formatDateTime(selectedAppt.created_at)}</div>
                         </div>
                         <div className="da-modal-footer" style={{ display: 'block' }}>
+                            {selectedAppt.status === 'confirmed' && selectedAppt.payment_status === 'paid' && (
+                                <button className="da-prescription-open-btn" onClick={openPrescription}>
+                                    <FaFilePrescription /> Create Prescription
+                                </button>
+                            )}
                             <div style={{ display: 'flex', gap: '12px', width: '100%', marginBottom: '10px' }}>
                                 <a href={`mailto:${selectedAppt.patient_email}?subject=Regarding Your Consultation on ${selectedAppt.slot_date}`} className="da-modal-email-btn" style={{ flex: 1 }}>
                                     <FaEnvelope /> Email
@@ -449,6 +462,13 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {prescriptionAppt && (
+                <PrescriptionDialog
+                    appointment={prescriptionAppt}
+                    onClose={() => setPrescriptionAppt(null)}
+                />
             )}
 
             <DaStyles />
@@ -629,6 +649,63 @@ const DaStyles = () => (
             text-decoration: none; transition: background 0.2s;
         }
         .da-modal-wa-btn:hover { background: #15803d; }
+        .da-prescription-open-btn {
+            width: 100%; margin-bottom: 12px; padding: 13px 16px; border: none; border-radius: 9px;
+            background: #6d28d9; color: white; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 9px;
+            box-shadow: 0 6px 16px rgba(109,40,217,0.2);
+        }
+        .da-prescription-open-btn:hover { background: #5b21b6; }
+        .da-prescription-overlay { z-index: 1100; }
+        .da-prescription-modal { max-width: 620px; max-height: calc(100dvh - 24px); overflow-y: auto; }
+        .da-prescription-header { background: linear-gradient(135deg, #4c1d95, #6d28d9); }
+        .da-prescription-header h3 { margin-top: 5px; }
+        .da-prescription-kicker {
+            display: flex; align-items: center; gap: 7px; color: #ddd6fe; font-size: 0.74rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .da-prescription-body { padding: 22px 24px 12px; }
+        .da-prescription-patient {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;
+        }
+        .da-prescription-patient span {
+            background: #f5f3ff; color: #5b21b6; border-radius: 999px; padding: 6px 10px;
+            font-size: 0.76rem; font-weight: 650;
+        }
+        .da-prescription-field { display: block; margin-bottom: 16px; }
+        .da-prescription-field > span {
+            display: block; color: #27364a; font-size: 0.84rem; font-weight: 750; margin-bottom: 7px;
+        }
+        .da-prescription-field strong { color: #dc2626; }
+        .da-prescription-field small { color: #94a3b8; font-weight: 500; }
+        .da-prescription-field textarea {
+            display: block; width: 100%; resize: vertical; min-height: 88px; padding: 12px 14px;
+            border: 1.5px solid #cbd5e1; border-radius: 10px; background: #fff; color: #172033;
+            font: inherit; font-size: 0.9rem; line-height: 1.55; outline: none;
+        }
+        .da-prescription-field textarea:focus {
+            border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+        }
+        .da-prescription-privacy {
+            display: flex; gap: 9px; align-items: flex-start; background: #eff6ff; color: #1e40af;
+            border-radius: 9px; padding: 10px 12px; font-size: 0.76rem; line-height: 1.45;
+        }
+        .da-prescription-privacy svg { flex-shrink: 0; margin-top: 2px; }
+        .da-prescription-error {
+            margin-top: 12px; padding: 10px 12px; border: 1px solid #fecaca; border-radius: 8px;
+            background: #fef2f2; color: #b91c1c; font-size: 0.8rem; font-weight: 600;
+        }
+        .da-prescription-actions {
+            display: grid; grid-template-columns: 0.7fr 1.6fr; gap: 10px; padding: 14px 24px 20px;
+        }
+        .da-prescription-actions button {
+            min-height: 46px; border-radius: 10px; border: none; font-size: 0.86rem; font-weight: 750;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .da-prescription-actions button:disabled { opacity: 0.65; cursor: wait; }
+        .da-prescription-cancel { background: #e2e8f0; color: #334155; }
+        .da-prescription-generate { background: #16a34a; color: white; }
+        .da-prescription-generate:hover:not(:disabled) { background: #15803d; }
         /* Spinner */
         .da-spin { animation: da-spin 1s linear infinite; }
         @keyframes da-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -641,6 +718,14 @@ const DaStyles = () => (
             .da-count-row { padding: 12px 16px; }
         }
         @media (max-width: 640px) {
+            .da-header { align-items: flex-start; }
+            .da-header-left { gap: 10px; }
+            .da-header-icon { font-size: 1.5rem; }
+            .da-header-title { font-size: 1.08rem; }
+            .da-header-sub, .da-last-refresh { display: none; }
+            .da-header-right { margin-left: auto; }
+            .da-logout-btn { width: 38px; height: 38px; padding: 0; justify-content: center; font-size: 0; }
+            .da-logout-btn svg { font-size: 0.95rem; }
             .da-stats-grid { grid-template-columns: 1fr 1fr; padding: 16px; gap: 12px; }
             .da-stat-card { padding: 14px; }
             .da-stat-num { font-size: 1.2rem; }
@@ -669,6 +754,21 @@ const DaStyles = () => (
             .da-table td:nth-child(2) { flex-direction: column; align-items: flex-end; gap: 4px; }
             .da-table td:nth-child(3) { flex-direction: column; align-items: flex-end; gap: 4px; }
             .da-detail-btn { width: 100%; padding: 10px; }
+            .da-modal-overlay { padding: 0; align-items: flex-end; }
+            .da-modal {
+                max-width: none; max-height: calc(100dvh - 10px); border-radius: 18px 18px 0 0;
+                overflow-y: auto;
+            }
+            .da-modal-header { position: sticky; top: 0; z-index: 2; padding: 16px 18px; }
+            .da-modal-body { padding: 18px; }
+            .da-modal-footer { padding: 14px 18px 20px !important; }
+            .da-prescription-modal { max-height: 100dvh; }
+            .da-prescription-body { padding: 16px 18px 8px; }
+            .da-prescription-field textarea { font-size: 16px; }
+            .da-prescription-actions {
+                position: sticky; bottom: 0; background: white; padding: 12px 18px calc(14px + env(safe-area-inset-bottom));
+                box-shadow: 0 -8px 20px rgba(15,23,42,0.08); grid-template-columns: 0.65fr 1.7fr;
+            }
         }
     `}</style>
 );
