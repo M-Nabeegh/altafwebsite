@@ -73,7 +73,10 @@ export default async function handler(req, res) {
     if (conflictError) return res.status(500).json({ error: 'Could not verify slot availability' });
     if (conflict) return res.status(409).json({ error: 'That appointment slot is already reserved' });
 
-    const { error } = await supabase.from('appointments').update({ slot_date, slot_time }).eq('id', id);
+    const { error } = await supabase
+      .from('appointments')
+      .update({ slot_date, slot_time, rescheduled_at: new Date().toISOString() })
+      .eq('id', id);
     if (error?.code === '23505') return res.status(409).json({ error: 'That appointment slot is already reserved' });
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json({ success: true });

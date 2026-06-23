@@ -3,7 +3,7 @@
 // This is the ONLY source of truth for payment verification.
 // 1. Validates the HMAC-SHA256 validation_hash
 // 2. Confirms appointment if err_code === "000"
-// 3. Sends confirmation emails via Resend
+// 3. Sends confirmation SMS via VeevoTech and emails via Resend
 // 4. Returns HTTP 200 to PayFast regardless (to prevent retries)
 
 import { createClient } from '@supabase/supabase-js';
@@ -11,6 +11,7 @@ import crypto from 'crypto';
 import { Resend } from 'resend';
 import { patientConfirmationHtml } from '../emails/patientConfirmation.js';
 import { doctorNotificationHtml } from '../emails/doctorNotification.js';
+import { sendAppointmentConfirmationSms } from '../sms/appointment-notifications.js';
 import { getReservationCutoffISO } from './booking-rules.js';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -169,6 +170,12 @@ export default async function handler(req, res) {
   // ── Idempotency: already confirmed ────────────────────────────────────────
   if (appointment.status === 'confirmed' && appointment.payment_status === 'paid') {
     console.log(`[ipn] Duplicate callback — already confirmed: ${basket_id}`);
+    try {
+      const smsResult = await sendAppointmentConfirmationSms({ supabase, appointment });
+      console.log(`[ipn] Existing confirmation SMS outcome: ${smsResult.status}`);
+    } catch (error) {
+      console.error('[ipn] Existing confirmation SMS logging error:', error.message);
+    }
     return res.status(200).json({ received: true, status: 'already_confirmed' });
   }
 
@@ -244,12 +251,22 @@ export default async function handler(req, res) {
       return res.status(200).json({ received: true, status: 'confirmation_conflict' });
     }
 
-    // ── Send emails ───────────────────────────────────────────────────────────
+    // The appointment is already confirmed before any notification is sent.
+    // SMS/email failures are logged but must never roll back a paid booking.
     const resend = getResend();
-    const emailResults = await sendEmails(resend, appointment, {
-      transaction_id,
-      order_date,
-    });
+    const confirmedAppointment = {
+      ...appointment,
+      status: 'confirmed',
+      payment_status: 'paid',
+    };
+    const [smsResult, emailResults] = await Promise.all([
+      sendAppointmentConfirmationSms({ supabase, appointment: confirmedAppointment }).catch((error) => {
+        console.error('[ipn] Confirmation SMS logging error:', error.message);
+        return { status: 'failed' };
+      }),
+      sendEmails(resend, appointment, { transaction_id, order_date }),
+    ]);
+    console.log(`[ipn] Confirmation SMS outcome: ${smsResult.status}`);
 
     // ── Log notifications ──────────────────────────────────────────────────────
     if (emailResults.length > 0) {
@@ -264,7 +281,7 @@ export default async function handler(req, res) {
       );
     }
 
-    console.log(`[ipn] Appointment ${appointment.id} confirmed. Emails sent.`);
+    console.log(`[ipn] Appointment ${appointment.id} confirmed. Notifications processed.`);
     return res.status(200).json({ received: true, status: 'confirmed' });
   } else {
     // ── FAILURE ───────────────────────────────────────────────────────────────

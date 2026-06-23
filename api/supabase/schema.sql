@@ -19,6 +19,7 @@ create table if not exists appointments (
   payment_status  text not null default 'unpaid'
                     check (payment_status in ('unpaid', 'paid', 'failed', 'refunded')),
   basket_id       text unique not null,
+  rescheduled_at  timestamptz,
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now()
 );
@@ -62,9 +63,20 @@ create table if not exists notifications (
                     check (channel in ('email', 'sms', 'whatsapp')),
   recipient       text not null,
   message         text,
+  notification_type text,
+  provider        text,
+  provider_message_id text,
   status          text not null default 'sent'
-                    check (status in ('sent', 'failed', 'pending')),
-  created_at      timestamptz not null default now()
+                    check (status in ('sent', 'failed', 'pending', 'unknown')),
+  error_code      text,
+  error_message   text,
+  retryable       boolean not null default false,
+  attempt_count   integer not null default 0,
+  last_attempt_at timestamptz,
+  sent_at         timestamptz,
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now(),
+  check (notification_type is null or notification_type in ('appointment_confirmation', 'appointment_reminder'))
 );
 
 comment on table notifications is 'Log of all notifications sent after payment confirmation';
@@ -81,6 +93,11 @@ $$ language plpgsql;
 drop trigger if exists set_appointments_updated_at on appointments;
 create trigger set_appointments_updated_at
   before update on appointments
+  for each row execute function update_updated_at_column();
+
+drop trigger if exists set_notifications_updated_at on notifications;
+create trigger set_notifications_updated_at
+  before update on notifications
   for each row execute function update_updated_at_column();
 
 -- ─── 5. Row Level Security ────────────────────────────────────────────────────
@@ -118,6 +135,76 @@ create index if not exists idx_appointments_slot_date
 
 create index if not exists idx_appointments_patient_email
   on appointments(patient_email);
+
+create index if not exists idx_appointments_reminder_lookup
+  on appointments(slot_date, status, payment_status)
+  where status = 'confirmed' and payment_status = 'paid';
+
+create unique index if not exists uq_sms_notification_type
+  on notifications(appointment_id, notification_type)
+  where channel = 'sms' and notification_type is not null;
+
+-- Atomically reserves one SMS notification. A definitive provider rejection may
+-- be retried after four minutes, up to the configured attempt limit. Pending,
+-- sent, and ambiguous/unknown deliveries are never automatically reclaimed.
+create or replace function claim_sms_notification(
+  p_appointment_id uuid,
+  p_notification_type text,
+  p_recipient text,
+  p_message text,
+  p_max_attempts integer default 3
+)
+returns table(notification_id uuid, notification_attempt_count integer)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  claimed notifications%rowtype;
+begin
+  if p_notification_type = 'appointment_reminder' and not exists (
+    select 1 from appointments
+    where id = p_appointment_id
+      and status = 'confirmed'
+      and payment_status = 'paid'
+      and rescheduled_at is null
+  ) then
+    return;
+  end if;
+
+  insert into notifications (
+    appointment_id, channel, notification_type, provider, recipient, message,
+    status, retryable, attempt_count, last_attempt_at
+  ) values (
+    p_appointment_id, 'sms', p_notification_type, 'veevotech', p_recipient, p_message,
+    'pending', false, 1, now()
+  )
+  on conflict (appointment_id, notification_type)
+    where channel = 'sms' and notification_type is not null
+  do update set
+    recipient = excluded.recipient,
+    message = excluded.message,
+    status = 'pending',
+    retryable = false,
+    error_code = null,
+    error_message = null,
+    attempt_count = notifications.attempt_count + 1,
+    last_attempt_at = now(),
+    updated_at = now()
+  where notifications.status = 'failed'
+    and notifications.retryable = true
+    and notifications.attempt_count < p_max_attempts
+    and notifications.updated_at <= now() - interval '4 minutes'
+  returning notifications.* into claimed;
+
+  if claimed.id is not null then
+    return query select claimed.id, claimed.attempt_count;
+  end if;
+end;
+$$;
+
+revoke all on function claim_sms_notification(uuid, text, text, text, integer) from public;
+grant execute on function claim_sms_notification(uuid, text, text, text, integer) to service_role;
 
 -- Prevent two active reservations from owning the same date/time. Failed,
 -- cancelled, and expired checkout attempts do not block a future booking.
