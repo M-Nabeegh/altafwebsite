@@ -695,6 +695,27 @@ const DaStyles = () => (
             margin-top: 12px; padding: 10px 12px; border: 1px solid #fecaca; border-radius: 8px;
             background: #fef2f2; color: #b91c1c; font-size: 0.8rem; font-weight: 600;
         }
+        .da-prescription-ready { padding: 18px 4px 8px; text-align: center; }
+        .da-prescription-ready-icon {
+            width: 72px; height: 72px; margin: 0 auto 14px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: #ede9fe; color: #6d28d9; font-size: 1.9rem;
+        }
+        .da-prescription-ready h4 { margin: 0 0 8px; color: #172033; font-size: 1.08rem; }
+        .da-prescription-ready p {
+            max-width: 430px; margin: 0 auto 18px; color: #64748b; font-size: 0.84rem; line-height: 1.55;
+        }
+        .da-prescription-ready-actions { display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px; }
+        .da-prescription-ready-actions button {
+            min-height: 48px; border: none; border-radius: 10px; font-size: 0.88rem; font-weight: 750;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .da-prescription-share { background: #16a34a; color: white; }
+        .da-prescription-open { background: #e0e7ff; color: #3730a3; }
+        .da-prescription-edit-again {
+            margin-top: 14px; padding: 8px 14px; border: none; background: transparent; color: #6d28d9;
+            font-size: 0.8rem; font-weight: 700; text-decoration: underline; cursor: pointer;
+        }
         .da-prescription-actions {
             display: grid; grid-template-columns: 0.7fr 1.6fr; gap: 10px; padding: 14px 24px 20px;
         }
