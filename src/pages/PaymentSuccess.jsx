@@ -88,7 +88,7 @@ const PaymentSuccess = () => {
                     <span>
                         {needsManualReview
                             ? 'Your original slot hold expired; the clinic will contact you'
-                            : 'Payment received & secured via PayFast'}
+                            : 'Secure payment confirmation received'}
                     </span>
                 </div>
 
@@ -123,7 +123,7 @@ const PaymentSuccess = () => {
                                 <FaSms />
                             </div>
                             <p>
-                                After PayFast verification, confirmation will arrive by <strong>email and SMS</strong> shortly.
+                                Once payment is verified, confirmation will arrive by <strong>email and SMS</strong> shortly.
                                 If you paid via <strong>EasyPaisa or JazzCash</strong>, details may take up to 10 minutes to appear here.
                             </p>
                         </div>
@@ -199,7 +199,7 @@ const PaymentSuccess = () => {
                                 <div className="pf-step-icon"><FaSms /></div>
                                 <div>
                                     <h5>Check Your Email and SMS</h5>
-                                    <p>Payment confirmation is sent to both your email address and mobile number after the verified PayFast IPN is received.</p>
+                                    <p>Payment confirmation is sent to both your email address and mobile number after secure verification is complete.</p>
                                 </div>
                             </div>
                             <div className="pf-step">

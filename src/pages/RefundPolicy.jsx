@@ -40,7 +40,7 @@ const RefundPolicy = () => {
 
                     <h3>4. Refund Processing Time</h3>
                     <p>
-                        Approved refunds will be processed back to the original payment method used through PayFast. Please allow <strong>5 to 7 working days</strong> for the refunded amount to reflect in your account, depending on your bank or payment gateway service provider.
+                        Approved refunds will be processed back to the original payment method. Please allow <strong>5 to 7 working days</strong> for the refunded amount to reflect in your account, depending on your bank or payment service provider.
                     </p>
 
                     <h3>5. Return Policy for Digital Services</h3>

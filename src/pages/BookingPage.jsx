@@ -172,7 +172,7 @@ const BookingPage = () => {
             const data = await response.json();
 
             if (!response.ok || !data.postUrl || !data.postFields) {
-                setSubmitError(data.error || 'Payment gateway error. Please try again.');
+                setSubmitError(data.error || 'Payment service error. Please try again.');
                 setIsSubmitting(false);
                 return;
             }
@@ -260,13 +260,13 @@ const BookingPage = () => {
                             <div>
                                 <h5>Consultation Fee</h5>
                                 <p className="fee-amount">PKR 4,000</p>
-                                <span className="highlight-text">Secure PayFast Payment</span>
+                                <span className="highlight-text">Secure Online Payment</span>
                             </div>
                         </div>
 
                         <div className="security-badge">
                             <FaLock className="lock-icon" />
-                            <p>All payments are securely encrypted and processed via PayFast — Pakistan&apos;s leading payment gateway.</p>
+                            <p>All payments are securely encrypted and processed through a trusted payment service.</p>
                         </div>
                     </div>
 

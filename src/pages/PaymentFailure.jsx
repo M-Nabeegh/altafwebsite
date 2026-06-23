@@ -6,9 +6,14 @@ import {
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import { doctorProfile } from '../data/content';
-import { hasDetectedPaidAppointment } from '../utils/paymentStatus';
+import {
+    hasDetectedPaidAppointment,
+    hasTerminalFailedPayment,
+} from '../utils/paymentStatus';
 
 const POLL_INTERVAL = 5000;
+const BACKGROUND_POLL_INTERVAL = 30000;
+const MAX_ACTIVE_VERIFICATION_TIME = 10 * 60 * 1000;
 
 const PaymentFailure = () => {
     const { orderId } = useParams();
@@ -16,7 +21,10 @@ const PaymentFailure = () => {
     const [apptData, setApptData] = useState(null);
     const [lastChecked, setLastChecked] = useState(null);
     const [manualChecking, setManualChecking] = useState(false);
+    const [paymentFailed, setPaymentFailed] = useState(false);
+    const [verificationExpired, setVerificationExpired] = useState(false);
     const intervalRef = useRef(null);
+    const timeoutRef = useRef(null);
 
     const fetchStatus = useCallback(async () => {
         if (!orderId) return;
@@ -30,7 +38,15 @@ const PaymentFailure = () => {
 
             if (hasDetectedPaidAppointment(data)) {
                 clearInterval(intervalRef.current);
+                clearTimeout(timeoutRef.current);
                 navigate(`/payment-success/${encodeURIComponent(orderId)}`, { replace: true });
+                return;
+            }
+
+            if (hasTerminalFailedPayment(data)) {
+                clearInterval(intervalRef.current);
+                clearTimeout(timeoutRef.current);
+                setPaymentFailed(true);
             }
         } catch {
             // Keep the page usable and retry on the next polling interval.
@@ -47,17 +63,25 @@ const PaymentFailure = () => {
         if (!orderId) return;
         const initialCheck = setTimeout(fetchStatus, 0);
         intervalRef.current = setInterval(fetchStatus, POLL_INTERVAL);
+        timeoutRef.current = setTimeout(() => {
+            setVerificationExpired(true);
+            clearInterval(intervalRef.current);
+            intervalRef.current = setInterval(fetchStatus, BACKGROUND_POLL_INTERVAL);
+        }, MAX_ACTIVE_VERIFICATION_TIME);
         return () => {
             clearTimeout(initialCheck);
+            clearTimeout(timeoutRef.current);
             clearInterval(intervalRef.current);
         };
     }, [fetchStatus, orderId]);
+
+    const activelyVerifying = !paymentFailed && !verificationExpired;
 
     return (
         <div className="pf-fail-page fade-in">
             <SEO
                 title="Payment Status Pending | Prof. Dr. Javed Altaf"
-                description="Your payment result is being checked. Delayed PayFast confirmations are updated automatically."
+                description="Your payment result is being checked and delayed confirmations are updated automatically."
                 url={`https://www.javedaltaf.com/payment-failure/${orderId}`}
             />
 
@@ -68,19 +92,55 @@ const PaymentFailure = () => {
                     <FaExclamationTriangle />
                 </div>
 
-                <h1 className="pf-fail-title">Payment Status Not Confirmed Yet</h1>
+                <h1 className="pf-fail-title">
+                    {paymentFailed
+                        ? 'Payment Was Not Completed'
+                        : verificationExpired
+                            ? 'Payment Could Not Be Confirmed'
+                            : 'Checking Your Payment Status'}
+                </h1>
                 <p className="pf-fail-subtitle">
-                    PayFast redirected you here without a final confirmation. Bank and wallet callbacks can sometimes
-                    arrive a few minutes later, so we are continuing to check your payment automatically.
+                    {paymentFailed
+                        ? 'The payment service reported that this transaction was unsuccessful. Your appointment has not been confirmed.'
+                        : verificationExpired
+                            ? 'We could not confirm this payment within 10 minutes. Please check your bank or wallet before trying again.'
+                            : 'We have not received a final result yet. Bank and wallet confirmations can sometimes take a few minutes.'}
                 </p>
 
-                <div className="pf-verification-note" role="status" aria-live="polite">
-                    <FaSpinner className="spin-icon" />
-                    <div>
-                        <strong>Still checking in the background</strong>
+                {activelyVerifying ? (
+                    <div className="pf-verification-note" role="status" aria-live="polite">
+                        <FaSpinner className="spin-icon" />
+                        <div>
+                            <strong>Checking automatically</strong>
+                            <p>
+                                If payment is detected, this page will update automatically and you will receive
+                                confirmation by <FaEnvelope aria-hidden="true" /> email and <FaSms aria-hidden="true" /> SMS.
+                            </p>
+                            <button
+                                type="button"
+                                className="pf-check-now"
+                                onClick={handleManualRefresh}
+                                disabled={manualChecking}
+                            >
+                                <FaSyncAlt className={manualChecking ? 'spin-icon' : ''} />
+                                {manualChecking ? 'Checking…' : 'Check Now'}
+                            </button>
+                            {lastChecked && (
+                                <span className="pf-last-checked">
+                                    Last checked {lastChecked.toLocaleTimeString('en-PK', {
+                                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                                    })}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="pf-final-status-note" role="status">
+                        <strong>{paymentFailed ? 'Payment unsuccessful' : 'Automatic verification ended'}</strong>
                         <p>
-                            If payment is detected, this page will update automatically and you will receive
-                            confirmation by <FaEnvelope aria-hidden="true" /> email and <FaSms aria-hidden="true" /> SMS.
+                            {paymentFailed
+                                ? 'If your bank or wallet shows a debit, contact the clinic with your booking reference before paying again.'
+                                : 'We will still check quietly for a late confirmation. If payment is later detected, you will receive email and SMS confirmation.'}
                         </p>
                         <button
                             type="button"
@@ -89,22 +149,17 @@ const PaymentFailure = () => {
                             disabled={manualChecking}
                         >
                             <FaSyncAlt className={manualChecking ? 'spin-icon' : ''} />
-                            {manualChecking ? 'Checking…' : 'Check Now'}
+                            {manualChecking ? 'Checking…' : 'Check Again'}
                         </button>
-                        {lastChecked && (
-                            <span className="pf-last-checked">
-                                Last checked {lastChecked.toLocaleTimeString('en-PK', {
-                                    hour: '2-digit', minute: '2-digit', second: '2-digit'
-                                })}
-                            </span>
-                        )}
                     </div>
-                </div>
+                )}
 
-                <div className="pf-duplicate-warning">
-                    <strong>Please do not make a second payment immediately.</strong>
-                    Wait for the confirmation email/SMS or contact the clinic with your booking reference.
-                </div>
+                {!paymentFailed && (
+                    <div className="pf-duplicate-warning">
+                        <strong>Please do not make a second payment immediately.</strong>
+                        Wait for the confirmation email/SMS or check your bank or wallet first.
+                    </div>
+                )}
 
                 {/* Reference */}
                 {orderId && (
@@ -124,29 +179,35 @@ const PaymentFailure = () => {
                             }) : '—'} — {apptData.slotTime}
                         </strong>
                         <p className="pf-fail-appt-note">
-                            We will keep checking this booking reference while this page remains open.
+                            {activelyVerifying
+                                ? 'We are checking this booking reference automatically.'
+                                : 'This slot is not confirmed unless you receive email or SMS confirmation.'}
                         </p>
                     </div>
                 )}
 
                 {/* Common Reasons */}
-                <div className="pf-fail-reasons">
-                    <h4>Common Reasons for Failure</h4>
-                    <ul>
-                        <li>Payment was cancelled on the gateway page</li>
-                        <li>Card declined or insufficient funds</li>
-                        <li>Bank OTP timeout</li>
-                        <li>Session expired during payment</li>
-                    </ul>
-                </div>
+                {!activelyVerifying && (
+                    <div className="pf-fail-reasons">
+                        <h4>Common Reasons for Failure</h4>
+                        <ul>
+                            <li>Payment was cancelled before completion</li>
+                            <li>Card declined or insufficient funds</li>
+                            <li>Bank OTP timeout</li>
+                            <li>Payment session expired</li>
+                        </ul>
+                    </div>
+                )}
 
                 {/* CTA Buttons */}
-                <div className="pf-fail-actions">
-                    <Link to="/booking" className="btn btn-primary pf-retry-btn">
-                        <FaRedo style={{ marginRight: 8 }} />
-                        Return to Booking
-                    </Link>
-                </div>
+                {!activelyVerifying && (
+                    <div className="pf-fail-actions">
+                        <Link to="/booking" className="btn btn-primary pf-retry-btn">
+                            <FaRedo style={{ marginRight: 8 }} />
+                            Try Payment Again
+                        </Link>
+                    </div>
+                )}
 
                 {/* Support Contact */}
                 <div className="pf-fail-support">
@@ -234,6 +295,23 @@ const PaymentFailure = () => {
                     flex: 0 0 auto;
                     margin-top: 3px;
                     font-size: 1.1rem;
+                }
+
+                .pf-final-status-note {
+                    background: #fff7ed;
+                    border: 1px solid #fed7aa;
+                    color: #9a3412;
+                    padding: 18px 20px;
+                    border-radius: var(--radius-md);
+                    text-align: left;
+                    margin-bottom: 16px;
+                }
+
+                .pf-final-status-note strong { display: block; margin-bottom: 5px; }
+                .pf-final-status-note p {
+                    margin: 0 0 10px;
+                    font-size: 0.85rem;
+                    line-height: 1.55;
                 }
 
                 .pf-verification-note strong { display: block; margin-bottom: 5px; }

@@ -25,7 +25,7 @@ const PrivacyPolicy = () => {
                     <p>Your information is used to schedule consultations, process payments, and send you important updates regarding your appointment.</p>
 
                     <h3>4. Third-Party Services</h3>
-                    <p>We use PayFast to process payments and WhatsApp to conduct online consultations. Please review their respective privacy policies.</p>
+                    <p>We use a third-party payment processor for online payments and WhatsApp to conduct online consultations. Please review their respective privacy policies.</p>
 
                     <h3>5. Contact Us</h3>
                     <p>If you have any questions about this Privacy Policy, please contact us at contact@javedaltaf.com.</p>

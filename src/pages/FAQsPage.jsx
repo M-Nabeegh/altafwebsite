@@ -15,7 +15,7 @@ const FAQsPage = () => {
         },
         {
             question: "What payment methods do you accept?",
-            answer: "We accept secure credit and debit card payments processed through PayFast."
+            answer: "We accept secure credit and debit card payments through our online payment service."
         },
         {
             question: "How will the WhatsApp consultation start?",
