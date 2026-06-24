@@ -68,8 +68,6 @@ async function sendEmails(resend, appointment, ipnData) {
         slotTime:       appointment.slot_time,
         basketId:       appointment.basket_id,
         amount:         appointment.amount,
-        transactionId:  ipnData.transaction_id,
-        orderDate:      ipnData.order_date,
       }),
     });
     results.push({ channel: 'email', recipient: appointment.patient_email, status: 'sent' });

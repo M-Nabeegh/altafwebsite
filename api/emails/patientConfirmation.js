@@ -7,8 +7,6 @@ export function patientConfirmationHtml({
   slotTime,
   basketId,
   amount,
-  transactionId,
-  orderDate,
 }) {
   const formattedDate = slotDate
     ? new Date(slotDate).toLocaleDateString('en-PK', {
@@ -26,28 +24,36 @@ export function patientConfirmationHtml({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light only" />
   <title>Appointment Confirmed — Prof. Dr. Javed Altaf</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    :root { color-scheme: light only; supported-color-schemes: light only; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', Arial, sans-serif; background: #f4f7fb; color: #1a1a2e; }
+    @media (prefers-color-scheme: dark) {
+      .email-page { background-color:#f4f7fb !important; }
+      .email-card { background-color:#ffffff !important; color:#1a1a2e !important; }
+      .email-header-copy { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }
+    }
   </style>
 </head>
-<body style="background:#f4f7fb; padding: 32px 16px;">
+<body class="email-page" bgcolor="#f4f7fb" style="background:#f4f7fb; padding: 32px 16px; color:#1a1a2e;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:0 auto;">
     
     <!-- Header -->
     <tr>
-      <td style="background: linear-gradient(135deg, #0056b3 0%, #003d82 100%); border-radius: 16px 16px 0 0; padding: 40px 40px 32px; text-align:center;">
+      <td bgcolor="#0056b3" style="background:#0056b3; border-radius: 16px 16px 0 0; padding: 40px 40px 32px; text-align:center;">
         <div style="width:64px; height:64px; background:rgba(255,255,255,0.15); border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:30px;">✅</div>
-        <h1 style="color:#ffffff; font-size:22px; font-weight:700; margin-bottom:8px; letter-spacing:-0.3px;">Appointment Confirmed!</h1>
-        <p style="color:rgba(255,255,255,0.8); font-size:14px; line-height:1.5;">Your online consultation with Prof. Dr. Javed Altaf has been confirmed and payment received.</p>
+        <h1 class="email-header-copy" style="color:#ffffff; -webkit-text-fill-color:#ffffff; font-size:22px; font-weight:700; margin-bottom:8px; letter-spacing:-0.3px;">Appointment Confirmed!</h1>
+        <p class="email-header-copy" style="color:#ffffff; -webkit-text-fill-color:#ffffff; font-size:14px; line-height:1.5;">Your online consultation with Prof. Dr. Javed Altaf has been confirmed and payment received.</p>
       </td>
     </tr>
 
     <!-- Body -->
     <tr>
-      <td style="background:#ffffff; padding: 40px;">
+      <td class="email-card" bgcolor="#ffffff" style="background:#ffffff; color:#1a1a2e; padding: 40px;">
         
         <p style="font-size:15px; color:#374151; margin-bottom:28px; line-height:1.6;">
           Dear <strong style="color:#0056b3;">${patientName}</strong>,<br/><br/>
@@ -107,11 +113,6 @@ export function patientConfirmationHtml({
           </tr>
         </table>
 
-        <p style="font-size:11px; color:#9ca3af; text-align:center; margin:-16px 0 28px; line-height:1.6;">
-          Transaction ID: <strong>${transactionId || 'Not provided'}</strong><br/>
-          Payment processed: ${orderDate || 'Not provided'}
-        </p>
-
         <!-- What's Next -->
         <p style="font-size:13px; font-weight:700; color:#1e3a5f; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:16px;">WHAT HAPPENS NEXT</p>
         
@@ -149,7 +150,7 @@ export function patientConfirmationHtml({
 
     <!-- Footer -->
     <tr>
-      <td style="background:#f8fafc; border-radius: 0 0 16px 16px; padding: 28px 40px; border-top: 1px solid #e5e7eb;">
+      <td bgcolor="#f8fafc" style="background:#f8fafc; border-radius: 0 0 16px 16px; padding: 28px 40px; border-top: 1px solid #e5e7eb;">
         <p style="font-size:12px; color:#9ca3af; text-align:center; line-height:1.6; margin-bottom:8px;">
           This is an automated confirmation from <strong>javedaltaf.com</strong><br/>
           If you did not make this booking, please contact us immediately.

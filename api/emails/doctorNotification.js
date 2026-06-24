@@ -28,28 +28,38 @@ export function doctorNotificationHtml({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light only" />
   <title>New Confirmed Booking</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    :root { color-scheme: light only; supported-color-schemes: light only; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', Arial, sans-serif; background: #f4f7fb; color: #1a1a2e; }
+    @media (prefers-color-scheme: dark) {
+      .email-page { background-color:#f4f7fb !important; }
+      .email-card { background-color:#ffffff !important; color:#111827 !important; }
+      .email-header { background-color:#047857 !important; }
+      .email-header-copy { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }
+      .email-footer { background-color:#f8fafc !important; }
+    }
   </style>
 </head>
-<body style="background:#f4f7fb; padding: 32px 16px;">
+<body class="email-page" bgcolor="#f4f7fb" style="background:#f4f7fb; padding: 32px 16px; color:#1a1a2e;">
   <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:0 auto;">
     
     <!-- Header -->
     <tr>
-      <td style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border-radius: 16px 16px 0 0; padding: 36px 40px 28px; text-align:center;">
+      <td class="email-header" bgcolor="#047857" style="background:#047857; border-radius: 16px 16px 0 0; padding: 36px 40px 28px; text-align:center;">
         <div style="font-size:40px; margin-bottom:12px;">🔔</div>
-        <h1 style="color:#ffffff; font-size:21px; font-weight:700; margin-bottom:8px;">New Confirmed Appointment</h1>
-        <p style="color:rgba(255,255,255,0.85); font-size:13px;">A patient has completed payment and their appointment is confirmed.</p>
+        <h1 class="email-header-copy" style="color:#ffffff; -webkit-text-fill-color:#ffffff; font-size:21px; font-weight:700; margin-bottom:8px;">New Confirmed Appointment</h1>
+        <p class="email-header-copy" style="color:#ffffff; -webkit-text-fill-color:#ffffff; font-size:13px;">A patient has completed payment and their appointment is confirmed.</p>
       </td>
     </tr>
 
     <!-- Body -->
     <tr>
-      <td style="background:#ffffff; padding: 36px 40px;">
+      <td class="email-card" bgcolor="#ffffff" style="background:#ffffff; color:#111827; padding: 36px 40px;">
 
         <!-- Alert Banner -->
         <div style="background:#f0fdf4; border: 1.5px solid #86efac; border-radius:10px; padding: 16px 20px; margin-bottom:28px; display:flex; align-items:center;">
@@ -62,7 +72,7 @@ export function doctorNotificationHtml({
 
         <!-- Patient Info -->
         <p style="font-size:12px; font-weight:700; color:#374151; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:14px;">👤 PATIENT INFORMATION</p>
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; margin-bottom:24px;">
+        <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#f9fafb" style="background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; margin-bottom:24px;">
           <tr>
             <td style="padding: 20px 24px;">
               <table width="100%" cellpadding="0" cellspacing="0">
@@ -79,7 +89,7 @@ export function doctorNotificationHtml({
                     <span style="font-size:12px; color:#6b7280;">Email</span>
                   </td>
                   <td style="padding: 8px 0; border-bottom:1px solid #e5e7eb; text-align:right;">
-                    <a href="mailto:${patientEmail}" style="font-size:13px; color:#3b82f6; text-decoration:none;">${patientEmail}</a>
+                    <a href="mailto:${patientEmail}" style="font-size:13px; color:#1d4ed8; text-decoration:none; word-break:break-all;">${patientEmail}</a>
                   </td>
                 </tr>
                 <tr>
@@ -97,7 +107,7 @@ export function doctorNotificationHtml({
 
         <!-- Appointment Details -->
         <p style="font-size:12px; font-weight:700; color:#374151; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:14px;">📅 APPOINTMENT DETAILS</p>
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; margin-bottom:24px;">
+        <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#eff6ff" style="background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:10px; margin-bottom:24px;">
           <tr>
             <td style="padding: 20px 24px;">
               <table width="100%" cellpadding="0" cellspacing="0">
@@ -161,7 +171,7 @@ export function doctorNotificationHtml({
 
     <!-- Footer -->
     <tr>
-      <td style="background:#f8fafc; border-radius: 0 0 16px 16px; padding: 24px 40px; border-top: 1px solid #e5e7eb;">
+      <td class="email-footer" bgcolor="#f8fafc" style="background:#f8fafc; border-radius: 0 0 16px 16px; padding: 24px 40px; border-top: 1px solid #e5e7eb;">
         <p style="font-size:11px; color:#9ca3af; text-align:center; line-height:1.6;">
           Automated booking notification from <strong>javedaltaf.com</strong> booking system.<br/>
           Payment verified via PayFast IPN callback.

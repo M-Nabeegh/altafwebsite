@@ -33,6 +33,9 @@ const PaymentSuccess = () => {
             setLastChecked(new Date());
             if (data && data.patientName) {
                 setApptData(data);
+                // Show the booking details immediately, even while the final
+                // payment callback is still processing in the background.
+                setLoadingDetails(false);
 
                 if (hasTerminalFailedPayment(data)) {
                     clearInterval(intervalRef.current);
@@ -41,7 +44,6 @@ const PaymentSuccess = () => {
                 }
 
                 if (hasDetectedPaidAppointment(data)) {
-                    setLoadingDetails(false);
                     clearInterval(intervalRef.current);
                 }
             }

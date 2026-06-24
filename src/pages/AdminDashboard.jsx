@@ -39,6 +39,24 @@ const AdminDashboard = () => {
     const [prescriptionAppt, setPrescriptionAppt] = useState(null);
     const [viewMode, setViewMode] = useState('calendar');
 
+    useEffect(() => {
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        const previousViewport = viewportMeta?.getAttribute('content');
+
+        viewportMeta?.setAttribute(
+            'content',
+            'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover'
+        );
+        document.documentElement.classList.add('admin-app-active');
+        document.body.classList.add('admin-app-active');
+
+        return () => {
+            if (previousViewport) viewportMeta?.setAttribute('content', previousViewport);
+            document.documentElement.classList.remove('admin-app-active');
+            document.body.classList.remove('admin-app-active');
+        };
+    }, []);
+
     const fetchAppointments = useCallback(async (pass, status = 'all', date = '') => {
         setLoading(true);
         try {
@@ -527,9 +545,14 @@ const AdminDashboard = () => {
 const DaStyles = () => (
     <style>{`
         /* ── Page ── */
+        html.admin-app-active, body.admin-app-active {
+            width: 100%; max-width: 100%; overflow-x: hidden;
+            overscroll-behavior-x: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+        }
         .da-login-page {
-            min-height: 100vh; background: #0f172a;
+            min-height: 100dvh; width: 100%; max-width: 100vw; background: #0f172a;
             display: flex; align-items: center; justify-content: center; padding: 40px 20px;
+            overflow-x: hidden; overscroll-behavior-x: none; touch-action: pan-y;
         }
         .da-login-card {
             background: white; border-radius: 16px; box-shadow: 0 25px 60px rgba(0,0,0,0.3);
@@ -564,7 +587,7 @@ const DaStyles = () => (
         .da-login-hint { font-size: 0.78rem; color: #9ca3af; margin-top: 24px; }
         /* ── Dashboard ── */
         .da-page {
-            min-height: 100vh; width: 100%; max-width: 100%; background: #f1f5f9; padding: 0 0 60px;
+            min-height: 100dvh; width: 100%; max-width: 100%; background: #f1f5f9; padding: 0 0 60px;
             overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; touch-action: pan-y;
         }
         .da-header {
