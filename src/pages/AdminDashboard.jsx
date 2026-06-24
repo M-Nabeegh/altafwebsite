@@ -6,6 +6,7 @@ import {
     FaTrash, FaEdit, FaFilePrescription
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
+import AppointmentCalendar from '../components/AppointmentCalendar';
 import PrescriptionDialog from '../components/PrescriptionDialog';
 
 const STATUS_COLORS = {
@@ -34,6 +35,7 @@ const AdminDashboard = () => {
     const [editDate, setEditDate] = useState('');
     const [editTime, setEditTime] = useState('');
     const [prescriptionAppt, setPrescriptionAppt] = useState(null);
+    const [viewMode, setViewMode] = useState('calendar');
 
     const STORAGE_KEY = 'da_admin_token';
 
@@ -104,6 +106,20 @@ const AdminDashboard = () => {
     const handleDateFilter = (date) => {
         setFilterDate(date);
         fetchAppointments(null, filterStatus, date);
+    };
+
+    const showDateInList = (date) => {
+        setViewMode('appointments');
+        setFilterStatus('all');
+        setFilterDate(date);
+        fetchAppointments(null, 'all', date);
+    };
+
+    const showCalendar = () => {
+        setViewMode('calendar');
+        setFilterStatus('all');
+        setFilterDate('');
+        fetchAppointments(null, 'all', '');
     };
 
     const handleRefresh = () => fetchAppointments(null, filterStatus, filterDate);
@@ -247,6 +263,36 @@ const AdminDashboard = () => {
                 </div>
             </div>
 
+            <nav className="da-view-switch" aria-label="Dashboard view">
+                <button
+                    className={viewMode === 'calendar' ? 'active' : ''}
+                    onClick={showCalendar}
+                >
+                    <FaCalendarAlt /> Calendar
+                </button>
+                <button
+                    className={viewMode === 'appointments' ? 'active' : ''}
+                    onClick={() => setViewMode('appointments')}
+                >
+                    <FaUsers /> Appointments
+                </button>
+            </nav>
+
+            {viewMode === 'calendar' ? (
+                loading ? (
+                    <div className="da-loading da-calendar-loading">
+                        <FaSpinner className="da-spin da-loading-icon" />
+                        <p>Loading schedule…</p>
+                    </div>
+                ) : (
+                    <AppointmentCalendar
+                        appointments={appointments}
+                        onOpenAppointment={setSelectedAppt}
+                        onShowDate={showDateInList}
+                    />
+                )
+            ) : (
+                <>
             {/* Stats */}
             {stats && (
                 <div className="da-stats-grid">
@@ -385,6 +431,8 @@ const AdminDashboard = () => {
             <div className="da-count-row">
                 Showing {filteredAppts.length} of {appointments.length} appointments
             </div>
+                </>
+            )}
 
             {/* Detail Modal */}
             {selectedAppt && (
@@ -517,7 +565,8 @@ const DaStyles = () => (
         .da-login-hint { font-size: 0.78rem; color: #9ca3af; margin-top: 24px; }
         /* ── Dashboard ── */
         .da-page {
-            min-height: 100vh; background: #f1f5f9; padding: 0 0 60px;
+            min-height: 100vh; width: 100%; max-width: 100%; background: #f1f5f9; padding: 0 0 60px;
+            overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; touch-action: pan-y;
         }
         .da-header {
             background: #0c1a2e; color: white; padding: 20px 40px;
@@ -525,7 +574,7 @@ const DaStyles = () => (
         }
         .da-header-left { display: flex; align-items: center; gap: 16px; }
         .da-header-icon { font-size: 2rem; color: #60a5fa; flex-shrink: 0; }
-        .da-header-title { font-size: 1.4rem; font-weight: 800; margin: 0 0 2px; }
+        .da-header-title { font-size: 1.4rem; font-weight: 800; color: white; margin: 0 0 2px; }
         .da-header-sub { font-size: 0.82rem; color: #94a3b8; margin: 0; }
         .da-header-right { display: flex; align-items: center; gap: 12px; }
         .da-last-refresh { font-size: 0.78rem; color: #64748b; }
@@ -541,6 +590,87 @@ const DaStyles = () => (
             display: flex; align-items: center; gap: 6px; transition: background 0.2s;
         }
         .da-logout-btn:hover { background: #b91c1c; }
+        .da-view-switch {
+            position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: 1fr 1fr;
+            gap: 6px; padding: 10px 40px; background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid #e2e8f0; backdrop-filter: blur(12px);
+        }
+        .da-view-switch button {
+            min-height: 42px; border: none; border-radius: 10px; background: transparent; color: #64748b;
+            font-size: 0.86rem; font-weight: 750; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+        }
+        .da-view-switch button.active { background: #0c1a2e; color: white; box-shadow: 0 4px 12px rgba(15,23,42,0.16); }
+        /* Calendar */
+        .da-calendar-layout {
+            display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+            gap: 20px; padding: 24px 40px; width: 100%; max-width: 1440px; margin: 0 auto;
+        }
+        .da-calendar-card, .da-day-schedule {
+            min-width: 0; background: white; border: 1px solid #e2e8f0; border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(15,23,42,0.06);
+        }
+        .da-calendar-card { padding: 22px; }
+        .da-calendar-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+        .da-calendar-kicker {
+            display: flex; align-items: center; gap: 7px; color: #2563eb; font-size: 0.72rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .da-calendar-heading h2 { margin: 3px 0 0; color: #0f172a; font-size: 1.35rem; }
+        .da-calendar-nav { display: flex; gap: 8px; }
+        .da-calendar-nav button {
+            width: 40px; height: 40px; border: 1px solid #cbd5e1; border-radius: 10px; background: white;
+            color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .da-calendar-weekdays, .da-calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+        .da-calendar-weekdays { margin-bottom: 6px; }
+        .da-calendar-weekdays span {
+            text-align: center; color: #94a3b8; font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
+        }
+        .da-calendar-grid { gap: 5px; }
+        .da-calendar-empty-cell { min-height: 66px; }
+        .da-calendar-day {
+            position: relative; min-width: 0; min-height: 66px; padding: 8px 6px; border: 1px solid transparent;
+            border-radius: 10px; background: #f8fafc; color: #334155; cursor: pointer; text-align: left;
+            display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;
+        }
+        .da-calendar-day:hover { border-color: #93c5fd; }
+        .da-calendar-day.today { border-color: #60a5fa; }
+        .da-calendar-day.selected { background: #0f4c9a; color: white; border-color: #0f4c9a; }
+        .da-calendar-day-number { font-size: 0.86rem; font-weight: 800; }
+        .da-calendar-day small { align-self: flex-end; font-size: 0.64rem; font-weight: 800; opacity: 0.82; }
+        .da-calendar-markers { display: flex; gap: 4px; }
+        .da-calendar-markers i, .da-calendar-legend i {
+            display: inline-block; width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+        }
+        .da-calendar-markers i.confirmed, .da-calendar-legend i.confirmed { background: #22c55e; }
+        .da-calendar-markers i.pending, .da-calendar-legend i.pending { background: #f59e0b; }
+        .da-calendar-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; color: #64748b; font-size: 0.72rem; }
+        .da-calendar-legend span { display: flex; align-items: center; gap: 6px; }
+        .da-day-schedule { padding: 20px; }
+        .da-day-schedule-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+        .da-day-schedule-heading span { color: #64748b; font-size: 0.76rem; font-weight: 650; }
+        .da-day-schedule-heading h3 { margin: 3px 0 0; color: #172033; font-size: 1rem; }
+        .da-day-schedule-heading button {
+            flex-shrink: 0; border: none; border-radius: 8px; background: #e0e7ff; color: #3730a3;
+            padding: 8px 10px; font-size: 0.72rem; font-weight: 750; cursor: pointer;
+        }
+        .da-slot-list { display: grid; gap: 8px; }
+        .da-calendar-slot {
+            min-width: 0; width: 100%; min-height: 54px; border: 1px solid #e2e8f0; border-radius: 10px;
+            background: #f8fafc; padding: 9px 11px; display: flex; flex-direction: column; align-items: flex-start;
+            justify-content: center; gap: 4px; text-align: left;
+        }
+        .da-calendar-slot.confirmed { background: #f0fdf4; border-color: #86efac; cursor: pointer; }
+        .da-calendar-slot.pending { background: #fffbeb; border-color: #fcd34d; cursor: pointer; }
+        .da-calendar-slot-time, .da-calendar-slot-patient {
+            min-width: 0; display: flex; align-items: center; gap: 7px; font-size: 0.75rem;
+        }
+        .da-calendar-slot-time { color: #334155; font-weight: 750; }
+        .da-calendar-slot-patient { color: #166534; font-weight: 700; overflow-wrap: anywhere; }
+        .da-calendar-slot.pending .da-calendar-slot-patient { color: #92400e; }
+        .da-calendar-slot-available { color: #94a3b8; font-size: 0.7rem; }
+        .da-calendar-loading { margin: 40px; background: white; border-radius: 16px; }
         /* Stats */
         .da-stats-grid {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
@@ -548,7 +678,7 @@ const DaStyles = () => (
         }
         .da-stat-card {
             background: rgba(255,255,255,0.07); border-radius: 12px; padding: 20px 22px;
-            display: flex; align-items: center; gap: 16px; border: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; gap: 16px; border: 1px solid rgba(255,255,255,0.08); min-width: 0;
         }
         .da-stat-icon { font-size: 1.6rem; flex-shrink: 0; }
         .da-stat-total .da-stat-icon { color: #60a5fa; }
@@ -599,7 +729,7 @@ const DaStyles = () => (
         .da-table td { padding: 14px 18px; vertical-align: middle; }
         .da-patient-name { font-weight: 700; font-size: 0.95rem; color: #0c1a2e; margin-bottom: 3px; }
         .da-basket-id { font-size: 0.75rem; color: #94a3b8; font-family: monospace; }
-        .da-contact-row { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #475569; margin-bottom: 4px; }
+        .da-contact-row { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 0.82rem; color: #475569; margin-bottom: 4px; overflow-wrap: anywhere; }
         .da-slot-date { font-weight: 600; font-size: 0.875rem; color: #0c1a2e; margin-bottom: 3px; }
         .da-slot-time { font-size: 0.82rem; color: #64748b; }
         .da-amount { font-weight: 700; color: #15803d; font-size: 0.95rem; }
@@ -631,7 +761,7 @@ const DaStyles = () => (
         .da-modal-header h3 { margin: 0; font-size: 1.1rem; }
         .da-modal-close { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
         .da-modal-body { padding: 24px; }
-        .da-modal-row { padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; color: #374151; }
+        .da-modal-row { padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; color: #374151; overflow-wrap: anywhere; }
         .da-modal-row a { color: #0056b3; text-decoration: none; }
         .da-modal-row code { background: #eff6ff; color: #1d4ed8; padding: 2px 8px; border-radius: 4px; font-size: 0.82rem; }
         .da-modal-footer { padding: 16px 24px; background: #f8fafc; display: flex; gap: 12px; }
@@ -732,6 +862,8 @@ const DaStyles = () => (
         @keyframes da-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         /* Responsive */
         @media (max-width: 1024px) {
+            .da-view-switch { padding: 10px 16px; }
+            .da-calendar-layout { grid-template-columns: 1fr; padding: 18px 16px; }
             .da-stats-grid { grid-template-columns: repeat(2,1fr); }
             .da-table-container { margin: 0 16px; }
             .da-filters { padding: 16px; }
@@ -739,6 +871,22 @@ const DaStyles = () => (
             .da-count-row { padding: 12px 16px; }
         }
         @media (max-width: 640px) {
+            .da-page { padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
+            .da-view-switch { padding: 8px 12px; }
+            .da-view-switch button { min-height: 40px; font-size: 0.8rem; }
+            .da-calendar-layout { padding: 12px; gap: 12px; }
+            .da-calendar-card, .da-day-schedule { border-radius: 14px; }
+            .da-calendar-card { padding: 14px 10px; }
+            .da-calendar-heading { padding: 0 4px; margin-bottom: 16px; }
+            .da-calendar-heading h2 { font-size: 1.12rem; }
+            .da-calendar-nav button { width: 36px; height: 36px; }
+            .da-calendar-grid { gap: 3px; }
+            .da-calendar-empty-cell, .da-calendar-day { min-height: 52px; }
+            .da-calendar-day { padding: 6px 5px; border-radius: 8px; }
+            .da-calendar-day-number { font-size: 0.78rem; }
+            .da-calendar-day small { font-size: 0.56rem; }
+            .da-day-schedule { padding: 15px 13px; }
+            .da-day-schedule-heading { align-items: center; }
             .da-header { align-items: flex-start; }
             .da-header-left { gap: 10px; }
             .da-header-icon { font-size: 1.5rem; }
@@ -750,8 +898,10 @@ const DaStyles = () => (
             .da-stats-grid { grid-template-columns: 1fr 1fr; padding: 16px; gap: 12px; }
             .da-stat-card { padding: 14px; }
             .da-stat-num { font-size: 1.2rem; }
-            .da-filter-right { width: 100%; }
-            .da-search-box input { min-width: 140px; }
+            .da-filter-right { width: 100%; min-width: 0; }
+            .da-search-box { width: 100%; min-width: 0; }
+            .da-search-box input { width: 100%; min-width: 0; }
+            .da-date-filter { max-width: 100%; }
             /* Mobile Table to Card Layout */
             .da-table, .da-table tbody, .da-table tr, .da-table td { display: block; width: 100%; }
             .da-table thead { display: none; }
@@ -759,7 +909,7 @@ const DaStyles = () => (
             .da-row { 
                 background: white; border-radius: 12px; margin-bottom: 16px; 
                 box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
-                padding: 16px; position: relative;
+                padding: 16px; position: relative; min-width: 0; overflow: hidden;
             }
             .da-table td { 
                 display: flex; justify-content: space-between; align-items: center; 
@@ -783,6 +933,7 @@ const DaStyles = () => (
             .da-modal-header { position: sticky; top: 0; z-index: 2; padding: 16px 18px; }
             .da-modal-body { padding: 18px; }
             .da-modal-footer { padding: 14px 18px 20px !important; }
+            .da-modal-footer > div, .da-modal-footer a, .da-modal-footer button { min-width: 0; }
             .da-prescription-modal { max-height: 100dvh; }
             .da-prescription-body { padding: 16px 18px 8px; }
             .da-prescription-field textarea { font-size: 16px; }
