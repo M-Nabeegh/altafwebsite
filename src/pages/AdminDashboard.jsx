@@ -16,8 +16,10 @@ const STATUS_COLORS = {
     cancelled:        { bg: '#f3f4f6', color: '#6b7280', label: 'Cancelled' },
 };
 
+const ADMIN_STORAGE_KEY = 'da_admin_token';
+
 const AdminDashboard = () => {
-    const [authed, setAuthed]         = useState(false);
+    const [authed, setAuthed]         = useState(() => Boolean(sessionStorage.getItem(ADMIN_STORAGE_KEY)));
     const [password, setPassword]     = useState('');
     const [loginError, setLoginError] = useState('');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -37,17 +39,15 @@ const AdminDashboard = () => {
     const [prescriptionAppt, setPrescriptionAppt] = useState(null);
     const [viewMode, setViewMode] = useState('calendar');
 
-    const STORAGE_KEY = 'da_admin_token';
-
     const fetchAppointments = useCallback(async (pass, status = 'all', date = '') => {
         setLoading(true);
         try {
             let url = `/api/admin/appointments?filter=${status}`;
             if (date) url += `&date=${date}`;
             const res = await fetch(url, {
-                headers: { 'x-admin-password': pass || sessionStorage.getItem(STORAGE_KEY) }
+                headers: { 'x-admin-password': pass || sessionStorage.getItem(ADMIN_STORAGE_KEY) }
             });
-            if (res.status === 401) { sessionStorage.removeItem(STORAGE_KEY); setAuthed(false); return; }
+            if (res.status === 401) { sessionStorage.removeItem(ADMIN_STORAGE_KEY); setAuthed(false); return; }
             const data = await res.json();
             if (!res.ok) throw new Error(data.error);
             setAppointments(data.appointments || []);
@@ -61,7 +61,7 @@ const AdminDashboard = () => {
     }, []);
 
     useEffect(() => {
-        const saved = sessionStorage.getItem(STORAGE_KEY);
+        const saved = sessionStorage.getItem(ADMIN_STORAGE_KEY);
         if (saved) { setAuthed(true); fetchAppointments(saved); }
     }, [fetchAppointments]);
 
@@ -74,7 +74,7 @@ const AdminDashboard = () => {
                 headers: { 'x-admin-password': password }
             });
             if (res.ok) {
-                sessionStorage.setItem(STORAGE_KEY, password);
+                sessionStorage.setItem(ADMIN_STORAGE_KEY, password);
                 setAuthed(true);
                 const data = await res.json();
                 setAppointments(data.appointments || []);
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
     };
 
     const handleLogout = () => {
-        sessionStorage.removeItem(STORAGE_KEY);
+        sessionStorage.removeItem(ADMIN_STORAGE_KEY);
         setAuthed(false);
         setPassword('');
         setAppointments([]);
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
         try {
             const res = await fetch(`/api/admin/appointments?id=${id}`, {
                 method: 'DELETE',
-                headers: { 'x-admin-password': sessionStorage.getItem(STORAGE_KEY) }
+                headers: { 'x-admin-password': sessionStorage.getItem(ADMIN_STORAGE_KEY) }
             });
             if (res.ok) {
                 setSelectedAppt(null);
@@ -148,7 +148,7 @@ const AdminDashboard = () => {
             const res = await fetch(`/api/admin/appointments`, {
                 method: 'PATCH',
                 headers: { 
-                    'x-admin-password': sessionStorage.getItem(STORAGE_KEY),
+                    'x-admin-password': sessionStorage.getItem(ADMIN_STORAGE_KEY),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ id: selectedAppt.id, slot_date: editDate, slot_time: editTime })
@@ -219,7 +219,6 @@ const AdminDashboard = () => {
                                 onChange={e => setPassword(e.target.value)}
                                 placeholder="Enter your admin password"
                                 required
-                                autoFocus
                             />
                         </div>
                         {loginError && <div className="da-login-error">{loginError}</div>}
@@ -937,6 +936,10 @@ const DaStyles = () => (
             .da-prescription-modal { max-height: 100dvh; }
             .da-prescription-body { padding: 16px 18px 8px; }
             .da-prescription-field textarea { font-size: 16px; }
+            .da-search-box input,
+            .da-date-filter input,
+            .da-modal input,
+            .da-modal select { font-size: 16px !important; }
             .da-prescription-actions {
                 position: sticky; bottom: 0; background: white; padding: 12px 18px calc(14px + env(safe-area-inset-bottom));
                 box-shadow: 0 -8px 20px rgba(15,23,42,0.08); grid-template-columns: 0.65fr 1.7fr;
