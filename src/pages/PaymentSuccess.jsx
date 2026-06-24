@@ -1,26 +1,27 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import {
     FaCheckCircle, FaSpinner, FaEnvelope, FaVideo, FaFileMedical,
-    FaCalendarAlt, FaClock, FaUser, FaCreditCard, FaShieldAlt, FaSyncAlt,
+    FaCalendarAlt, FaClock, FaUser, FaCreditCard, FaShieldAlt,
     FaExclamationTriangle, FaSms
 } from 'react-icons/fa';
 import SEO from '../components/SEO';
+import {
+    hasDetectedPaidAppointment,
+    hasTerminalFailedPayment,
+} from '../utils/paymentStatus';
 
-// PayFast only ever redirects to SUCCESS_URL if payment succeeded on their end.
-// So we show "Confirmed" IMMEDIATELY on page load for good UX.
-// We then poll quietly in background to fetch appointment details from our DB
-// (which gets confirmed once the IPN arrives — could take seconds or minutes).
-
-const POLL_INTERVAL = 5000; // poll every 5s for appointment details
+const POLL_INTERVAL = 5000;
 
 const PaymentSuccess = () => {
     const { orderId } = useParams();
+    const navigate = useNavigate();
     const [apptData, setApptData]   = useState(null);
     const [loadingDetails, setLoadingDetails] = useState(Boolean(orderId));
     const [lastChecked, setLastChecked] = useState(null);
     const [manualChecking, setManualChecking] = useState(false);
     const intervalRef = useRef(null);
+    const paymentConfirmed = apptData?.status === 'confirmed' && apptData?.paymentStatus === 'paid';
     const needsManualReview = apptData?.status === 'cancelled' && apptData?.paymentStatus === 'paid';
 
     const fetchDetails = useCallback(async () => {
@@ -32,14 +33,20 @@ const PaymentSuccess = () => {
             setLastChecked(new Date());
             if (data && data.patientName) {
                 setApptData(data);
-                setLoadingDetails(false);
-                // If appointment is confirmed in DB, no need to keep polling
-                if (data.status === 'confirmed' || (data.status === 'cancelled' && data.paymentStatus === 'paid')) {
+
+                if (hasTerminalFailedPayment(data)) {
+                    clearInterval(intervalRef.current);
+                    navigate(`/payment-failure/${encodeURIComponent(orderId)}`, { replace: true });
+                    return;
+                }
+
+                if (hasDetectedPaidAppointment(data)) {
+                    setLoadingDetails(false);
                     clearInterval(intervalRef.current);
                 }
             }
         } catch { /* silent */ }
-    }, [orderId]);
+    }, [navigate, orderId]);
 
     const handleManualRefresh = async () => {
         setManualChecking(true);
@@ -67,28 +74,39 @@ const PaymentSuccess = () => {
     return (
         <div className="pf-result-page fade-in">
             <SEO
-                title="Appointment Confirmed | Prof. Dr. Javed Altaf"
-                description="Your payment was successful and your consultation appointment is confirmed."
+                title={`${paymentConfirmed ? 'Appointment Confirmed' : needsManualReview ? 'Payment Under Review' : 'Verifying Payment'} | Prof. Dr. Javed Altaf`}
+                description={paymentConfirmed
+                    ? 'Your payment was verified and your consultation appointment is confirmed.'
+                    : 'Your payment result is being securely verified.'}
                 url={`https://www.javedaltaf.com/payment-success/${orderId}`}
             />
 
             <div className="pf-result-container">
 
-                {/* ─── Always show CONFIRMED immediately ─────────────────── */}
-                <div className={`pf-icon ${needsManualReview ? 'pf-icon--review' : 'pf-icon--success'}`}>
-                    {needsManualReview ? <FaExclamationTriangle /> : <FaCheckCircle />}
+                <div className={`pf-icon ${needsManualReview ? 'pf-icon--review' : paymentConfirmed ? 'pf-icon--success' : 'pf-icon--pending'}`}>
+                    {needsManualReview
+                        ? <FaExclamationTriangle />
+                        : paymentConfirmed
+                            ? <FaCheckCircle />
+                            : <FaSpinner className="spin-icon" />}
                 </div>
 
                 <h1 className="pf-title">
-                    {needsManualReview ? 'Payment Received — Appointment Under Review' : 'Consultation Confirmed! 🎉'}
+                    {needsManualReview
+                        ? 'Payment Received — Appointment Under Review'
+                        : paymentConfirmed
+                            ? 'Consultation Confirmed! 🎉'
+                            : 'Verifying Your Payment'}
                 </h1>
 
-                <div className={`pf-success-badge ${needsManualReview ? 'pf-review-badge' : ''}`}>
+                <div className={`pf-success-badge ${needsManualReview ? 'pf-review-badge' : !paymentConfirmed ? 'pf-pending-badge' : ''}`}>
                     <FaShieldAlt />
                     <span>
                         {needsManualReview
                             ? 'Your original slot hold expired; the clinic will contact you'
-                            : 'Secure payment confirmation received'}
+                            : paymentConfirmed
+                                ? 'Secure payment confirmation received'
+                                : 'Checking the final payment result securely'}
                     </span>
                 </div>
 
@@ -106,7 +124,7 @@ const PaymentSuccess = () => {
                         </div>
                         <div className="pf-loading-note">
                             <FaSpinner className="spin-icon" />
-                            <span>Fetching your appointment details…</span>
+                            <span>Checking your payment result…</span>
                             {lastChecked && (
                                 <button
                                     className="pf-refresh-link"
@@ -123,8 +141,8 @@ const PaymentSuccess = () => {
                                 <FaSms />
                             </div>
                             <p>
-                                Once payment is verified, confirmation will arrive by <strong>email and SMS</strong> shortly.
-                                If you paid via <strong>EasyPaisa or JazzCash</strong>, details may take up to 10 minutes to appear here.
+                                Please keep this page open. Confirmation appears only after payment is verified.
+                                Successful payments receive confirmation by <strong>email and SMS</strong>.
                             </p>
                         </div>
                         {orderId && (
@@ -177,7 +195,7 @@ const PaymentSuccess = () => {
                 )}
 
                 {/* ─── What Happens Next ──────────────────────────────────── */}
-                <div className="pf-next-steps">
+                {(paymentConfirmed || needsManualReview) && <div className="pf-next-steps">
                     <h3>What Happens Next?</h3>
                     {needsManualReview && (
                         <div className="pf-review-note">
@@ -218,7 +236,7 @@ const PaymentSuccess = () => {
                             <p>Keep lab reports, ultrasounds, or prescriptions handy for the consultation.</p>
                         </div>
                     </div>
-                </div>
+                </div>}
 
                 <Link to="/" className="btn btn-primary pf-home-btn">Return to Home</Link>
             </div>
@@ -247,6 +265,10 @@ const PaymentSuccess = () => {
                     background: #fef3c7; color: #d97706;
                     box-shadow: 0 0 0 14px rgba(217,119,6,0.08);
                 }
+                .pf-icon--pending {
+                    background: #dbeafe; color: #2563eb;
+                    box-shadow: 0 0 0 14px rgba(37,99,235,0.08);
+                }
                 @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
                 .spin-icon { animation: spin 1.2s linear infinite; }
                 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -258,6 +280,7 @@ const PaymentSuccess = () => {
                     font-weight: 600; margin-bottom: 28px;
                 }
                 .pf-review-badge { background:#fffbeb; border-color:#fde68a; color:#b45309; }
+                .pf-pending-badge { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
                 .pf-review-note {
                     background:#fffbeb; border:1px solid #fde68a; color:#92400e;
                     border-radius:10px; padding:14px 16px; margin-bottom:18px;

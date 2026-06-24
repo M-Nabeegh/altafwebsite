@@ -26,3 +26,9 @@ test('recognizes explicit failed and cancelled-unpaid results as terminal', () =
   assert.equal(hasTerminalFailedPayment({ status: 'payment_pending', paymentStatus: 'unpaid' }), false);
   assert.equal(hasTerminalFailedPayment({ status: 'cancelled', paymentStatus: 'paid' }), false);
 });
+
+test('treats a PayFast 90 callback result recorded as failed as terminal', () => {
+  const statusAfterErr90Callback = { status: 'failed', paymentStatus: 'failed' };
+  assert.equal(hasTerminalFailedPayment(statusAfterErr90Callback), true);
+  assert.equal(hasDetectedPaidAppointment(statusAfterErr90Callback), false);
+});
