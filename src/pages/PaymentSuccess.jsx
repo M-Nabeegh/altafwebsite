@@ -74,39 +74,35 @@ const PaymentSuccess = () => {
     return (
         <div className="pf-result-page fade-in">
             <SEO
-                title={`${paymentConfirmed ? 'Appointment Confirmed' : needsManualReview ? 'Payment Under Review' : 'Verifying Payment'} | Prof. Dr. Javed Altaf`}
-                description={paymentConfirmed
-                    ? 'Your payment was verified and your consultation appointment is confirmed.'
-                    : 'Your payment result is being securely verified.'}
+                title={`${needsManualReview ? 'Payment Under Review' : 'Appointment Confirmed'} | Prof. Dr. Javed Altaf`}
+                description={needsManualReview
+                    ? 'Your payment is being reviewed by the clinic.'
+                    : 'Your consultation appointment has been received and confirmation is being processed.'}
                 url={`https://www.javedaltaf.com/payment-success/${orderId}`}
             />
 
             <div className="pf-result-container">
 
-                <div className={`pf-icon ${needsManualReview ? 'pf-icon--review' : paymentConfirmed ? 'pf-icon--success' : 'pf-icon--pending'}`}>
+                <div className={`pf-icon ${needsManualReview ? 'pf-icon--review' : 'pf-icon--success'}`}>
                     {needsManualReview
                         ? <FaExclamationTriangle />
-                        : paymentConfirmed
-                            ? <FaCheckCircle />
-                            : <FaSpinner className="spin-icon" />}
+                        : <FaCheckCircle />}
                 </div>
 
                 <h1 className="pf-title">
                     {needsManualReview
                         ? 'Payment Received — Appointment Under Review'
-                        : paymentConfirmed
-                            ? 'Consultation Confirmed! 🎉'
-                            : 'Verifying Your Payment'}
+                        : 'Consultation Confirmed! 🎉'}
                 </h1>
 
-                <div className={`pf-success-badge ${needsManualReview ? 'pf-review-badge' : !paymentConfirmed ? 'pf-pending-badge' : ''}`}>
+                <div className={`pf-success-badge ${needsManualReview ? 'pf-review-badge' : ''}`}>
                     <FaShieldAlt />
                     <span>
                         {needsManualReview
                             ? 'Your original slot hold expired; the clinic will contact you'
                             : paymentConfirmed
                                 ? 'Secure payment confirmation received'
-                                : 'Checking the final payment result securely'}
+                                : 'Your appointment has been received'}
                     </span>
                 </div>
 
@@ -124,7 +120,7 @@ const PaymentSuccess = () => {
                         </div>
                         <div className="pf-loading-note">
                             <FaSpinner className="spin-icon" />
-                            <span>Checking your payment result…</span>
+                            <span>Preparing your appointment details…</span>
                             {lastChecked && (
                                 <button
                                     className="pf-refresh-link"
@@ -141,8 +137,8 @@ const PaymentSuccess = () => {
                                 <FaSms />
                             </div>
                             <p>
-                                Please keep this page open. Confirmation appears only after payment is verified.
-                                Successful payments receive confirmation by <strong>email and SMS</strong>.
+                                Your confirmation <strong>email and SMS</strong> may take a few minutes to arrive
+                                while the payment finishes processing.
                             </p>
                         </div>
                         {orderId && (
@@ -195,7 +191,7 @@ const PaymentSuccess = () => {
                 )}
 
                 {/* ─── What Happens Next ──────────────────────────────────── */}
-                {(paymentConfirmed || needsManualReview) && <div className="pf-next-steps">
+                <div className="pf-next-steps">
                     <h3>What Happens Next?</h3>
                     {needsManualReview && (
                         <div className="pf-review-note">
@@ -236,7 +232,7 @@ const PaymentSuccess = () => {
                             <p>Keep lab reports, ultrasounds, or prescriptions handy for the consultation.</p>
                         </div>
                     </div>
-                </div>}
+                </div>
 
                 <Link to="/" className="btn btn-primary pf-home-btn">Return to Home</Link>
             </div>
@@ -265,10 +261,6 @@ const PaymentSuccess = () => {
                     background: #fef3c7; color: #d97706;
                     box-shadow: 0 0 0 14px rgba(217,119,6,0.08);
                 }
-                .pf-icon--pending {
-                    background: #dbeafe; color: #2563eb;
-                    box-shadow: 0 0 0 14px rgba(37,99,235,0.08);
-                }
                 @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
                 .spin-icon { animation: spin 1.2s linear infinite; }
                 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -280,7 +272,6 @@ const PaymentSuccess = () => {
                     font-weight: 600; margin-bottom: 28px;
                 }
                 .pf-review-badge { background:#fffbeb; border-color:#fde68a; color:#b45309; }
-                .pf-pending-badge { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
                 .pf-review-note {
                     background:#fffbeb; border:1px solid #fde68a; color:#92400e;
                     border-radius:10px; padding:14px 16px; margin-bottom:18px;
