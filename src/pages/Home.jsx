@@ -82,9 +82,10 @@ const Home = () => {
                 </section>
             </div>
 
-            <Suspense fallback={<div style={{ minHeight: '200vh' }}></div>}>
             <div className="experience-section">
-                <Experience />
+                <Suspense fallback={<div className="home-section-placeholder experience-placeholder" aria-hidden="true"></div>}>
+                    <Experience />
+                </Suspense>
             </div>
 
             {/* NEW SECTION: Pioneered & Landmark Highlight */}
@@ -151,7 +152,9 @@ const Home = () => {
             </div>
 
             <div className="research-section">
-                <Research />
+                <Suspense fallback={<div className="home-section-placeholder research-placeholder" aria-hidden="true"></div>}>
+                    <Research />
+                </Suspense>
             </div>
 
             {/* NEW SECTION: Message from Doctor */}
@@ -192,9 +195,10 @@ const Home = () => {
 
 
             <div className="contact-section">
-                <Contact />
+                <Suspense fallback={<div className="home-section-placeholder contact-placeholder" aria-hidden="true"></div>}>
+                    <Contact />
+                </Suspense>
             </div>
-            </Suspense>
         </div>
     );
 };
