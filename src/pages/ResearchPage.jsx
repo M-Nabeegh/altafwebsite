@@ -4,6 +4,10 @@ import { FaBookMedical, FaQuoteRight, FaExternalLinkAlt, FaChevronDown, FaChevro
 
 import SEO from '../components/SEO';
 
+const buildPublicationSummary = (pub) => (
+  `${pub.title} This publication appears in ${pub.journal_citation || 'the listed journal/citation'}, contributing to Prof. Dr. Javed Altaf’s urology research profile.`
+);
+
 const ResearchPage = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -61,38 +65,58 @@ const ResearchPage = () => {
           <div className="pub-grid">
             {publications.map((pub, index) => (
               <div key={index} className={`pub-card ${openIndex === index ? 'open' : ''}`}>
-                <button
-                  type="button"
-                  className="pub-header"
-                  onClick={() => togglePublication(index)}
-                  aria-expanded={openIndex === index}
-                  aria-controls={`publication-details-${index}`}
-                >
-                  <div className="pub-icon-wrapper">
-                    <FaBookMedical />
-                  </div>
-                  <div className="pub-title-block">
-                    <h3>{pub.title}</h3>
-                    <div className="pub-meta">
-                      {pub.journal && <span className="journal">{pub.journal}</span>}
-                      {pub.year && <span className="year">• {pub.year}</span>}
+                <div className="pub-header">
+                  <button
+                    type="button"
+                    className="pub-expand-btn"
+                    onClick={() => togglePublication(index)}
+                    aria-expanded={openIndex === index}
+                    aria-controls={`publication-details-${index}`}
+                  >
+                    <div className="pub-icon-wrapper">
+                      <FaBookMedical />
                     </div>
+                    <div className="pub-title-block">
+                      <h3>{pub.title}</h3>
+                      <div className="pub-meta">
+                        {pub.year && <span className="year">{pub.year}</span>}
+                        {pub.journal_citation && <span className="journal">{pub.journal_citation}</span>}
+                      </div>
+                    </div>
+                    <div className="toggle-icon">
+                      {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
+                    </div>
+                  </button>
+
+                  <div className="pub-card-action">
+                    {pub.hasArticleLink ? (
+                      <a
+                        href={pub.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="read-btn compact"
+                      >
+                        Article <FaExternalLinkAlt />
+                      </a>
+                    ) : (
+                      <span className="link-unavailable">Link not available</span>
+                    )}
                   </div>
-                  <div className="toggle-icon">
-                    {openIndex === index ? <FaChevronUp /> : <FaChevronDown />}
-                  </div>
-                </button>
+                </div>
 
                 <div className="pub-details" id={`publication-details-${index}`}>
                   <div className="details-content">
-                    {pub.authors && <p className="authors"><strong>Authors:</strong> {pub.authors}</p>}
-                    {pub.details && <p className="vol-info"><strong>Details:</strong> {pub.details}</p>}
+                    <h4 className="expanded-title">{pub.title}</h4>
 
                     <p className="summary-text">
-                      {pub.summary || "Click to view full article details."}
+                      {pub.summary || buildPublicationSummary(pub)}
                     </p>
 
-                    {pub.link && (
+                    {pub.journal_citation && (
+                      <p className="vol-info"><strong>Full citation:</strong> {pub.journal_citation}</p>
+                    )}
+
+                    {pub.hasArticleLink ? (
                       <a
                         href={pub.link}
                         target="_blank"
@@ -100,8 +124,10 @@ const ResearchPage = () => {
                         className="read-btn"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        Read Full Article <FaExternalLinkAlt />
+                        View Article <FaExternalLinkAlt />
                       </a>
+                    ) : (
+                      <span className="link-unavailable large">Link not available</span>
                     )}
                   </div>
                 </div>
@@ -199,16 +225,25 @@ const ResearchPage = () => {
                     gap: 15px;
                     padding: 20px;
                     width: 100%;
+                }
+
+                .pub-expand-btn {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 15px;
+                    flex: 1;
                     border: 0;
                     background: transparent;
                     text-align: left;
                     font: inherit;
                     cursor: pointer;
+                    min-width: 0;
                 }
 
-                .pub-header:focus-visible {
+                .pub-expand-btn:focus-visible {
                     outline: 3px solid rgba(0, 86, 179, 0.35);
-                    outline-offset: -3px;
+                    outline-offset: 4px;
+                    border-radius: var(--radius-sm);
                 }
 
                 .pub-icon-wrapper {
@@ -231,11 +266,24 @@ const ResearchPage = () => {
                 .pub-meta {
                     font-size: 0.9rem;
                     color: var(--text-light);
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
                 }
 
                 .journal {
-                    font-weight: 600;
+                    font-weight: 500;
                     color: var(--accent-color);
+                }
+
+                .year {
+                    color: var(--primary-color);
+                    font-weight: 700;
+                }
+
+                .pub-card-action {
+                    flex-shrink: 0;
+                    padding-top: 2px;
                 }
 
                 .toggle-icon {
@@ -261,10 +309,10 @@ const ResearchPage = () => {
                     padding-left: 50px; /* Align with text */
                 }
 
-                .authors {
-                    font-size: 0.9rem;
-                    color: var(--text-dark);
-                    margin-bottom: 5px;
+                .expanded-title {
+                    font-size: 1.05rem;
+                    color: var(--primary-dark);
+                    margin-bottom: 12px;
                 }
 
                 .vol-info {
@@ -281,6 +329,10 @@ const ResearchPage = () => {
                     margin-bottom: 20px;
                     padding-left: 10px;
                     border-left: 3px solid var(--accent-color);
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
                 }
 
                 .read-btn {
@@ -297,11 +349,48 @@ const ResearchPage = () => {
                     transition: background 0.2s;
                 }
 
+                .read-btn.compact {
+                    padding: 7px 12px;
+                    white-space: nowrap;
+                    font-size: 0.85rem;
+                }
+
                 .read-btn:hover {
                     background: var(--primary-dark);
                 }
+
+                .link-unavailable {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 7px 12px;
+                    border-radius: var(--radius-md);
+                    background: #f1f5f9;
+                    color: var(--text-light);
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    white-space: nowrap;
+                }
+
+                .link-unavailable.large {
+                    padding: 8px 16px;
+                    font-size: 0.9rem;
+                }
                 
                 @media (max-width: 600px) {
+                    .pub-header {
+                        flex-direction: column;
+                        gap: 12px;
+                    }
+
+                    .pub-expand-btn {
+                        width: 100%;
+                    }
+
+                    .pub-card-action {
+                        padding-left: 35px;
+                    }
+
                     .details-content {
                         padding-left: 20px;
                     }
