@@ -1355,7 +1355,15 @@ ul {
   padding: 25px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--medium-gray);
   border-left: 5px solid var(--accent-color);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeline-item .timeline-content:hover {
+  border-color: var(--primary-color);
+  border-left-color: var(--accent-color);
+  box-shadow: var(--shadow-md);
 }
 
 .timeline-item .timeline-content h3 {
@@ -1393,6 +1401,17 @@ ul {
   .timeline-item {
     grid-template-columns: 1fr;
     gap: 15px;
+    margin-bottom: 32px;
+  }
+
+  .timeline-item .timeline-content {
+    margin: 0 16px;
+    padding: 22px 20px;
+    border-radius: 14px;
+  }
+
+  .period-badge {
+    margin: 0 16px;
   }
 }
 

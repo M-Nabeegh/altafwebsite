@@ -299,6 +299,12 @@ const ExperiencePage = () => {
         
         /* Mobile Optimization */
         @media (max-width: 768px) {
+            .experience-page .section.container {
+                width: min(100% - 32px, 1200px);
+                padding-left: 0;
+                padding-right: 0;
+            }
+
             .page-header h1 {
                 font-size: 2rem;
             }
