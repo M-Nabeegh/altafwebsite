@@ -84,20 +84,6 @@ const ResearchPage = () => {
                     </div>
                   </button>
 
-                  <div className="pub-card-action">
-                    {pub.hasArticleLink ? (
-                      <a
-                        href={pub.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="read-btn compact"
-                      >
-                        Article <FaExternalLinkAlt />
-                      </a>
-                    ) : (
-                      <span className="link-unavailable">Link not available</span>
-                    )}
-                  </div>
                 </div>
 
                 <div className="pub-details" id={`publication-details-${index}`}>
@@ -293,11 +279,6 @@ const ResearchPage = () => {
                     font-weight: 700;
                 }
 
-                .pub-card-action {
-                    flex-shrink: 0;
-                    padding-top: 2px;
-                }
-
                 .toggle-icon {
                     color: var(--text-light);
                     font-size: 0.9rem;
@@ -373,12 +354,6 @@ const ResearchPage = () => {
                     transition: background 0.2s;
                 }
 
-                .read-btn.compact {
-                    padding: 7px 12px;
-                    white-space: nowrap;
-                    font-size: 0.85rem;
-                }
-
                 .read-btn:hover {
                     background: var(--primary-dark);
                 }
@@ -436,11 +411,6 @@ const ResearchPage = () => {
                     .pub-expand-btn {
                         width: 100%;
                     }
-
-                    .pub-card-action {
-                        padding-left: 35px;
-                    }
-
                     .details-content {
                         padding: 18px 16px;
                     }
