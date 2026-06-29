@@ -12,7 +12,7 @@ const Research = () => {
       <div className="container">
         <div className="section-header text-center mb-4">
           <h2>Research & Publications</h2>
-          <p>Contributing to medical science with 42 peer-reviewed publications.</p>
+          <p>Contributing to medical science with 40+ peer-reviewed publications.</p>
         </div>
 
         <div className="publications-list">
