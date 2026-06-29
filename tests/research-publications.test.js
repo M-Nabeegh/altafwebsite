@@ -6,6 +6,8 @@ import { publications } from '../src/data/content.js';
 test('research publications use exactly the 42 JSON entries newest first', () => {
   assert.equal(sourcePublications.length, 42);
   assert.equal(publications.length, 42);
+  assert.equal(publications.every(publication => publication.summary && !publication.summary.startsWith(publication.title)), true);
+  assert.equal(publications.every(publication => Array.isArray(publication.keywords) && publication.keywords.length >= 3 && publication.keywords.length <= 4), true);
 
   const unsortedIndex = publications.findIndex((publication, index, list) => {
     if (index === 0) return false;

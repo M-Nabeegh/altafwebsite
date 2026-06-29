@@ -4,10 +4,6 @@ import { FaBookMedical, FaQuoteRight, FaExternalLinkAlt, FaChevronDown, FaChevro
 
 import SEO from '../components/SEO';
 
-const buildPublicationSummary = (pub) => (
-  `${pub.title} This publication appears in ${pub.journal_citation || 'the listed journal/citation'}, contributing to Prof. Dr. Javed Altaf’s urology research profile.`
-);
-
 const ResearchPage = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -106,11 +102,17 @@ const ResearchPage = () => {
 
                 <div className="pub-details" id={`publication-details-${index}`}>
                   <div className="details-content">
-                    <h4 className="expanded-title">{pub.title}</h4>
-
                     <p className="summary-text">
-                      {pub.summary || buildPublicationSummary(pub)}
+                      {pub.summary}
                     </p>
+
+                    {pub.keywords?.length > 0 && (
+                      <div className="keywords-list" aria-label="Publication keywords">
+                        {pub.keywords.map((keyword) => (
+                          <span key={keyword} className="keyword-chip">{keyword}</span>
+                        ))}
+                      </div>
+                    )}
 
                     {pub.journal_citation && (
                       <p className="vol-info"><strong>Full citation:</strong> {pub.journal_citation}</p>
@@ -160,6 +162,12 @@ const ResearchPage = () => {
                     box-shadow: var(--shadow-md);
                     overflow: hidden;
                     border: 1px solid var(--medium-gray);
+                }
+
+                .research-page .section.container {
+                    width: min(100% - 32px, 1200px);
+                    padding-left: 0;
+                    padding-right: 0;
                 }
 
                 .stat-row {
@@ -309,12 +317,6 @@ const ResearchPage = () => {
                     padding-left: 50px; /* Align with text */
                 }
 
-                .expanded-title {
-                    font-size: 1.05rem;
-                    color: var(--primary-dark);
-                    margin-bottom: 12px;
-                }
-
                 .vol-info {
                     font-size: 0.9rem;
                     color: var(--text-light);
@@ -333,6 +335,24 @@ const ResearchPage = () => {
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
+                }
+
+                .keywords-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    margin: -6px 0 18px;
+                }
+
+                .keyword-chip {
+                    display: inline-flex;
+                    align-items: center;
+                    border-radius: var(--radius-full);
+                    background: rgba(0, 112, 143, 0.1);
+                    color: var(--accent-color);
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    padding: 5px 10px;
                 }
 
                 .read-btn {
@@ -378,9 +398,23 @@ const ResearchPage = () => {
                 }
                 
                 @media (max-width: 600px) {
+                    .research-page .section.container {
+                        width: min(100% - 24px, 1200px);
+                    }
+
+                    .page-header {
+                        margin-bottom: 24px;
+                    }
+
+                    .publications-full-list h2 {
+                        padding-left: 2px;
+                        padding-right: 2px;
+                    }
+
                     .pub-header {
                         flex-direction: column;
                         gap: 12px;
+                        padding: 16px;
                     }
 
                     .pub-expand-btn {
@@ -392,7 +426,11 @@ const ResearchPage = () => {
                     }
 
                     .details-content {
-                        padding-left: 20px;
+                        padding: 18px 16px;
+                    }
+
+                    .summary-text {
+                        font-size: 0.9rem;
                     }
                 }
             `}</style>

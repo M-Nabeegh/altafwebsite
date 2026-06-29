@@ -201,12 +201,12 @@ export const publications = publicationsResearchData
     });
 
 export const stats = {
-    citations: 68,
-    hIndex: 4,
+    citations: 75,
+    hIndex: 5,
     i10Index: 4,
     since2021: {
-        citations: 48,
-        hIndex: 4,
+        citations: 55,
+        hIndex: 5,
         i10Index: 0
     }
 };
