@@ -156,7 +156,7 @@ const ResearchPage = () => {
 
                 .stats-box {
                     max-width: 600px;
-                    margin: 0 auto;
+                    margin: 0 auto 44px;
                     background: white;
                     border-radius: var(--radius-lg);
                     box-shadow: var(--shadow-md);
@@ -206,6 +206,10 @@ const ResearchPage = () => {
                     display: flex;
                     flex-direction: column;
                     gap: 15px;
+                }
+
+                .publications-full-list h2 {
+                    margin-bottom: 22px;
                 }
 
                 .pub-card {
@@ -399,16 +403,28 @@ const ResearchPage = () => {
                 
                 @media (max-width: 600px) {
                     .research-page .section.container {
-                        width: min(100% - 24px, 1200px);
+                        width: min(100% - 32px, 1200px);
                     }
 
                     .page-header {
-                        margin-bottom: 24px;
+                        padding: 48px 0 42px;
+                        margin-bottom: 28px;
                     }
 
                     .publications-full-list h2 {
+                        font-size: 1.55rem;
+                        line-height: 1.15;
+                        margin-bottom: 20px;
                         padding-left: 2px;
                         padding-right: 2px;
+                    }
+
+                    .stats-box {
+                        margin-bottom: 36px;
+                    }
+
+                    .pub-grid {
+                        gap: 16px;
                     }
 
                     .pub-header {
