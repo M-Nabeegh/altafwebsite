@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FaCalendarAlt, FaClock, FaCreditCard, FaLock, FaChevronLeft, FaChevronRight, FaCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { getInitialBookingMonth, isPastBookingDate } from '../utils/bookingCalendar';
 
 const BookingPage = () => {
     // Form and Booking States
-    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [currentMonth, setCurrentMonth] = useState(() => getInitialBookingMonth());
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
     const [patientName, setPatientName] = useState('');
@@ -84,9 +85,7 @@ const BookingPage = () => {
     };
 
     const isPastDate = (date) => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        return date < today;
+        return isPastBookingDate(date);
     };
 
     const isDateSelectable = (date) => {
